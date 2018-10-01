@@ -1,6 +1,6 @@
 package com.company;
 
-public class Flat {
+public class Flat implements Cloneable{
 
     private int area;
     private int numOfRooms;
@@ -37,4 +37,15 @@ public class Flat {
         this.area = area;
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new Flat (area, numOfRooms);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Flat)) { return false; }
+        Flat o = (Flat)obj;
+        return (area == o.area) && (numOfRooms == o.numOfRooms);
+    }
 }

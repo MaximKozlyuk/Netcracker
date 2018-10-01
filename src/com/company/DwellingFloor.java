@@ -3,6 +3,7 @@ package com.company;
 public class DwellingFloor {
 
     private Flat[] flats;
+    private int amount;
 
     public DwellingFloor (int numOfFlat) {
         this(new Flat[numOfFlat]);
@@ -13,48 +14,69 @@ public class DwellingFloor {
     }
 
     public int amount () {
-        return flats.length;
+        return amount;
     }
 
-    // todo mb ->
     public int totalArea () {
         int a = 0;
-        for (Flat f : flats) {
-            a += f.getArea();
+        for (int i = 0; i < amount; i++) {
+            a += flats[i].getArea();
         }
         return a;
     }
 
     public int totalRoomAmount () {
-        int a = 0;
-        for (Flat f : flats) {
-            a += f.getNumOfRooms();
+        int n = 0;
+        for (int i = 0; i < amount; i++) {
+            n += flats[i].getNumOfRooms();
         }
-        return a;
+        return n;
     }
 
-    // todo test clone
+    // todo System arraycopy ?
     public Flat[] getFlats () {
-        return flats.clone();
+        return flats;
     }
 
     public Flat getFlat (int num) {
         return flats[num];
     }
 
-    // todo resize arr
     public void setFlat (int n, Flat f) {
+        if (n >= flats.length) {
+            resizeArr();
+        }
+        if (flats[n] == null) {
+            amount++;
+        }
         flats[n] = f;
     }
 
     public void addFlat (int n, Flat f) {
+        if (n >= flats.length) {
+            resizeArr();
+        }
         flats[n] = f;
+    }
+
+    private void resizeArr () {
+        Flat[] newFlats = new Flat[flats.length * 2];
+        System.arraycopy(flats,0,newFlats,0,flats.length);
     }
 
     public void removeFlat (int n) {
         flats[n] = null;
     }
 
-
+    public Flat getBestSpace() {
+        if ( flats.length == 0 ) { return null; }
+        Flat f = flats[0];
+        for (int i = 0; i < flats.length; i++) {
+            if (f.getArea() < flats[i].getArea()) {
+                f = flats[i];
+            }
+        }
+        return f;
+    }
 
 }
