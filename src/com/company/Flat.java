@@ -6,10 +6,10 @@ public class Flat implements Cloneable{
     private int numOfRooms;
 
     private static final int DEFAULT_ROOM_AMOUNT = 2;
-    private static final int DEFAULT_ROOM_AREA = 50;
+    private static final int DEFAULT_FLAT_AREA = 50;
 
     public Flat () {
-        this(DEFAULT_ROOM_AREA, DEFAULT_ROOM_AMOUNT);
+        this(DEFAULT_FLAT_AREA, DEFAULT_ROOM_AMOUNT);
     }
 
     public Flat (int area) {
@@ -48,4 +48,11 @@ public class Flat implements Cloneable{
         Flat o = (Flat)obj;
         return (area == o.area) && (numOfRooms == o.numOfRooms);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder("area: ");
+        return s.append(area).append(" rooms: ").append(numOfRooms).toString();
+    }
+
 }

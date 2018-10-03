@@ -1,9 +1,8 @@
 package com.company;
 
-public class DwellingFloor {
+public class DwellingFloor implements Cloneable {
 
     private Flat[] flats;
-    private int amount;
 
     public DwellingFloor (int numOfFlat) {
         this(new Flat[numOfFlat]);
@@ -14,28 +13,48 @@ public class DwellingFloor {
     }
 
     public int amount () {
-        return amount;
+        int c = 0;
+        for (int i = 0; i < flats.length; i++) {
+            if (flats[i] != null)  {
+                c++;
+            }
+        }
+        return c;
     }
 
-    public int totalArea () {
+    public int getCap () {
+        return flats.length;
+    }
+
+    public int totalArea() {
         int a = 0;
-        for (int i = 0; i < amount; i++) {
-            a += flats[i].getArea();
+        for (int i = 0; i < flats.length; i++) {
+            if (flats[i] != null) {
+                a += flats[i].getArea();
+            }
         }
         return a;
     }
 
     public int totalRoomAmount () {
-        int n = 0;
-        for (int i = 0; i < amount; i++) {
-            n += flats[i].getNumOfRooms();
+        int a = 0;
+        for (int i = 0; i < flats.length; i++) {
+            if (flats[i] != null) {
+                a += flats[i].getNumOfRooms();
+            }
         }
-        return n;
+        return a;
     }
 
-    // todo System arraycopy ?
     public Flat[] getFlats () {
-        return flats;
+        Flat[] arr = new Flat[amount()];
+        int c = 0;
+        for (int i = 0; i < flats.length; i++) {
+            if (flats[i] != null) {
+                arr[c++] = flats[i];
+            }
+        }
+        return arr;
     }
 
     public Flat getFlat (int num) {
@@ -43,17 +62,12 @@ public class DwellingFloor {
     }
 
     public void setFlat (int n, Flat f) {
-        if (n >= flats.length) {
-            resizeArr();
-        }
-        if (flats[n] == null) {
-            amount++;
-        }
+        if (n >= flats.length) { throw new IndexOutOfBoundsException(); }
         flats[n] = f;
     }
 
     public void addFlat (int n, Flat f) {
-        if (n >= flats.length) {
+        while (n >= flats.length) {
             resizeArr();
         }
         flats[n] = f;
@@ -69,14 +83,36 @@ public class DwellingFloor {
     }
 
     public Flat getBestSpace() {
-        if ( flats.length == 0 ) { return null; }
-        Flat f = flats[0];
+        Flat best = new Flat(-1, 1);
         for (int i = 0; i < flats.length; i++) {
-            if (f.getArea() < flats[i].getArea()) {
-                f = flats[i];
+            if (flats[i] != null && flats[i].getArea() > best.getArea()) {
+                best = flats[i];
             }
         }
-        return f;
+        if (best.getArea() == -1) {
+            return null;
+        } else {
+            return best;
+        }
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Flat[] f = new Flat[flats.length];
+        System.arraycopy(flats,0,f,0,flats.length);
+        return new DwellingFloor(f);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < flats.length; i++) {
+            if (flats[i] == null) {
+                s.append("null\n");
+            } else {
+                s.append(flats[i].toString()).append("\n");
+            }
+        }
+        return s.toString();
+    }
 }
