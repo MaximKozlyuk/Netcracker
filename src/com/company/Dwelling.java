@@ -15,7 +15,6 @@ public class Dwelling {
         this.floors = floors;
     }
 
-    // todo test
     public int floorsAmount () {
         int c = 0;
         for (DwellingFloor f : floors) {
@@ -76,7 +75,6 @@ public class Dwelling {
         System.arraycopy(floors,0,newFlats,0,floors.length);
     }
 
-    // todo test
     public Flat getFlat (int n) {
         int flatNumbers = 0;
         for (int i = 0; i < floors.length; i++) {
@@ -89,13 +87,13 @@ public class Dwelling {
         return null;
     }
 
-    // todo also test
-    // todo recode with substruction
+    // todo recode with subtraction
     public void setFlat (int n, Flat f) {
         int floorCount = 0;
         for (int i = 0; i < floors.length; i++) {
            if ((floorCount <= n) && (floorCount+floors[i].getCap() >= n)) {
                floors[i].setFlat(n - floorCount, f);
+               return;
            } else {
                floorCount += floors[i].getCap();
            }
@@ -107,6 +105,7 @@ public class Dwelling {
         for (int i = 0; i < floors.length; i++) {
             if ((floorCount <= n) && (floorCount+floors[i].getCap() >= n)) {
                 floors[i].addFlat(n - floorCount, f);
+                return;
             } else {
                 floorCount += floors[i].getCap();
             }
@@ -118,6 +117,7 @@ public class Dwelling {
         for (int i = 0; i < floors.length; i++) {
             if ((floorCount <= n) && (floorCount+floors[i].getCap() >= n)) {
                 floors[i].removeFlat(n - floorCount);
+                return;
             } else {
                 floorCount += floors[i].getCap();
             }
@@ -137,8 +137,6 @@ public class Dwelling {
         return best;
     }
 
-    // todo test
-    // Создайте метод получения отсортированного по убыванию площадей массива квартир
     public Flat[] getSortedFlat () {
         Flat[] arr = new Flat[flatsAmount()];
         Flat[] toAdd;

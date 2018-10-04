@@ -28,6 +28,30 @@ public class BuildingsTest {
         System.out.println(dwelling);
     }
 
-    // todo some tests
+    public void tests () {
+        System.out.println(dwelling.floorsAmount());
+        System.out.println(dwelling.flatsAmount());
+        System.out.println(dwelling.getBestSpace().getArea());
+        System.out.println(dwelling.totalDwellArea());
+
+        Flat[] sorted = dwelling.getSortedFlat();
+        System.out.println("Sorted flats:");
+        for (Flat f : sorted) {
+            System.out.println(f);
+        }
+    }
+
+    public void testSetGetAdd () {
+        System.out.println("\nGet Set Add tests:");
+        int[] flatsAmounts = {3,4,5};
+        dwelling = new Dwelling(3,flatsAmounts);
+
+        dwelling.addFlat(
+                4,new Flat(25,1)
+        );
+
+        System.out.println(dwelling);
+
+    }
 
 }
