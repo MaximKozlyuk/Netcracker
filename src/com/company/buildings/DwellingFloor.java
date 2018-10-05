@@ -1,12 +1,17 @@
 package com.company.buildings;
 
+import com.sun.java.util.jar.pack.ConstantPool;
+
 public class DwellingFloor implements Cloneable {
 
     private Flat[] flats;
 
-    // todo инициализация пустого массива
+    // todo инициализация пустого массива   // resolved
     public DwellingFloor (int numOfFlat) {
         this(new Flat[numOfFlat]);
+        for (int i = 0; i < flats.length; i++) {
+            flats[i] = new Flat();
+        }
     }
 
     public DwellingFloor (Flat[] flats) {
@@ -14,25 +19,13 @@ public class DwellingFloor implements Cloneable {
     }
 
     public int amount () {
-        int c = 0;
-        for (int i = 0; i < flats.length; i++) {
-            if (flats[i] != null)  {
-                c++;
-            }
-        }
-        return c;
-    }
-
-    public int getCap () {
         return flats.length;
     }
 
     public double totalArea() {
         double a = 0;
         for (int i = 0; i < flats.length; i++) {
-            if (flats[i] != null) {
-                a += flats[i].getArea();
-            }
+            a += flats[i].getArea();
         }
         return a;
     }
@@ -40,9 +33,7 @@ public class DwellingFloor implements Cloneable {
     public int totalRoomAmount () {
         int a = 0;
         for (int i = 0; i < flats.length; i++) {
-            if (flats[i] != null) {
-                a += flats[i].getNumOfRooms();
-            }
+            a += flats[i].getNumOfRooms();
         }
         return a;
     }
@@ -51,34 +42,24 @@ public class DwellingFloor implements Cloneable {
         Flat[] arr = new Flat[amount()];
         int c = 0;
         for (int i = 0; i < flats.length; i++) {
-            if (flats[i] != null) {
-                arr[c++] = flats[i];
-            }
+            arr[c++] = flats[i];
         }
         return arr;
     }
 
-    public Flat getFlat (int num) {
+    public Flat getFlat (int num) throws IndexOutOfBoundsException {
         return flats[num];
     }
 
-    public void setFlat (int n, Flat f) {
-        if (n >= flats.length) { throw new IndexOutOfBoundsException(); }
-        flats[n] = f;
+    public void setFlat (int n, Flat f) throws IndexOutOfBoundsException {
+
     }
 
     public void addFlat (int n, Flat f) {
-        while (n >= flats.length) {
-            resizeArr();
-        }
-        flats[n] = f;
+
     }
 
     // todo увеличение массива на 1 (номер квартиры меняется), вставка элемента, перевделать add remove set
-    private void resizeArr () {
-        Flat[] newFlats = new Flat[flats.length * 2];
-        System.arraycopy(flats,0,newFlats,0,flats.length);
-    }
 
     public void removeFlat (int n) {
         flats[n] = null;
