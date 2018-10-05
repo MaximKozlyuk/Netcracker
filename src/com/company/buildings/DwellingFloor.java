@@ -1,9 +1,10 @@
-package com.company;
+package com.company.buildings;
 
 public class DwellingFloor implements Cloneable {
 
     private Flat[] flats;
 
+    // todo инициализация пустого массива
     public DwellingFloor (int numOfFlat) {
         this(new Flat[numOfFlat]);
     }
@@ -26,8 +27,8 @@ public class DwellingFloor implements Cloneable {
         return flats.length;
     }
 
-    public int totalArea() {
-        int a = 0;
+    public double totalArea() {
+        double a = 0;
         for (int i = 0; i < flats.length; i++) {
             if (flats[i] != null) {
                 a += flats[i].getArea();
@@ -73,6 +74,7 @@ public class DwellingFloor implements Cloneable {
         flats[n] = f;
     }
 
+    // todo увеличение массива на 1 (номер квартиры меняется), вставка элемента, перевделать add remove set
     private void resizeArr () {
         Flat[] newFlats = new Flat[flats.length * 2];
         System.arraycopy(flats,0,newFlats,0,flats.length);

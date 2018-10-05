@@ -1,8 +1,8 @@
 package tests;
 
-import com.company.Dwelling;
-import com.company.DwellingFloor;
-import com.company.Flat;
+import com.company.buildings.Dwelling;
+import com.company.buildings.DwellingFloor;
+import com.company.buildings.Flat;
 
 import java.util.Random;
 

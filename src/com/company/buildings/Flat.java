@@ -1,22 +1,22 @@
-package com.company;
+package com.company.buildings;
 
 public class Flat implements Cloneable{
 
-    private int area;
+    private double area;
     private int numOfRooms;
 
     private static final int DEFAULT_ROOM_AMOUNT = 2;
-    private static final int DEFAULT_FLAT_AREA = 50;
+    private static final double DEFAULT_FLAT_AREA = 50;
 
     public Flat () {
         this(DEFAULT_FLAT_AREA, DEFAULT_ROOM_AMOUNT);
     }
 
-    public Flat (int area) {
+    public Flat (double area) {
         this(area, DEFAULT_ROOM_AMOUNT);
     }
 
-    public Flat (int area, int numOfRooms) {
+    public Flat (double area, int numOfRooms) {
         this.area = area;
         this.numOfRooms = numOfRooms;
     }
@@ -29,7 +29,7 @@ public class Flat implements Cloneable{
         this.numOfRooms = numOfRooms;
     }
 
-    public int getArea() {
+    public double getArea() {
         return area;
     }
 

@@ -1,4 +1,4 @@
-package com.company;
+package com.company.buildings;
 
 public class Dwelling {
 
@@ -35,8 +35,8 @@ public class Dwelling {
         return c;
     }
 
-    public int totalDwellArea () {
-        int c = 0;
+    public double totalDwellArea () {
+        double c = 0;
         for (DwellingFloor f : floors) {
             if (f != null) {
                 c += f.totalArea();
@@ -151,7 +151,8 @@ public class Dwelling {
     }
 
     private static void quickSort(Flat[] a, int first, int last) {
-        int i = first, j = last, x = a[(first + last) / 2].getArea();
+        int i = first, j = last;
+        double x = a[(first + last) / 2].getArea();
         Flat temp;
         do {
             while (a[i].getArea() < x) i++;

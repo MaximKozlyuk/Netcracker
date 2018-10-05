@@ -1,9 +1,9 @@
 package tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import com.company.Dwelling;
-import com.company.DwellingFloor;
-import com.company.Flat;
+
+import com.company.buildings.DwellingFloor;
+import com.company.buildings.Flat;
 import org.junit.jupiter.api.Test;
 
 public class DwellingFloorTest {
