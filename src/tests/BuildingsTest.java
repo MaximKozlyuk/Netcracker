@@ -64,40 +64,20 @@ public class BuildingsTest {
 
         System.out.println("New Dwelling: \n" + dwell + "\n");
 
-        dwell.setFlat(3, new Flat(666,6));
-        dwell.setFlat(dwell.flatsAmount(), new Flat(666,6));
+        //dwell.addFlat(9, new Flat(666,6));
+
+        //dwell.removeFlat(9);
+        //dwell.removeFlat(dwell.flatsAmount());
 
         System.out.println(dwell);
+        System.out.println(dwell.getBestSpace() + "\n");
+
+        Flat[] sortedFlats = dwell.getSortedFlat();
+        for (int i = 0; i < sortedFlats.length; i++) {
+            System.out.println(sortedFlats[i]);
+        }
 
         System.out.println("dwell test done!");
     }
-
-    /*
-
-    public void tests () {
-        System.out.println(dwelling.floorsAmount());
-        System.out.println(dwelling.flatsAmount());
-        System.out.println(dwelling.getBestSpace().getArea());
-        System.out.println(dwelling.totalDwellArea());
-
-        Flat[] sorted = dwelling.getSortedFlat();
-        System.out.println("Sorted flats:");
-        for (Flat f : sorted) {
-            System.out.println(f);
-        }
-    }
-
-    public void testSetGetAdd () {
-        System.out.println("\nGet Set Add tests:");
-        int[] flatsAmounts = {3,4,5};
-        dwelling = new Dwelling(3,flatsAmounts);
-
-        //dwelling.addFlat(4,new Flat(25,1));
-
-        System.out.println(dwelling);
-
-    }
-
-    */
 
 }

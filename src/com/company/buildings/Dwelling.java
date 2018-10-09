@@ -90,7 +90,6 @@ public class Dwelling {
     }
 
     // todo recode with subtraction mb
-    // todo test
     public void setFlat (int n, Flat f) throws IndexOutOfBoundsException {
         int floorCount = 0;
         for (int i = 0; i < floors.length; i++) {
@@ -104,9 +103,12 @@ public class Dwelling {
         throw new IndexOutOfBoundsException("Index for flat set not found");
     }
 
-    // todo test
-    public void addFlat (int n, Flat f) {
+    public void addFlat (int n, Flat f) throws IndexOutOfBoundsException {
         int floorCount = 0;
+        if (n == flatsAmount()) {
+            floors[floors.length-1].addFlat(floors[floors.length-1].amount(), f);
+            return;
+        }
         for (int i = 0; i < floors.length; i++) {
             if ((floorCount <= n) && (floorCount+floors[i].amount()-1 >= n)) {
                 floors[i].addFlat(n - floorCount, f);
@@ -115,10 +117,10 @@ public class Dwelling {
                 floorCount += floors[i].amount();
             }
         }
+        throw new IndexOutOfBoundsException("Index for flat set not found");
     }
 
-    // todo test
-    public void removeFlat (int n) {
+    public void removeFlat (int n) throws IndexOutOfBoundsException {
         int floorCount = 0;
         for (int i = 0; i < floors.length; i++) {
             if ((floorCount <= n) && (floorCount+floors[i].amount()-1 >= n)) {
@@ -128,9 +130,9 @@ public class Dwelling {
                 floorCount += floors[i].amount();
             }
         }
+        throw new IndexOutOfBoundsException("Index for flat set not found");
     }
 
-    // todo test
     public Flat getBestSpace () {
         Flat best = new Flat(-1,1);
         Flat newBest;
@@ -143,8 +145,7 @@ public class Dwelling {
         if (best.getArea() == -1) { return null; }
         return best;
     }
-
-    // todo test
+    
     public Flat[] getSortedFlat () {
         Flat[] arr = new Flat[flatsAmount()];
         Flat[] toAdd;
