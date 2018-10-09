@@ -11,8 +11,10 @@ public class Main {
         //test.dwellingFloorTest();
         //test.tests();
         //test.testSetGetAdd();
+        //test.dwellingTest();
 
-        test.dwellingTest();
+        test.officeFloorTest();
+
 
     }
 }
