@@ -3,6 +3,7 @@ package tests;
 import com.company.buildings.Dwelling;
 import com.company.buildings.DwellingFloor;
 import com.company.buildings.Flat;
+import com.company.buildings.OfficeFloor;
 
 public class BuildingsTest {
 
@@ -78,6 +79,12 @@ public class BuildingsTest {
         }
 
         System.out.println("dwell test done!");
+    }
+
+    public void officeFloorTest () {
+
+        OfficeFloor ofFloor = new OfficeFloor(5);
+
     }
 
 }
