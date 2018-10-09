@@ -15,6 +15,7 @@ public class Dwelling {
         this.floors = floors;
     }
 
+    // todo is null check necessary ?
     public int floorsAmount () {
         int c = 0;
         for (DwellingFloor f : floors) {
@@ -55,11 +56,12 @@ public class Dwelling {
         return c;
     }
 
+    // todo new arr?
     public DwellingFloor[] getFloors() {
         return floors;
     }
 
-    public DwellingFloor getFloor (int n) {
+    public DwellingFloor getFloor (int n) throws ArrayIndexOutOfBoundsException {
         return floors[n];
     }
 
@@ -79,7 +81,7 @@ public class Dwelling {
         int flatNumbers = 0;
         for (int i = 0; i < floors.length; i++) {
             if ((n < floors[i].amount()) && (flatNumbers < n)) {
-                return floors[i].getFlat(n - flatNumbers);
+                //return floors[i].getFlat(n - flatNumbers);
             } else {
                 flatNumbers += floors[i].amount();
             }
@@ -87,43 +89,48 @@ public class Dwelling {
         return null;
     }
 
-    // todo recode with subtraction
-    public void setFlat (int n, Flat f) {
+    // todo recode with subtraction mb
+    // todo test
+    public void setFlat (int n, Flat f) throws IndexOutOfBoundsException {
         int floorCount = 0;
         for (int i = 0; i < floors.length; i++) {
-           if ((floorCount <= n) && (floorCount+floors[i].getCap() >= n)) {
+           if ((floorCount <= n) && (floorCount+floors[i].amount()-1 >= n)) {
                floors[i].setFlat(n - floorCount, f);
                return;
            } else {
-               floorCount += floors[i].getCap();
+               floorCount += floors[i].amount();
            }
         }
+        throw new IndexOutOfBoundsException("Index for flat set not found");
     }
 
+    // todo test
     public void addFlat (int n, Flat f) {
         int floorCount = 0;
         for (int i = 0; i < floors.length; i++) {
-            if ((floorCount <= n) && (floorCount+floors[i].getCap() >= n)) {
+            if ((floorCount <= n) && (floorCount+floors[i].amount()-1 >= n)) {
                 floors[i].addFlat(n - floorCount, f);
                 return;
             } else {
-                floorCount += floors[i].getCap();
+                floorCount += floors[i].amount();
             }
         }
     }
 
+    // todo test
     public void removeFlat (int n) {
         int floorCount = 0;
         for (int i = 0; i < floors.length; i++) {
-            if ((floorCount <= n) && (floorCount+floors[i].getCap() >= n)) {
+            if ((floorCount <= n) && (floorCount+floors[i].amount()-1 >= n)) {
                 floors[i].removeFlat(n - floorCount);
                 return;
             } else {
-                floorCount += floors[i].getCap();
+                floorCount += floors[i].amount();
             }
         }
     }
 
+    // todo test
     public Flat getBestSpace () {
         Flat best = new Flat(-1,1);
         Flat newBest;
@@ -137,6 +144,7 @@ public class Dwelling {
         return best;
     }
 
+    // todo test
     public Flat[] getSortedFlat () {
         Flat[] arr = new Flat[flatsAmount()];
         Flat[] toAdd;
@@ -181,5 +189,14 @@ public class Dwelling {
             s.append("Floor № ").append(i+1).append("\n").append(floors[i].toString());
         }
         return s.toString();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        DwellingFloor[] newFloors = new DwellingFloor[floors.length];
+        for (int i = 0; i < floors.length; i++) {
+            newFloors[i] = (DwellingFloor) floors[i].clone();
+        }
+        return new Dwelling(newFloors);
     }
 }

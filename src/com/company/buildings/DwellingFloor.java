@@ -1,7 +1,5 @@
 package com.company.buildings;
 
-import com.sun.java.util.jar.pack.ConstantPool;
-
 public class DwellingFloor implements Cloneable {
 
     private Flat[] flats;
@@ -47,28 +45,58 @@ public class DwellingFloor implements Cloneable {
         return arr;
     }
 
-    public Flat getFlat (int num) throws IndexOutOfBoundsException {
-        return flats[num];
+    public Flat getFlat (int num) throws IndexOutOfBoundsException, CloneNotSupportedException {
+        return (Flat)flats[num].clone();
     }
 
-    public void setFlat (int n, Flat f) throws IndexOutOfBoundsException {
-
+    public Flat setFlat (int n, Flat f) throws IndexOutOfBoundsException {
+        if (n < 0 || n >= flats.length) { throw new IndexOutOfBoundsException(); }
+        Flat oldFlat = flats[n];
+        flats[n] = f;
+        return oldFlat;
     }
 
-    public void addFlat (int n, Flat f) {
-
+    // todo test dat
+    /** increase arr and insert new element, adding to o.amount() is valid **/
+    public void addFlat (int n, Flat f) throws NullPointerException, IndexOutOfBoundsException {
+        if (f == null) { throw new NullPointerException(); }
+        if (n < 0 || n > flats.length) { throw new IndexOutOfBoundsException(); }
+        increaseArr();
+        if (n == flats.length - 1) {
+            flats[flats.length -1] = f;
+            return;
+        }
+        if (n == 0) {
+            System.arraycopy(flats, 0,flats,1,flats.length-1);
+            flats[n] = f;
+            return;
+        }
+        Flat[] newArr = new Flat[flats.length];
+        System.arraycopy(flats,0,newArr,0,n);
+        newArr[n] = f;
+        System.arraycopy(flats,n,newArr,n+1,flats.length - n -1);
+        flats = newArr;
     }
 
-    // todo увеличение массива на 1 (номер квартиры меняется), вставка элемента, перевделать add remove set
+    private void increaseArr () {
+        Flat[] newFlats = new Flat[flats.length + 1];
+        System.arraycopy(flats, 0, newFlats,0,flats.length);
+        flats = newFlats;
+    }
 
-    public void removeFlat (int n) {
-        flats[n] = null;
+    // todo увеличение массива на 1 (номер квартиры меняется), вставка элемента, перевделать add remove set / resolved
+    /** amount() -1 **/
+    public void removeFlat (int n) throws ArrayIndexOutOfBoundsException {
+        Flat[] newArr = new Flat[flats.length -1];
+        System.arraycopy(flats,0,newArr,0,n);
+        System.arraycopy(flats,n+1, newArr,n,flats.length - n -1);
+        flats = newArr;
     }
 
     public Flat getBestSpace() {
-        Flat best = new Flat(-1, 1);
+        Flat best = new Flat(-1, Integer.MIN_VALUE);
         for (int i = 0; i < flats.length; i++) {
-            if (flats[i] != null && flats[i].getArea() > best.getArea()) {
+            if (flats[i].getArea() > best.getArea()) {
                 best = flats[i];
             }
         }
