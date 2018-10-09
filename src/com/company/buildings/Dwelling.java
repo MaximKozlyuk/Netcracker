@@ -145,7 +145,7 @@ public class Dwelling {
         if (best.getArea() == -1) { return null; }
         return best;
     }
-    
+        
     public Flat[] getSortedFlat () {
         Flat[] arr = new Flat[flatsAmount()];
         Flat[] toAdd;
