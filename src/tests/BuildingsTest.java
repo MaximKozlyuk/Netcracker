@@ -144,4 +144,38 @@ public class BuildingsTest {
 
     }
 
+    public void officeBuildingTest () {
+
+        // creating test objects
+        Office[] oArr1 = new Office[2];
+        Office[] oArr2 = new Office[3];
+        Office[] oArr3 = new Office[4];
+
+        oArr1[0] = new Office(100,1);
+        oArr1[1] = new Office(200,2);
+
+        oArr2[0] = new Office(300,3);
+        oArr2[1] = new Office(400,4);
+        oArr2[2] = new Office(500,5);
+
+        oArr3[0] = new Office(600,6);
+        oArr3[1] = new Office(700,7);
+        oArr3[2] = new Office(800,8);
+
+        OfficeFloor[] ofArr = new OfficeFloor[3];
+        ofArr[0] = new OfficeFloor(oArr1);
+        ofArr[1] = new OfficeFloor(oArr2);
+        ofArr[2] = new OfficeFloor(oArr3);
+
+        //OfficeBuilding ob = new OfficeBuilding(3, new int[]{5,1,1,1});
+
+        OfficeBuilding ob = new OfficeBuilding(ofArr);
+
+        // tests
+
+        ob.getNodeTest();
+        //System.out.println(ob);
+
+    }
+
 }

@@ -59,6 +59,7 @@ public class OfficeFloor {
         size++;
     }
 
+    // todo use in other methods
     private Node getNode (int n) {
         temp = first.next;
         for (int i = 0; i < n; i++) {
@@ -74,11 +75,10 @@ public class OfficeFloor {
             temp = temp.next;
         }
         temp.next = temp.next.next;
+        size--; // todo test remove with size --
     }
 
-    public int amount () {
-        return size;
-    }
+    public int amount () { return size; }
 
     public double totalArea () {
         double a = 0;

@@ -12,8 +12,9 @@ public class Main {
         //test.tests();
         //test.testSetGetAdd();
         //test.dwellingTest();
+        //test.officeFloorTest();
 
-        test.officeFloorTest();
+        test.officeBuildingTest();
 
 
     }
