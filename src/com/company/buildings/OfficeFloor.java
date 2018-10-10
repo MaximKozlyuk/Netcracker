@@ -5,29 +5,25 @@ package com.company.buildings;
  * Работа класса должна быть основана на односвязном циклическом списке офисов с выделенной головой.
  * Номер офиса явно не хранится.
  *
- * Создайте приватный метод получения узла по его номеру.
- * Создайте приватный метод добавления узла в список по номеру.
- * Создайте приватный метод удаления узла из списка по его номеру.
+ * Создайте приватный метод получения узла по его номеру.                                   // +
+ * Создайте приватный метод добавления узла в список по номеру.                             // +
+ * Создайте приватный метод удаления узла из списка по его номеру.                          // +
  *
- * Конструктор может принимать количество офисов на этаже.
- * Конструктор может принимать массив офисов этажа.
+ * Конструктор может принимать количество офисов на этаже.                                  // +
+ * Конструктор может принимать массив офисов этажа.                                         // +
  *
- * Создайте метод получения количества офисов на этаже.
- * Создайте метод получения общей площади помещений этажа.
- * Создайте метод получения общего количества комнат этажа.
- * Создайте метод получения массива офисов этажа.
- * Создайте метод получения офиса по его номеру на этаже.
- * Создайте метод изменения офиса по его номеру на этаже и ссылке на обновленный офис.
- * Создайте метод добавления нового офиса на этаже по будущему номеру офиса.
- * Создайте метод удаления офиса по его номеру на этаже.
- * Создайте метод getBestSpace() получения самого большого по площади офиса этажа.
+ * Создайте метод получения количества офисов на этаже.                                     // +
+ * Создайте метод получения общей площади помещений этажа.                                  // +
+ * Создайте метод получения общего количества комнат этажа.                                 // +
+ * Создайте метод получения массива офисов этажа.                                           // +
+ * Создайте метод получения офиса по его номеру на этаже.                                   // +
+ * Создайте метод изменения офиса по его номеру на этаже и ссылке на обновленный офис.      // +
+ * Создайте метод добавления нового офиса на этаже по будущему номеру офиса.                // +
+ * Создайте метод удаления офиса по его номеру на этаже.                                    // +
+ * Создайте метод getBestSpace() получения самого большого по площади офиса этажа.          // +
  */
 
 public class OfficeFloor {
-
-    //private OneSideList<Office> list;
-
-    private static final int DEFAULT_SIZE = 0;
 
     private int size;
     private Node first;
@@ -36,48 +32,34 @@ public class OfficeFloor {
 
     public OfficeFloor (int n) {
         first = new Node(null, null);
-        first.next = null;
+        first.next = first;
         for (int i = 0; i < n; i++) {
-            //addNode(new Node(),size++);     // todo
+            addNode(new Office(),size);
         }
     }
 
     public OfficeFloor (Office[] offices) {
-
-    }
-
-    /*
-    public OfficeFloor (int n) {
-        initEmptyList();
-        temp = first.next;
-        for (int i = 0; i < n; i++) {
-            temp.item = new Office();
-            temp.next = new Node(null, first);
-            temp = temp.next;
-        }
-        size = n;
-    }
-
-    public OfficeFloor (Office[] offices) {
-        initEmptyList();
-        temp = first.next;
-        for (int i = 0; i < offices.length; i++) {
-            temp.item = offices[i];
-            temp.next = new Node(null, first);
-            temp = temp.next;
-        }
-        size = offices.length;
-    }
-
-    private void initEmptyList () {
-        size = 0;
         first = new Node(null, null);
-        first.next = new Node(null, first);
+        first.next = first;
+        for (int i = 0; i < offices.length; i++) {
+            addNode(offices[i],size);
+        }
     }
-     */
 
-    private Node getNode (int n) throws IndexOutOfBoundsException {
-        if (n < 0 || n > size) { throw new IndexOutOfBoundsException(); }
+    private void addNode (Office o, int n) {
+        temp = first;
+        for (int i = 0; i < n; i++) {
+            temp = temp.next;
+        }
+        if (temp.next == first) {
+            temp.next = new Node(o, first);
+        } else {
+            temp.next = new Node(o, temp.next);
+        }
+        size++;
+    }
+
+    private Node getNode (int n) {
         temp = first.next;
         for (int i = 0; i < n; i++) {
             temp = temp.next;
@@ -85,16 +67,13 @@ public class OfficeFloor {
         return temp;
     }
 
-    private void addNode (Node node, int n) {
+    private void removeNode (int n) {
+        if (size == 0) { return; }  // todo exception
         temp = first;
         for (int i = 0; i < n; i++) {
             temp = temp.next;
         }
-        temp.next = node;
-    }
-
-    private void removeNode (int n) {
-
+        temp.next = temp.next.next;
     }
 
     public int amount () {
@@ -103,7 +82,7 @@ public class OfficeFloor {
 
     public double totalArea () {
         double a = 0;
-        for (temp = first.next ; temp.next != first; temp = temp.next) {
+        for (temp = first.next; temp != first; temp = temp.next) {
             a += temp.item.getArea();
         }
         return a;
@@ -111,7 +90,7 @@ public class OfficeFloor {
 
     public int totalRoomAmount () {
         int a = 0;
-        for (temp = first.next ; temp.next != first; temp = temp.next) {
+        for (temp = first.next ; temp != first; temp = temp.next) {
             a += temp.item.getNumOfRooms();
         }
         return a;
@@ -128,40 +107,32 @@ public class OfficeFloor {
     }
 
     public Office getOffice (int n) throws CloneNotSupportedException {
+        if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
         return (Office) getNode(n).item.clone();
     }
 
     public void setOffice (int n, Office o) {
+        if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
         getNode(n).item = o;
     }
 
-    public void addOffice (int n, Office o) throws IndexOutOfBoundsException {
+    public void addOffice (Office o, int n) {
         if (n < 0 || n > size) { throw new IndexOutOfBoundsException(); }
-        temp = first.next;
-        for (int i = 0; i <  n-1; i++) {
-            temp = temp.next;
-        }
-        // todo check if n == 0
-        temp.next = new Node(o, temp.next);
+        addNode(o,n);
     }
 
-    public void removeOffice (int n) throws IndexOutOfBoundsException {
-        if (n < 0 || n > size) { throw new IndexOutOfBoundsException(); }
-        temp = first.next;
-        for (int i = 0; i < n; i++) {
-            temp = temp.next;
-        }
-        temp.next = temp.next.next;
+    public void removeOffice (int n) {
+        if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
+        removeNode(n);
     }
 
     public Office getBestSpace () {
         if (size == 0) { return null; }
         Office o = first.next.item;
-        for (temp = first.next ; temp.next.next != first; temp = temp.next) {
+        for (temp = first.next; temp != first; temp = temp.next) {
             if (o.getArea() < temp.item.getArea()) {
                 o = temp.item;
             }
-            temp = temp.next;
         }
         return o;
     }
@@ -170,7 +141,7 @@ public class OfficeFloor {
         private Office item;
         private Node next;
 
-        public Node(Office item, Node next) {
+        private Node(Office item, Node next) {
             this.item = item;
             this.next = next;
         }
@@ -179,10 +150,10 @@ public class OfficeFloor {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        temp = first.next;
-        for (int i = 0; i < size; i++) {
+        for (temp = first.next; temp != first; temp = temp.next) {
             s.append(temp.item).append("\n");
         }
         return s.toString();
     }
+
 }
