@@ -155,7 +155,7 @@ public class Dwelling {
         throw new IndexOutOfBoundsException("Index for flat set not found");
     }
 
-    public Flat getBestSpace () {
+    public Flat getBestSpace () throws CloneNotSupportedException {
         Flat best = new Flat(-1,1);
         Flat newBest;
         for (int i = 0; i < floors.length; i++) {
@@ -168,12 +168,12 @@ public class Dwelling {
         return best;
     }
         
-    public Flat[] getSortedFlat () {
+    public Flat[] getSortedFlat () throws CloneNotSupportedException {
         Flat[] arr = new Flat[flatsAmount()];
         Flat[] toAdd;
         int c = 0;
         for (int i = 0; i < floors.length; i++) {
-            toAdd = floors[i].getFlats();
+            toAdd = floors[i].toArray();
             System.arraycopy(toAdd, 0, arr, c, toAdd.length);
             c += toAdd.length;
         }

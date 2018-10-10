@@ -65,7 +65,7 @@ public class Flat implements Cloneable{
 
     @Override
     public String toString() {
-        StringBuilder s = new StringBuilder("area: ");
+        StringBuilder s = new StringBuilder("flat: area: ");
         return s.append(area).append(" rooms: ").append(numOfRooms).toString();
     }
 

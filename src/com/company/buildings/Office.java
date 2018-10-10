@@ -51,4 +51,14 @@ public class Office {
         this.numOfRooms = numOfRooms;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder("office: area: ");
+        return s.append(area).append(" rooms: ").append(numOfRooms).toString();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return new Office(area, numOfRooms);
+    }
 }

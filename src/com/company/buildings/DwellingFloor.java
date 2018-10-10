@@ -54,11 +54,11 @@ public class DwellingFloor implements Cloneable {
         return a;
     }
 
-    public Flat[] getFlats () {
+    public Flat[] toArray() throws CloneNotSupportedException {
         Flat[] arr = new Flat[amount()];
         int c = 0;
         for (int i = 0; i < flats.length; i++) {
-            arr[c++] = flats[i];
+            arr[c++] = (Flat) flats[i].clone();
         }
         return arr;
     }
@@ -111,7 +111,7 @@ public class DwellingFloor implements Cloneable {
         flats = newArr;
     }
 
-    public Flat getBestSpace() {
+    public Flat getBestSpace() throws CloneNotSupportedException {
         Flat best = new Flat(-1, Integer.MIN_VALUE);
         for (int i = 0; i < flats.length; i++) {
             if (flats[i].getArea() > best.getArea()) {
@@ -121,7 +121,7 @@ public class DwellingFloor implements Cloneable {
         if (best.getArea() == -1) {
             return null;
         } else {
-            return best;
+            return (Flat) best.clone();
         }
     }
 
