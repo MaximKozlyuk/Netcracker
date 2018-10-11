@@ -147,20 +147,20 @@ public class BuildingsTest {
     public void officeBuildingTest () {
 
         // creating test objects
-        Office[] oArr1 = new Office[2];
-        Office[] oArr2 = new Office[3];
-        Office[] oArr3 = new Office[4];
+        Office[] oArr1 = new Office[1];
+        Office[] oArr2 = new Office[1];
+        Office[] oArr3 = new Office[1];
 
         oArr1[0] = new Office(100,1);
-        oArr1[1] = new Office(200,2);
+        //oArr1[1] = new Office(200,2);
 
-        oArr2[0] = new Office(300,3);
-        oArr2[1] = new Office(400,4);
-        oArr2[2] = new Office(500,5);
+        oArr2[0] = new Office(200,2);
+        //oArr2[1] = new Office(400,4);
+        //oArr2[2] = new Office(500,5);
 
-        oArr3[0] = new Office(600,6);
-        oArr3[1] = new Office(700,7);
-        oArr3[2] = new Office(800,8);
+        oArr3[0] = new Office(300,3);
+        //oArr3[1] = new Office(700,7);
+        //oArr3[2] = new Office(800,8);
 
         OfficeFloor[] ofArr = new OfficeFloor[3];
         ofArr[0] = new OfficeFloor(oArr1);
@@ -176,6 +176,10 @@ public class BuildingsTest {
         ob.getNodeTest();
         //System.out.println(ob);
 
+    }
+
+    private OfficeFloor getFloor () {
+        return null;    // todo
     }
 
 }

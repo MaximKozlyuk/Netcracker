@@ -86,10 +86,19 @@ public class OfficeBuilding {
     // todo prev new link, if n == 0, optimize getNode
     private void addNode (OfficeFloor f, int n) {
         temp = getNode(n);
-        if (temp.next == first) {
-            temp.next = new Node(f, temp, first);
+        if (size == 0) {
+            first.next = new Node(f, first, first);
+            first.prev = first.next;
+        } else if (temp.prev == first) {
+            first.next = new Node(f, first,temp);
+            temp.prev = first.next;
+        } else if (temp.next == first) {
+            first.prev = new Node(f, temp, first);
+            temp.next = first.prev;
         } else {
-            temp.next = new Node(f, temp, temp.next);
+            Node newNode = new Node(f, temp.prev, temp);
+            temp.prev.next = newNode;
+            temp.prev = newNode;
         }
         size++;
     }

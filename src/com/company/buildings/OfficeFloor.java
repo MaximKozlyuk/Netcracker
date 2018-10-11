@@ -111,9 +111,13 @@ public class OfficeFloor {
         return (Office) getNode(n).item.clone();
     }
 
-    public void setOffice (int n, Office o) {
+    // todo test
+    public Office setOffice (int n, Office o) {
         if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
-        getNode(n).item = o;
+        temp = getNode(n);
+        Office oldOffice = temp.item;
+        temp.item = o;
+        return oldOffice;
     }
 
     public void addOffice (Office o, int n) {
