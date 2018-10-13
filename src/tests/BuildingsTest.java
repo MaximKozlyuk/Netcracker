@@ -9,6 +9,7 @@ public class BuildingsTest {
 
     public BuildingsTest () { }
 
+    static { }
 
     public void dwellingFloorTest () {
         dwellingFloor = new DwellingFloor(0);
@@ -106,6 +107,11 @@ public class BuildingsTest {
         //OfficeFloor ofFloor = new OfficeFloor(5);
         OfficeFloor ofFloor = new OfficeFloor(offices);
 
+        System.out.println("REM:\n");
+        ofFloor.removeOffice(0);
+
+        System.out.println(ofFloor);
+
         ofFloor.addOffice(new Office(123,1), ofFloor.amount());
 
         System.out.println("Created office floor:\n" + ofFloor + "\n");
@@ -147,39 +153,34 @@ public class BuildingsTest {
     public void officeBuildingTest () {
 
         // creating test objects
-        Office[] oArr1 = new Office[1];
-        Office[] oArr2 = new Office[1];
-        Office[] oArr3 = new Office[1];
 
-        oArr1[0] = new Office(100,1);
-        //oArr1[1] = new Office(200,2);
+        OfficeFloor[] floorArr = new OfficeFloor[3];
 
-        oArr2[0] = new Office(200,2);
-        //oArr2[1] = new Office(400,4);
-        //oArr2[2] = new Office(500,5);
+        int c = 1;
+        for (int i = 0; i < floorArr.length; i++) {
+            floorArr[i] = getFloor(3, c);
+            c+= floorArr[i].amount();
+        }
 
-        oArr3[0] = new Office(300,3);
-        //oArr3[1] = new Office(700,7);
-        //oArr3[2] = new Office(800,8);
-
-        OfficeFloor[] ofArr = new OfficeFloor[3];
-        ofArr[0] = new OfficeFloor(oArr1);
-        ofArr[1] = new OfficeFloor(oArr2);
-        ofArr[2] = new OfficeFloor(oArr3);
-
-        //OfficeBuilding ob = new OfficeBuilding(3, new int[]{5,1,1,1});
-
-        OfficeBuilding ob = new OfficeBuilding(ofArr);
+        OfficeBuilding ob = new OfficeBuilding(floorArr);
 
         // tests
 
-        ob.getNodeTest();
-        //System.out.println(ob);
+        System.out.println(ob);
+
+        ob.testPrivateMethods();
+
+        //System.out.println("After tests:\n" + ob);
 
     }
 
-    private OfficeFloor getFloor () {
-        return null;    // todo
+    private OfficeFloor getFloor (int n, int c) {
+        Office[] arr = new Office[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = new Office(c * 100, c);
+            c++;
+        }
+        return new OfficeFloor(arr);
     }
 
 }

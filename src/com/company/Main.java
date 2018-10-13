@@ -3,6 +3,8 @@ package com.company;
 
 import tests.BuildingsTest;
 
+import java.util.LinkedList;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -15,7 +17,6 @@ public class Main {
         //test.officeFloorTest();
 
         test.officeBuildingTest();
-
 
     }
 }

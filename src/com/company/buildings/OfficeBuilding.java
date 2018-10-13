@@ -55,36 +55,23 @@ public class OfficeBuilding {
     }
 
     private Node getNode (int n) {
-//        if (n > (size /2)) {
-//            temp = first.prev;
-//            for (int i = 0; i < (size - n); i++) {
-//                temp = temp.prev;
-//            }
-//            return temp;
-//        } else {
-//            temp = first.next;
-//            for (int i = 0; i < n; i++) {
-//                temp = temp.next;
-//            }
-//            return temp;
-//        }
-        temp = first.next;
-        for (int i = 0; i < n; i++) {
-            temp = temp.next;
+        if (n > (size % 2)) {
+            temp = first.prev;
+            for (int i = n; i > 0; i--) {
+                temp = temp.prev;
+            }
+            return temp;
+        } else {
+            temp = first.next;
+            for (int i = 0; i < n; i++) {
+                temp = temp.next;
+            }
+            return temp;
         }
-        return temp;
     }
 
-
-    public void getNodeTest () {
-        System.out.println("Get node test");
-        System.out.println(getNode(0).item);
-        System.out.println(getNode(1).item);
-        System.out.println(getNode(2).item);
-    }
-
-    // todo prev new link, if n == 0, optimize getNode
     private void addNode (OfficeFloor f, int n) {
+        if (n < 0 || n > size) { throw new IndexOutOfBoundsException(); }   // todo вынести
         temp = getNode(n);
         if (size == 0) {
             first.next = new Node(f, first, first);
@@ -103,8 +90,18 @@ public class OfficeBuilding {
         size++;
     }
 
+    // todo = null to help GC
     private void removeNode (int n) {
+        temp = getNode(n);
+        temp.prev.next = temp.next;
+        temp.next.prev = temp.prev;
+        size--;
+    }
 
+    public void testPrivateMethods () {
+        System.out.println(getNode(0).item);
+        System.out.println(getNode(1).item);
+        System.out.println(getNode(2).item);
     }
 
     private class Node {
