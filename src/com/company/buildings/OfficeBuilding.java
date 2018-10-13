@@ -7,12 +7,12 @@ package com.company.buildings;
  * Нумерация офисов в здании сквозная и начинается с нуля.
  *
  * Создайте три вспомогательных приватных метода:
- * - приватный метод получения узла по его номеру;
- * - приватный метод добавления узла в список по номеру;
- * - приватный метод удаления узла из списка по его номеру.
+ * - приватный метод получения узла по его номеру; +
+ * - приватный метод добавления узла в список по номеру; +
+ * - приватный метод удаления узла из списка по его номеру. +
  *
- * Конструктор может принимать количество этажей и массив количества офисов по этажам.
- * Конструктор может принимать массив этажей офисного здания.
+ * Конструктор может принимать количество этажей и массив количества офисов по этажам. +
+ * Конструктор может принимать массив этажей офисного здания. +
  *
  * Создайте метод получения общего количества этажей здания.
  * Создайте метод получения общего количества офисов здания.
@@ -33,36 +33,46 @@ public class OfficeBuilding {
 
     private int size;
 
-    private Node first;
+    private Node head;
     private Node temp;
 
     public OfficeBuilding (int n, int[] floors) {
-        first = new Node(null, null, null);
-        first.next = first;
-        first.prev = first;
+        head = new Node(null, null, null);
+        head.next = head;
+        head.prev = head;
         for (int i = 0; i < floors.length; i++) {
             addNode(new OfficeFloor(floors[i]),size);
         }
     }
 
     public OfficeBuilding (OfficeFloor[] floors) {
-        first = new Node(null, null, null);
-        first.next = first;
-        first.prev = first;
+        head = new Node(null, null, null);
+        head.next = head;
+        head.prev = head;
         for (int i = 0; i < floors.length; i++) {
             addNode(floors[i],size);
         }
     }
 
     private Node getNode (int n) {
-        if (n > (size % 2)) {
-            temp = first.prev;
-            for (int i = n; i > 0; i--) {
+        if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
+        // stable:
+        /*
+        temp = head.next;
+        for (int i = 0; i < n; i++) {
+            temp = temp.next;
+        }
+        return temp;
+        */
+        // это вроде тоже работает :)
+        if (n > (size / 2)) {
+            temp = head.prev;
+            for (int i = 0; i < ((size -1) - n) ; i++) {
                 temp = temp.prev;
             }
             return temp;
         } else {
-            temp = first.next;
+            temp = head.next;
             for (int i = 0; i < n; i++) {
                 temp = temp.next;
             }
@@ -71,37 +81,57 @@ public class OfficeBuilding {
     }
 
     private void addNode (OfficeFloor f, int n) {
-        if (n < 0 || n > size) { throw new IndexOutOfBoundsException(); }   // todo вынести
-        temp = getNode(n);
+        if (n < 0 || n > size) { throw new IndexOutOfBoundsException(); }
         if (size == 0) {
-            first.next = new Node(f, first, first);
-            first.prev = first.next;
-        } else if (temp.prev == first) {
-            first.next = new Node(f, first,temp);
-            temp.prev = first.next;
-        } else if (temp.next == first) {
-            first.prev = new Node(f, temp, first);
-            temp.next = first.prev;
+            head.next = new Node(f, head, head);
+            head.prev = head.next;
+            size++;
+            return;
+        }
+        if (n == 0) {
+            head.next.prev = new Node(f, head, head.next);
+            head.next = head.next.prev;
+            size++;
+            return;
+        }
+        if (n == size) {
+            head.prev.next = new Node(f, head.prev, head);
+            head.prev = head.prev.next;
         } else {
-            Node newNode = new Node(f, temp.prev, temp);
-            temp.prev.next = newNode;
-            temp.prev = newNode;
+            temp = getNode(n);
+            temp.prev.next = new Node(f, temp.prev, temp);
+            temp.prev = temp.prev.next;
         }
         size++;
     }
 
     // todo = null to help GC
     private void removeNode (int n) {
-        temp = getNode(n);
-        temp.prev.next = temp.next;
-        temp.next.prev = temp.prev;
+        if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
+        if (size == 0) { return; } // todo exp
+        if (n == 0) {
+            temp = head.next.next;
+            head.next.prev = null;
+            head.next.next = null;
+            head.next = temp;
+            temp.prev = head;
+            size--;
+            return;
+        }
+        if (n == size -1) {
+            temp = head.prev.prev;
+            head.prev.next = null;
+            head.prev.prev = null;
+            head.prev = temp;
+            temp.next = head;
+        } else {
+            temp = getNode(n);
+            temp.prev.next = temp.next;
+            temp.next.prev = temp.prev;
+            temp.next = null;
+            temp.prev = null;
+        }
         size--;
-    }
-
-    public void testPrivateMethods () {
-        System.out.println(getNode(0).item);
-        System.out.println(getNode(1).item);
-        System.out.println(getNode(2).item);
     }
 
     private class Node {
@@ -120,7 +150,7 @@ public class OfficeBuilding {
     public String toString() {
         StringBuilder s = new StringBuilder("Office building: ");
         s.append(size).append(" floors:\n");
-        temp = first.next;
+        temp = head.next;
         for (int i = 0; i < size; i++ ) {
             s.append("floor:\n").append(temp.item.toString()).append("\n");
             temp = temp.next;

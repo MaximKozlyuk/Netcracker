@@ -9,7 +9,9 @@ public class BuildingsTest {
 
     public BuildingsTest () { }
 
-    static { }
+    static {
+
+    }
 
     public void dwellingFloorTest () {
         dwellingFloor = new DwellingFloor(0);
@@ -18,25 +20,21 @@ public class BuildingsTest {
 
         System.out.println(dwellingFloor);
 
-        dwellingFloor.addFlat(0, new Flat(5,5));
-        dwellingFloor.addFlat(0, new Flat(4,4));
-        dwellingFloor.addFlat(0, new Flat(3,3));
-        dwellingFloor.addFlat(0, new Flat(2,2));
-        dwellingFloor.addFlat(0, new Flat(1,1));
+        dwellingFloor.addSpace(new Flat(5,5),0);
+        dwellingFloor.addSpace(new Flat(4,4),0);
+        dwellingFloor.addSpace(new Flat(3,3),0);
+        dwellingFloor.addSpace(new Flat(2,2),0);
+        dwellingFloor.addSpace(new Flat(1,1),0);
         System.out.println(dwellingFloor);
 
-        //dwellingFloor.addFlat(dwellingFloor.amount(), new Flat(10,1));
+        //dwellingFloor.addSpace(dwellingFloor.amount(), new Flat(10,1));
 
         System.out.println(dwellingFloor);
 
-        //dwellingFloor.removeFlat(dwellingFloor.amount()-1);
+        //dwellingFloor.removeSpace(dwellingFloor.amount()-1);
 
 
-        try {
-            System.out.println(dwellingFloor.getBestSpace());
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        System.out.println(dwellingFloor.getBestSpace());
 
     }
 
@@ -45,19 +43,19 @@ public class BuildingsTest {
         DwellingFloor[] floors = new DwellingFloor[3];
 
         floors[0] = new DwellingFloor(0);
-        floors[0].addFlat(0,new Flat(25,1));
-        floors[0].addFlat(0,new Flat(40,1));
-        floors[0].addFlat(0,new Flat(60,2));
+        floors[0].addSpace(new Flat(25,1),0);
+        floors[0].addSpace(new Flat(40,1),0);
+        floors[0].addSpace(new Flat(60,2),0);
 
         floors[1] = new DwellingFloor(0);
-        floors[1].addFlat(0,new Flat(20,1));
-        floors[1].addFlat(0,new Flat(30,2));
-        floors[1].addFlat(0,new Flat(55,3));
+        floors[1].addSpace(new Flat(20,1),0);
+        floors[1].addSpace(new Flat(30,2),0);
+        floors[1].addSpace(new Flat(55,3),0);
 
         floors[2] = new DwellingFloor(0);
-        floors[2].addFlat(0,new Flat(20,1));
-        floors[2].addFlat(0,new Flat(45,1));
-        floors[2].addFlat(0,new Flat(85,3));
+        floors[2].addSpace(new Flat(20,1),0);
+        floors[2].addSpace(new Flat(45,1),0);
+        floors[2].addSpace(new Flat(85,3),0);
 
         //Dwelling dwell = new Dwelling(3, new int[]{2,3,3});
         Dwelling dwell = new Dwelling(floors);
@@ -71,10 +69,10 @@ public class BuildingsTest {
 
         System.out.println("New Dwelling: \n" + dwell + "\n");
 
-        //dwell.addFlat(9, new Flat(666,6));
+        //dwell.addSpace(9, new Flat(666,6));
 
-        //dwell.removeFlat(9);
-        //dwell.removeFlat(dwell.flatsAmount());
+        //dwell.removeSpace(9);
+        //dwell.removeSpace(dwell.flatsAmount());
 
         System.out.println(dwell);
         try {
@@ -83,7 +81,7 @@ public class BuildingsTest {
             e.printStackTrace();
         }
 
-        Flat[] sortedFlats = new Flat[0];
+        Space[] sortedFlats = new Flat[0];
         try {
             sortedFlats = dwell.getSortedFlat();
         } catch (CloneNotSupportedException e) {
@@ -108,11 +106,11 @@ public class BuildingsTest {
         OfficeFloor ofFloor = new OfficeFloor(offices);
 
         System.out.println("REM:\n");
-        ofFloor.removeOffice(0);
+        ofFloor.removeSpace(0);
 
         System.out.println(ofFloor);
 
-        ofFloor.addOffice(new Office(123,1), ofFloor.amount());
+        ofFloor.addSpace(new Office(123,1), ofFloor.amount());
 
         System.out.println("Created office floor:\n" + ofFloor + "\n");
 
@@ -122,22 +120,22 @@ public class BuildingsTest {
         try {
 
             System.out.println(
-                  "get office:" + ofFloor.getOffice(ofFloor.amount()-1) + "\n"
+                  "get office:" + ofFloor.getSpace(ofFloor.amount()-1) + "\n"
             );
 
-            Office[] toArr = ofFloor.toArray();
+            Space[] toArr = ofFloor.toArray();
             System.out.println("TO ARR:");
             for (int i = 0; i < toArr.length; i++) {
                 System.out.println(toArr[i]);
             }
 
-            System.out.println("\nget Office :" + ofFloor.getOffice(ofFloor.amount()-1) + "\n");
+            System.out.println("\nget Office :" + ofFloor.getSpace(ofFloor.amount()-1) + "\n");
 
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
 
-        ofFloor.removeOffice(ofFloor.amount()-1);
+        ofFloor.removeSpace(ofFloor.amount()-1);
         System.out.println(ofFloor);
 
         System.out.println(
@@ -154,11 +152,11 @@ public class BuildingsTest {
 
         // creating test objects
 
-        OfficeFloor[] floorArr = new OfficeFloor[3];
+        OfficeFloor[] floorArr = new OfficeFloor[5];
 
         int c = 1;
         for (int i = 0; i < floorArr.length; i++) {
-            floorArr[i] = getFloor(3, c);
+            floorArr[i] = getFloor(1, c);
             c+= floorArr[i].amount();
         }
 
@@ -168,13 +166,11 @@ public class BuildingsTest {
 
         System.out.println(ob);
 
-        ob.testPrivateMethods();
-
-        //System.out.println("After tests:\n" + ob);
+        System.out.println("\n\nAfter tests:\n" + ob);
 
     }
 
-    private OfficeFloor getFloor (int n, int c) {
+    public static OfficeFloor getFloor (int n, int c) {
         Office[] arr = new Office[n];
         for (int i = 0; i < n; i++) {
             arr[i] = new Office(c * 100, c);

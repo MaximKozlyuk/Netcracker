@@ -17,7 +17,7 @@ public class DwellingFloorTest {
         DwellingFloor tester = new DwellingFloor(this.flats);
         int before, after;
         before = tester.amount();
-        tester.removeFlat(0);
+        tester.removeSpace(0);
         after = tester.amount();
         assertEquals(before-1, after);
     }

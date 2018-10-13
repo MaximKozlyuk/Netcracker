@@ -18,11 +18,10 @@ package com.company.buildings;
  * Создайте метод getBestSpace() получения самой большой по площади квартиры этажа.
  */
 
-public class DwellingFloor implements Cloneable {
+public class DwellingFloor implements Floor {
 
-    private Flat[] flats;
+    private Space[] flats;
 
-    // todo инициализация пустого массива   // resolved
     public DwellingFloor (int numOfFlat) {
         this(new Flat[numOfFlat]);
         for (int i = 0; i < flats.length; i++) {
@@ -54,65 +53,65 @@ public class DwellingFloor implements Cloneable {
         return a;
     }
 
-    public Flat[] toArray() throws CloneNotSupportedException {
-        Flat[] arr = new Flat[amount()];
+    public Space[] toArray() throws CloneNotSupportedException {
+        Space[] arr = new Space[amount()];
         int c = 0;
         for (int i = 0; i < flats.length; i++) {
-            arr[c++] = (Flat) flats[i].clone();
+            arr[c++] = flats[i];    // todo .clone()
         }
         return arr;
     }
 
-    public Flat getFlat (int num) throws IndexOutOfBoundsException, CloneNotSupportedException {
-        return (Flat)flats[num].clone();
+    public Space getSpace(int num) throws CloneNotSupportedException {
+        return flats[num];   // todo  .clone()
     }
 
-    public Flat setFlat (int n, Flat f) throws IndexOutOfBoundsException {
+    public Space setSpace (int n, Space f) throws IndexOutOfBoundsException {
         if (n < 0 || n >= flats.length) { throw new IndexOutOfBoundsException(); }
-        Flat oldFlat = flats[n];
+        Space oldFlat = flats[n];
         flats[n] = f;
         return oldFlat;
     }
 
     // todo test dat
     /** increase arr and insert new element, adding to o.amount() is valid **/
-    public void addFlat (int n, Flat f) throws NullPointerException, IndexOutOfBoundsException {
-        if (f == null) { throw new NullPointerException(); }
+    public void addSpace(Space s, int n) throws NullPointerException, IndexOutOfBoundsException {
+        if (s == null) { throw new NullPointerException(); }
         if (n < 0 || n > flats.length) { throw new IndexOutOfBoundsException(); }
         increaseArr();
         if (n == flats.length - 1) {
-            flats[flats.length -1] = f;
+            flats[flats.length -1] = s;
             return;
         }
         if (n == 0) {
             System.arraycopy(flats, 0,flats,1,flats.length-1);
-            flats[n] = f;
+            flats[n] = s;
             return;
         }
-        Flat[] newArr = new Flat[flats.length];
+        Space[] newArr = new Space[flats.length];
         System.arraycopy(flats,0,newArr,0,n);
-        newArr[n] = f;
+        newArr[n] = s;
         System.arraycopy(flats,n,newArr,n+1,flats.length - n -1);
         flats = newArr;
     }
 
     private void increaseArr () {
-        Flat[] newFlats = new Flat[flats.length + 1];
-        System.arraycopy(flats, 0, newFlats,0,flats.length);
-        flats = newFlats;
+        Space[] newSpaces = new Space[flats.length + 1];
+        System.arraycopy(flats, 0, newSpaces,0,flats.length);
+        flats = newSpaces;
     }
 
     // todo увеличение массива на 1 (номер квартиры меняется), вставка элемента, перевделать add remove set / resolved
     /** amount() -1 **/
-    public void removeFlat (int n) throws ArrayIndexOutOfBoundsException {
-        Flat[] newArr = new Flat[flats.length -1];
+    public void removeSpace(int n) {
+        Space[] newArr = new Space[flats.length -1];
         System.arraycopy(flats,0,newArr,0,n);
         System.arraycopy(flats,n+1, newArr,n,flats.length - n -1);
         flats = newArr;
     }
 
-    public Flat getBestSpace() throws CloneNotSupportedException {
-        Flat best = new Flat(-1, Integer.MIN_VALUE);
+    public Space getBestSpace() {
+        Space best = new Flat(-1, Integer.MIN_VALUE);
         for (int i = 0; i < flats.length; i++) {
             if (flats[i].getArea() > best.getArea()) {
                 best = flats[i];
@@ -121,12 +120,12 @@ public class DwellingFloor implements Cloneable {
         if (best.getArea() == -1) {
             return null;
         } else {
-            return (Flat) best.clone();
+            return best; // todo .clone()
         }
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         Flat[] f = new Flat[flats.length];
         System.arraycopy(flats,0,f,0,flats.length);
         return new DwellingFloor(f);

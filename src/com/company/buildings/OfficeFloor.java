@@ -23,7 +23,7 @@ package com.company.buildings;
  * Создайте метод getBestSpace() получения самого большого по площади офиса этажа.          // +
  */
 
-public class OfficeFloor {
+public class OfficeFloor implements Floor {
 
     private int size;
     private Node first;
@@ -38,7 +38,7 @@ public class OfficeFloor {
         }
     }
 
-    public OfficeFloor (Office[] offices) {
+    public OfficeFloor (Space[] offices) {
         first = new Node(null, null);
         first.next = first;
         for (int i = 0; i < offices.length; i++) {
@@ -46,7 +46,7 @@ public class OfficeFloor {
         }
     }
 
-    private void addNode (Office o, int n) {
+    private void addNode (Space o, int n) {
         temp = first;
         for (int i = 0; i < n; i++) {
             temp = temp.next;
@@ -96,43 +96,43 @@ public class OfficeFloor {
         return a;
     }
 
-    public Office[] toArray () throws CloneNotSupportedException {
-        Office[] arr = new Office[size];
+    public Space[] toArray () throws CloneNotSupportedException {
+        Space[] arr = new Space[size];
         temp = first.next;
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = (Office) temp.item.clone();
+            arr[i] = temp.item; // todo .clone()
             temp = temp.next;
         }
         return arr;
     }
 
-    public Office getOffice (int n) throws CloneNotSupportedException {
+    public Flat getSpace(int n) throws CloneNotSupportedException {
         if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
-        return (Office) getNode(n).item.clone();
+        return (Flat) getNode(n).item; // todo .clone()
     }
 
     // todo test
-    public Office setOffice (int n, Office o) {
+    public Space setSpace(int n, Space s) {
         if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
         temp = getNode(n);
-        Office oldOffice = temp.item;
-        temp.item = o;
+        Space oldOffice = temp.item;
+        temp.item = s;
         return oldOffice;
     }
 
-    public void addOffice (Office o, int n) {
+    public void addSpace(Space s, int n) {
         if (n < 0 || n > size) { throw new IndexOutOfBoundsException(); }
-        addNode(o,n);
+        addNode(s,n);
     }
 
-    public void removeOffice (int n) {
+    public void removeSpace(int n) {
         if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
         removeNode(n);
     }
 
-    public Office getBestSpace () {
+    public Space getBestSpace () {
         if (size == 0) { return null; }
-        Office o = first.next.item;
+        Space o = first.next.item;
         for (temp = first.next; temp != first; temp = temp.next) {
             if (o.getArea() < temp.item.getArea()) {
                 o = temp.item;
@@ -142,10 +142,10 @@ public class OfficeFloor {
     }
 
     private class Node {
-        private Office item;
+        private Space item;
         private Node next;
 
-        private Node(Office item, Node next) {
+        private Node(Space item, Node next) {
             this.item = item;
             this.next = next;
         }

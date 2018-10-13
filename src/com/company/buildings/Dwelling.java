@@ -103,7 +103,7 @@ public class Dwelling {
         int flatNumbers = 0;
         for (int i = 0; i < floors.length; i++) {
             if ((n < floors[i].amount()) && (flatNumbers < n)) {
-                //return floors[i].getFlat(n - flatNumbers);
+                //return floors[i].getSpace(n - flatNumbers);
             } else {
                 flatNumbers += floors[i].amount();
             }
@@ -116,7 +116,7 @@ public class Dwelling {
         int floorCount = 0;
         for (int i = 0; i < floors.length; i++) {
            if ((floorCount <= n) && (floorCount+floors[i].amount()-1 >= n)) {
-               floors[i].setFlat(n - floorCount, f);
+               floors[i].setSpace(n - floorCount, f);
                return;
            } else {
                floorCount += floors[i].amount();
@@ -128,12 +128,12 @@ public class Dwelling {
     public void addFlat (int n, Flat f) throws IndexOutOfBoundsException {
         int floorCount = 0;
         if (n == flatsAmount()) {
-            floors[floors.length-1].addFlat(floors[floors.length-1].amount(), f);
+            floors[floors.length-1].addSpace(f, floors[floors.length-1].amount());
             return;
         }
         for (int i = 0; i < floors.length; i++) {
             if ((floorCount <= n) && (floorCount+floors[i].amount()-1 >= n)) {
-                floors[i].addFlat(n - floorCount, f);
+                floors[i].addSpace(f,n - floorCount);
                 return;
             } else {
                 floorCount += floors[i].amount();
@@ -146,7 +146,7 @@ public class Dwelling {
         int floorCount = 0;
         for (int i = 0; i < floors.length; i++) {
             if ((floorCount <= n) && (floorCount+floors[i].amount()-1 >= n)) {
-                floors[i].removeFlat(n - floorCount);
+                floors[i].removeSpace(n - floorCount);
                 return;
             } else {
                 floorCount += floors[i].amount();
@@ -155,9 +155,9 @@ public class Dwelling {
         throw new IndexOutOfBoundsException("Index for flat set not found");
     }
 
-    public Flat getBestSpace () throws CloneNotSupportedException {
-        Flat best = new Flat(-1,1);
-        Flat newBest;
+    public Space getBestSpace () throws CloneNotSupportedException {
+        Space best = new Flat(-1,1);
+        Space newBest;
         for (int i = 0; i < floors.length; i++) {
             newBest = floors[i].getBestSpace();
             if (newBest.getArea() > best.getArea()) {
@@ -168,9 +168,9 @@ public class Dwelling {
         return best;
     }
         
-    public Flat[] getSortedFlat () throws CloneNotSupportedException {
-        Flat[] arr = new Flat[flatsAmount()];
-        Flat[] toAdd;
+    public Space[] getSortedFlat () throws CloneNotSupportedException {
+        Space[] arr = new Space[flatsAmount()];
+        Space[] toAdd;
         int c = 0;
         for (int i = 0; i < floors.length; i++) {
             toAdd = floors[i].toArray();
@@ -181,10 +181,10 @@ public class Dwelling {
         return arr;
     }
 
-    private static void quickSort(Flat[] a, int first, int last) {
+    private static void quickSort(Space[] a, int first, int last) {
         int i = first, j = last;
         double x = a[(first + last) / 2].getArea();
-        Flat temp;
+        Space temp;
         do {
             while (a[i].getArea() < x) i++;
             while (a[j].getArea() > x) j--;

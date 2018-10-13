@@ -14,7 +14,7 @@ package com.company.buildings;
  * Создайте метод изменения площади офиса.
  */
 
-public class Office {
+public class Office implements Space, Cloneable{
 
     private double area;
     private int numOfRooms;
@@ -47,8 +47,8 @@ public class Office {
         this.area = area;
     }
 
-    public void setNumOfRooms(int numOfRooms) {
-        this.numOfRooms = numOfRooms;
+    public void setNumOfRooms(int num) {
+        this.numOfRooms = num;
     }
 
     @Override

@@ -14,7 +14,7 @@ package com.company.buildings;
  * Создайте метод изменения площади квартиры.
  */
 
-public class Flat implements Cloneable{
+public class Flat implements Space, Cloneable{
 
     private double area;
     private int numOfRooms;
@@ -39,15 +39,15 @@ public class Flat implements Cloneable{
         return numOfRooms;
     }
 
-    public void setNumOfRooms(int numOfRooms) {
-        this.numOfRooms = numOfRooms;
+    public void setNumOfRooms(int num) {
+        this.numOfRooms = num;
     }
 
     public double getArea() {
         return area;
     }
 
-    public void setArea(int area) {
+    public void setArea(double area) {
         this.area = area;
     }
 
