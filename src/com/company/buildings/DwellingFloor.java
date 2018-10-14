@@ -66,18 +66,19 @@ public class DwellingFloor implements Floor {
         return flats[num];   // todo  .clone()
     }
 
-    public Space setSpace (int n, Space f) throws IndexOutOfBoundsException {
-        if (n < 0 || n >= flats.length) { throw new IndexOutOfBoundsException(); }
+    public Space setSpace (int n, Space s) {
+        if (s == null) { throw new NullPointerException(); }
+        if (n < 0 || n >= flats.length) { throw new FloorIndexOutOfBoundsException(); }
         Space oldFlat = flats[n];
-        flats[n] = f;
+        flats[n] = s;
         return oldFlat;
     }
 
     // todo test dat
     /** increase arr and insert new element, adding to o.amount() is valid **/
-    public void addSpace(Space s, int n) throws NullPointerException, IndexOutOfBoundsException {
+    public void addSpace(Space s, int n) throws NullPointerException {
         if (s == null) { throw new NullPointerException(); }
-        if (n < 0 || n > flats.length) { throw new IndexOutOfBoundsException(); }
+        if (n < 0 || n > flats.length) { throw new FloorIndexOutOfBoundsException(); }
         increaseArr();
         if (n == flats.length - 1) {
             flats[flats.length -1] = s;
@@ -104,6 +105,7 @@ public class DwellingFloor implements Floor {
     // todo увеличение массива на 1 (номер квартиры меняется), вставка элемента, перевделать add remove set / resolved
     /** amount() -1 **/
     public void removeSpace(int n) {
+        if (n < 0 || n > flats.length) { throw new FloorIndexOutOfBoundsException(); }
         Space[] newArr = new Space[flats.length -1];
         System.arraycopy(flats,0,newArr,0,n);
         System.arraycopy(flats,n+1, newArr,n,flats.length - n -1);

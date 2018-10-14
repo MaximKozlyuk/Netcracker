@@ -15,11 +15,40 @@ package com.company.buildings;
  * •	вставке помещения в здании по будущему номеру и ссылке на новое помещение,
  * •	удаления помещения из здания,
  * •	получения лучшего помещения в здании,
+ *
  * •	получения отсортированного массива всех помещений.
+ *
  * Классы зданий, соответственно, должны реализовывать интерфейс и работать со ссылками типа Space и Floor (с возможностью, например, заменить в офисном здании этаж на жилой).
  * Рекомендуется использовать возможности рефакторинга среды разработки.
  * Используйте методы, принимающие в качестве параметра массивы, как методы с аргументом переменной длины.
  **/
 
 public interface Building {
+
+    int floorsAmount ();
+
+    int spacesAmount ();
+
+    double totalArea ();
+
+    int totalRoomAmount ();
+
+    Floor[] getFloors();
+
+    Floor getFloor (int n);
+
+    Floor setFloor (Floor f, int n);
+
+    Space getSpace (int n) throws CloneNotSupportedException;
+
+    void setSpace (int n, Space s);
+
+    void addSpace (int n, Space s);
+
+    void removeSpace (int n);
+
+    Space getBestSpace () throws  CloneNotSupportedException;
+
+    Space[] getSortedSpaces() throws CloneNotSupportedException;
+
 }

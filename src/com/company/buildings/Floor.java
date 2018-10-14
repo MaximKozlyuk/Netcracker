@@ -34,5 +34,4 @@ public interface Floor {
     void removeSpace (int n);
 
     Space getBestSpace ();
-
 }

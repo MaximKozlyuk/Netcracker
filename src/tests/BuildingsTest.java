@@ -59,7 +59,7 @@ public class BuildingsTest {
 
         //Dwelling dwell = new Dwelling(3, new int[]{2,3,3});
         Dwelling dwell = new Dwelling(floors);
-        System.out.println(dwell.flatsAmount());
+        System.out.println(dwell.spacesAmount());
         System.out.println(dwell.floorsAmount());
         try {
             System.out.println(dwell.getBestSpace());
@@ -72,7 +72,7 @@ public class BuildingsTest {
         //dwell.addSpace(9, new Flat(666,6));
 
         //dwell.removeSpace(9);
-        //dwell.removeSpace(dwell.flatsAmount());
+        //dwell.removeSpace(dwell.spacesAmount());
 
         System.out.println(dwell);
         try {
@@ -83,7 +83,7 @@ public class BuildingsTest {
 
         Space[] sortedFlats = new Flat[0];
         try {
-            sortedFlats = dwell.getSortedFlat();
+            sortedFlats = dwell.getSortedSpaces();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }

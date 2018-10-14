@@ -31,6 +31,8 @@ public class Office implements Space, Cloneable{
     }
 
     public Office( double area, int numOfRooms) {
+        if (area <= 0) { throw new InvalidSpaceAreaException(); }
+        if (numOfRooms <=0) { throw new InvalidRoomsCountException(); }
         this.area = area;
         this.numOfRooms = numOfRooms;
     }
@@ -44,10 +46,12 @@ public class Office implements Space, Cloneable{
     }
 
     public void setArea(double area) {
+        if (area <= 0) { throw new InvalidSpaceAreaException(); }
         this.area = area;
     }
 
     public void setNumOfRooms(int num) {
+        if (numOfRooms <=0) { throw new InvalidRoomsCountException(); }
         this.numOfRooms = num;
     }
 

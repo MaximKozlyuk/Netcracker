@@ -31,6 +31,8 @@ public class Flat implements Space, Cloneable{
     }
 
     public Flat (double area, int numOfRooms) {
+        if (area <= 0) { throw new InvalidSpaceAreaException(); }
+        if (numOfRooms <=0) { throw new InvalidRoomsCountException(); }
         this.area = area;
         this.numOfRooms = numOfRooms;
     }
@@ -40,6 +42,7 @@ public class Flat implements Space, Cloneable{
     }
 
     public void setNumOfRooms(int num) {
+        if (num <=0) { throw new InvalidRoomsCountException(); }
         this.numOfRooms = num;
     }
 
@@ -48,6 +51,7 @@ public class Flat implements Space, Cloneable{
     }
 
     public void setArea(double area) {
+        if (area <= 0) { throw new InvalidSpaceAreaException(); }
         this.area = area;
     }
 
