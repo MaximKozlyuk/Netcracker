@@ -1,33 +1,61 @@
 package tests;
 
+import com.company.buildings.Building;
 import com.company.buildings.Buildings;
 import com.company.buildings.OfficeBuilding;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class BuildingsIOtest {
 
     static {
-        //StreamTokenizer st = new StreamTokenizer();
-        //OfficeBuilding ofBuild = BuildingsTest.getOfficeBuilding(3, new int[]{2,3,2});
-        //System.out.println(ofBuild);
+        /*      // стандартная практика работы с потоками
+        BufferedReader reader; //объявление ссылки на поток
+    try {
+      reader = new BufferedReader(new
+        FileReader("data.bin")); //открытие потока (инициализация)
+      //Чтение
+    }
+    catch(FileNotFoundException e) {
+      //обработка ошибки отсутствия файла
+    }
+    catch(IOException e) {
+      //обработка ошибок, связанных с чтением из файла
+    }
+    finally {
+      try {
+          if (reader !=null)
+              reader.close();
+      } catch {IOException) {
+           //обработка ошибок, связанных с закрытием потока чтения
+      }
+    }
+         */
     }
 
-    public BuildingsIOtest() {
-        try {
-            File f = File.createTempFile("test", "bak");
-            FileWriter fw = new FileWriter(f);
+    public static void outputBuildingTest() {
+        try (DataOutputStream out = new DataOutputStream(new FileOutputStream("OfficeBuilding.txt"))) {
 
-            Buildings.outputBuilding(
-                    BuildingsTest.getOfficeBuilding(3, new int[]{2,3,2}), fw
-            );
+            OfficeBuilding ob = BuildingsTest.getOfficeBuilding(5, new int[]{2,3,2,4,4});
 
-        } catch (IOException e) {
+            // символьно
+            Buildings.outputBuilding(ob, out);
+
+            out.flush();
+        }
+        catch(IOException e) {
             e.printStackTrace();
         }
-
-
     }
+
+    public static void inputBuildingTest () {
+        try (DataInputStream in = new DataInputStream(new FileInputStream("OfficeBuilding.txt"))) {
+            Building build = Buildings.inputBuilding(in);
+
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -51,4 +51,7 @@ public interface Building {
 
     Space[] getSortedSpaces() throws CloneNotSupportedException;
 
+
+    String toString();
+
 }

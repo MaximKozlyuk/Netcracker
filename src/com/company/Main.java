@@ -1,10 +1,8 @@
 package com.company;
 
 
-import com.company.buildings.Buildings;
+import tests.BuildingsIOtest;
 import tests.BuildingsTest;
-
-import java.util.LinkedList;
 
 public class Main {
 
@@ -18,7 +16,8 @@ public class Main {
         //test.officeFloorTest();
         //test.officeBuildingTest();
 
-        Buildings buildings = new Buildings();
+        BuildingsIOtest.outputBuildingTest();
+        BuildingsIOtest.inputBuildingTest();
 
     }
 }
