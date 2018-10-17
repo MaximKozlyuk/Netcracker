@@ -113,7 +113,9 @@ public class DwellingFloor implements Floor {
     }
 
     public Space getBestSpace() {
-        Space best = new Flat(-1, Integer.MIN_VALUE);
+        if (flats.length == 0) { return null; }
+        //Space best = new Flat(-1, Integer.MIN_VALUE);
+        Space best = flats[0];
         for (int i = 0; i < flats.length; i++) {
             if (flats[i].getArea() > best.getArea()) {
                 best = flats[i];

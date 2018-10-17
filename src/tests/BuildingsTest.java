@@ -179,4 +179,19 @@ public class BuildingsTest {
         return new OfficeFloor(arr);
     }
 
+    // todo test
+    public static OfficeBuilding getOfficeBuilding (int nFloors, int[] flats) {
+        int counter = 1;
+        OfficeFloor[] floors = new OfficeFloor[nFloors];
+        Office[] offices;
+        for (int i = 0; i < floors.length; i++) {
+            offices = new Office[flats[i]];
+            for (int j = 0; j < flats[i]; j++) {
+                offices[j] = new Office(counter * 100, counter++);
+            }
+            floors[i] = new OfficeFloor(offices);
+        }
+        return new OfficeBuilding(floors);
+    }
+
 }

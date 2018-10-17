@@ -169,10 +169,12 @@ public class Dwelling implements Building {
 
     @Override
     public Space getBestSpace () throws CloneNotSupportedException {
-        Space best = new Flat(-1,1);
+        if (floors.length == 0) { return null; }
+        Space best = (Space) floors[0].getSpace(0);
         Space newBest;
         for (int i = 0; i < floors.length; i++) {
             newBest = floors[i].getBestSpace();
+            if (newBest == null) { continue; }
             if (newBest.getArea() > best.getArea()) {
                 best = newBest;
             }
