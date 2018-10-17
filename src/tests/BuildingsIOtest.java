@@ -51,7 +51,8 @@ public class BuildingsIOtest {
     public static void inputBuildingTest () {
         try (DataInputStream in = new DataInputStream(new FileInputStream("OfficeBuilding.txt"))) {
             Building build = Buildings.inputBuilding(in);
-
+            System.out.println("AFTER!@#");
+            System.out.println(build);
         }
         catch(IOException e) {
             e.printStackTrace();
