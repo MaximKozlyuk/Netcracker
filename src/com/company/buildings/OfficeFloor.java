@@ -1,5 +1,7 @@
 package com.company.buildings;
 
+import java.io.Serializable;
+
 /**
  * Создайте класс OfficeFloor этажа офисного здания.
  * Работа класса должна быть основана на односвязном циклическом списке офисов с выделенной головой.
@@ -23,7 +25,9 @@ package com.company.buildings;
  * Создайте метод getBestSpace() получения самого большого по площади офиса этажа.
  */
 
-public class OfficeFloor implements Floor {
+public class OfficeFloor implements Floor, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int size;
     private Node first;
@@ -47,10 +51,11 @@ public class OfficeFloor implements Floor {
     }
 
     private void addNode (Space o, int n) {
-        temp = first;
-        for (int i = 0; i < n; i++) {
-            temp = temp.next;
-        }
+//        temp = first;
+//        for (int i = 0; i < n; i++) {
+//            temp = temp.next;
+//        }
+        temp = getNode(n);
         if (temp.next == first) {
             temp.next = new Node(o, first);
         } else {
@@ -59,7 +64,6 @@ public class OfficeFloor implements Floor {
         size++;
     }
 
-    // todo use in other methods
     private Node getNode (int n) {
         temp = first.next;
         for (int i = 0; i < n; i++) {
@@ -69,13 +73,12 @@ public class OfficeFloor implements Floor {
     }
 
     private void removeNode (int n) {
-        if (size == 0) { return; }  // todo exception
         temp = first;
         for (int i = 0; i < n; i++) {
             temp = temp.next;
         }
         temp.next = temp.next.next;
-        size--; // todo test remove with size --
+        size--;
     }
 
     public int amount () { return size; }
@@ -107,13 +110,13 @@ public class OfficeFloor implements Floor {
     }
 
     public Space getSpace(int n) throws CloneNotSupportedException {
-        if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
+        if (n < 0 || n >= size) { throw new SpaceIndexOutOfBoundsException("n < 0 or n > size"); }
         return getNode(n).item; // todo .clone()
     }
 
     // todo test
     public Space setSpace(int n, Space s) {
-        if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
+        if (n < 0 || n >= size) { throw new SpaceIndexOutOfBoundsException("n < 0 or n > size"); }
         temp = getNode(n);
         Space oldOffice = temp.item;
         temp.item = s;
@@ -121,12 +124,15 @@ public class OfficeFloor implements Floor {
     }
 
     public void addSpace(Space s, int n) {
-        if (n < 0 || n > size) { throw new IndexOutOfBoundsException(); }
+        if (n < 0 || n > size) { throw new SpaceIndexOutOfBoundsException("n < 0 or n > size"); }
         addNode(s,n);
     }
 
     public void removeSpace(int n) {
-        if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
+        if (n < 0 || n >= size) {
+            throw new SpaceIndexOutOfBoundsException("n < 0 or n > size");
+        }
+        if (size == 0) { throw new  SpaceIndexOutOfBoundsException("Nothing to remove"); }
         removeNode(n);
     }
 

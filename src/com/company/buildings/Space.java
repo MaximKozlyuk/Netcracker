@@ -1,6 +1,8 @@
 package com.company.buildings;
 
-public interface Space {
+import java.io.Serializable;
+
+public interface Space extends Serializable {
 
     int getNumOfRooms();
 

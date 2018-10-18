@@ -1,5 +1,7 @@
 package com.company.buildings;
 
+import java.io.Serializable;
+
 /**
  * Создайте класс OfficeBuilding офисного здания.
  * Работа класса должна быть основана на двусвязном циклическом списке этажей с выделенной головой.
@@ -29,7 +31,9 @@ package com.company.buildings;
  * Создайте метод получения отсортированного по убыванию площадей массива офисов.
  */
 
-public class OfficeBuilding implements Building {
+public class OfficeBuilding implements Building, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int size;
 
@@ -103,9 +107,8 @@ public class OfficeBuilding implements Building {
         size++;
     }
 
-    // todo = null to help GC
     private void removeNode (int n) {
-        if (size == 0) { return; } // todo exp
+        if (size == 0) { throw new FloorIndexOutOfBoundsException("Nothing to remove from list"); }
         if (n == 0) {
             temp = head.next.next;
             head.next.prev = null;
@@ -231,7 +234,7 @@ public class OfficeBuilding implements Building {
             }
             temp = temp.next;
         }
-        throw new IndexOutOfBoundsException("Index for flat set not found");
+        throw new SpaceIndexOutOfBoundsException("Index for flat set not found");
     }
 
     // todo add method getFloorWithSpace
@@ -249,7 +252,7 @@ public class OfficeBuilding implements Building {
             }
             temp = temp.next;
         }
-        throw new IndexOutOfBoundsException("Index for flat set not found");
+        throw new SpaceIndexOutOfBoundsException("Index for flat set not found");
     }
 
     @Override
@@ -266,7 +269,7 @@ public class OfficeBuilding implements Building {
             }
             temp = temp.next;
         }
-        throw new IndexOutOfBoundsException("Index for flat set not found");
+        throw new SpaceIndexOutOfBoundsException("Index for flat set not found");
     }
 
     @Override

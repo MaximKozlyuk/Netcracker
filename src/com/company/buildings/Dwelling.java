@@ -1,5 +1,7 @@
 package com.company.buildings;
 
+import java.io.Serializable;
+
 /**
  *Создайте публичный класс Dwelling жилого здания, основанный на массиве этажей здания.
  * Номер квартиры явно не хранится.
@@ -22,7 +24,9 @@ package com.company.buildings;
  * Создайте метод получения отсортированного по убыванию площадей массива квартир.
  */
 
-public class Dwelling implements Building {
+public class Dwelling implements Building, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Floor[] floors;
 
@@ -82,7 +86,7 @@ public class Dwelling implements Building {
         return c;
     }
 
-    // todo new arr
+    // todo new arr (older functionality might crash coz of copy)
     @Override
     public Floor[] getFloors() {
         return floors;

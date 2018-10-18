@@ -13,13 +13,13 @@ public class BuildingsIOtest {
     }
 
     public static void outputBuildingTest() {
-        try (DataOutputStream out = new DataOutputStream(new FileOutputStream("OfficeBuildingBin.txt"))) {
+        try (FileOutputStream fos = new FileOutputStream("OfficeBuildingBin.txt")) {
 
             OfficeBuilding ob = BuildingsTest.getOfficeBuilding(5, new int[]{2,3,2,4,4});
             //OfficeBuilding ob = BuildingsTest.getOfficeBuilding(7, new int[]{2,3,2,4,4,15,20});
-            Buildings.outputBuilding(ob, out);
+            Buildings.outputBuilding(ob, fos);
 
-            out.flush();
+            fos.flush();
         }
         catch(FileNotFoundException e) {
             System.out.println("File exception!");
@@ -73,6 +73,22 @@ public class BuildingsIOtest {
         catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void serializeBuildingTest () {
+        try (FileOutputStream fos = new FileOutputStream("OfficeBuildingSer")) {
+            OfficeBuilding ob = BuildingsTest.getOfficeBuilding(5, new int[]{2,3,2,4,4});
+            Buildings.serializeBuilding(ob, fos);
+            fos.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // TODO recode try's with resources
+
+    public static void deserializeBuildingTest () {
+
     }
 
 }

@@ -1,5 +1,7 @@
 package com.company.buildings;
 
+import java.io.Serializable;
+
 /**
  * Создайте класс Office офиса офисного здания.
  * Офис не хранит свой номер.
@@ -14,7 +16,9 @@ package com.company.buildings;
  * Создайте метод изменения площади офиса.
  */
 
-public class Office implements Space, Cloneable{
+public class Office implements Space, Cloneable, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private double area;
     private int numOfRooms;
@@ -64,5 +68,12 @@ public class Office implements Space, Cloneable{
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return new Office(area, numOfRooms);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Office)) { return false; }
+        Office o = (Office)obj;
+        return (area == o.area) && (numOfRooms == o.numOfRooms);
     }
 }

@@ -1,5 +1,9 @@
 package com.company.buildings;
 
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * Создайте публичный класс DwellingFloor этажа жилого здания, основанный на массиве квартир.
  * Номер квартиры явно не хранится.
@@ -18,7 +22,9 @@ package com.company.buildings;
  * Создайте метод getBestSpace() получения самой большой по площади квартиры этажа.
  */
 
-public class DwellingFloor implements Floor {
+public class DwellingFloor implements Floor, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Space[] flats;
 
@@ -146,5 +152,20 @@ public class DwellingFloor implements Floor {
             }
         }
         return s.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof DwellingFloor)) { return false; }
+        DwellingFloor df = (DwellingFloor) obj;
+        if (df.flats.length != flats.length) { return false; }
+
+        // todo google ways to do dat
+        //Arrays.stream(df.flats).allMatch( Flat f -> f.Contains())
+
+        for (int i = 0; i < flats.length; i++ ) {
+            if (flats[i].equals(df.flats[i])) { return false; }
+        }
+        return true;
     }
 }

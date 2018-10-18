@@ -1,5 +1,7 @@
 package com.company.buildings;
 
+import java.io.Serializable;
+
 /**
  * Создайте публичный класс Flat квартиры жилого дома.
  * Квартира не хранит свой номер.
@@ -14,7 +16,9 @@ package com.company.buildings;
  * Создайте метод изменения площади квартиры.
  */
 
-public class Flat implements Space, Cloneable{
+public class Flat implements Space, Cloneable, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private double area;
     private int numOfRooms;

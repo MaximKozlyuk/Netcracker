@@ -6,18 +6,18 @@ import java.io.*;
 import java.util.function.Predicate;
 
 /**
- *Создайте отдельный класс Buildings, работающий со ссылками типа Space, Floor, Building,
+ * Создайте отдельный класс Buildings, работающий со ссылками типа Space, Floor, Building,
  * содержащий статические методы ввода-вывода зданий:
- *
+ * <p>
  * •	записи данных о здании в байтовый поток
  * public static void outputBuilding (Building building, OutputStream out);
- *
+ * <p>
  * •	чтения данных о здании из байтового потока
  * public static Building inputBuilding (InputStream in);
- *
+ * <p>
  * •	записи здания в символьный поток
  * public static void writeBuilding (Building building, Writer out);
- *
+ * <p>
  * •	чтения здания из символьного потока
  * public static Building readBuilding (Reader in).
  * Записанные данные о здании представляет собой последовательность чисел,
@@ -29,10 +29,10 @@ import java.util.function.Predicate;
  * Для чтения этажа из символьного потока можно использовать StreamTokenizer.
  * Проверьте возможности всех реализованных методов,
  * в качестве реальных потоков используя файловые потоки, а также потоки System.in и System.out.
- *
+ * <p>
  * •	сериализации здания в байтовый поток
  * public static void serializeBuilding (Building building, OutputStream out);
- *
+ * <p>
  * •	десериализации здания из байтового потока
  * public static Building deserializeBuilding (InputStream in);
  **/
@@ -43,24 +43,27 @@ public class Buildings {
 
     }
 
-    /** example:
-        D 3     // Dwelling 3 floors
-        20.0 2 30.0 3
-        40.0 4 50.0 60.0                    // [area roomAmount] [area roomAmount] [area roomAmount]
-        70.0 7 80.0 8 90.0 9 100.0 10
+    /**
+     * example:
+     * D 3     // Dwelling 3 floors
+     * 20.0 2 30.0 3
+     * 40.0 4 50.0 60.0                    // [area roomAmount] [area roomAmount] [area roomAmount]
+     * 70.0 7 80.0 8 90.0 9 100.0 10
      */
-    public static void outputBuilding (Building building, OutputStream out) {
-        try {
+    public static void outputBuilding(Building building, OutputStream out) {
+        try (DataOutputStream dos = new DataOutputStream(out)) {
             byte[] values = buildingToStr(building).getBytes();
             for (byte v : values) {
-                out.write(v);
+                dos.write(v);
             }
+            dos.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static Building inputBuilding (InputStream in) {
+    // todo recode in
+    public static Building inputBuilding(InputStream in) {
         Building building = null;
         try (Reader r = new BufferedReader(new InputStreamReader(in))) {
 
@@ -73,23 +76,6 @@ public class Buildings {
 
             StreamTokenizer st = new StreamTokenizer(r);
 
-//            st.eolIsSignificant(true);
-//            st.nextToken();
-//            if (st.sval.equals("O")) {
-//                st.nextToken();
-//                OfficeFloor[] floors = new OfficeFloor[(int)st.nval];
-//                for (int i = 0; i < floors.length; i++) {
-//                    floors[i] = new OfficeFloor(0);
-//                }
-//                building = new OfficeBuilding(floors);
-//                fillFloorsWithSpaces(true, building, st);
-//            } else {
-//                st.nextToken();
-//                DwellingFloor[] floors = new DwellingFloor[(int)st.nval];
-//                building = new Dwelling(floors);
-//                fillFloorsWithSpaces(false, building, st);
-//            }
-
             building = parseBuilding(st);
 
         } catch (IOException e) {
@@ -98,13 +84,13 @@ public class Buildings {
         return building;
     }
 
-    private static Building parseBuilding (StreamTokenizer st) throws IOException {
+    private static Building parseBuilding(StreamTokenizer st) throws IOException {
         Building building;
         st.eolIsSignificant(true);
         st.nextToken();
         if (st.sval.equals("O")) {
             st.nextToken();
-            OfficeFloor[] floors = new OfficeFloor[(int)st.nval];
+            OfficeFloor[] floors = new OfficeFloor[(int) st.nval];
             for (int i = 0; i < floors.length; i++) {
                 floors[i] = new OfficeFloor(0);
             }
@@ -112,7 +98,7 @@ public class Buildings {
             fillFloorsWithSpaces(true, building, st);
         } else {
             st.nextToken();
-            DwellingFloor[] floors = new DwellingFloor[(int)st.nval];
+            DwellingFloor[] floors = new DwellingFloor[(int) st.nval];
             for (int i = 0; i < floors.length; i++) {
                 floors[i] = new DwellingFloor(0);
             }
@@ -122,19 +108,20 @@ public class Buildings {
         return building;
     }
 
-    private static void fillFloorsWithSpaces (boolean type, Building b, StreamTokenizer st) throws IOException {
+    private static void fillFloorsWithSpaces(boolean type, Building b, StreamTokenizer st) throws IOException {
         int floorCounter = 0, spaceCounter = 0, numOfRooms;
         double area;
         Floor[] floors = b.getFloors();
         st.nextToken();
-        floors : for (; ;) {
+        floors:
+        for (; ; ) {
             while (st.nextToken() != StreamTokenizer.TT_EOL) {
                 if (st.ttype == StreamTokenizer.TT_EOF) {
-                    break floors;   // kostil
+                    break floors;
                 }
                 area = st.nval;
                 st.nextToken();
-                numOfRooms = (int)st.nval;
+                numOfRooms = (int) st.nval;
                 floors[floorCounter].addSpace(getNewSpace(type, area, numOfRooms), floors[floorCounter].amount());
                 spaceCounter++;
             }
@@ -142,15 +129,16 @@ public class Buildings {
         }
     }
 
-    private static Space getNewSpace (boolean type, double area, int numOfRooms) {
+    private static Space getNewSpace(boolean type, double area, int numOfRooms) {
         if (type) {
-            return new Office(area,numOfRooms);
+            return new Office(area, numOfRooms);
         } else {
-            return new Flat(area,numOfRooms);
+            return new Flat(area, numOfRooms);
         }
     }
 
-    public static void writeBuilding (Building building, Writer out) {
+    // todo recode out
+    public static void writeBuilding(Building building, Writer out) {
         try {
             String strBuild = buildingToStr(building);
             char[] values = strBuild.toCharArray();
@@ -160,7 +148,7 @@ public class Buildings {
         }
     }
 
-    private static String buildingToStr (Building building) {
+    private static String buildingToStr(Building building) {
 //        if (building == null) {
 //            try {
 //                out.write("null".getBytes());
@@ -191,7 +179,7 @@ public class Buildings {
         return s.toString();
     }
 
-    public static Building readBuilding (Reader in) {
+    public static Building readBuilding(Reader in) {
         Building building = null;
         try {
             StreamTokenizer st = new StreamTokenizer(in);
@@ -204,11 +192,13 @@ public class Buildings {
         return building;
     }
 
-    public static void serializeBuilding (Building building, OutputStream out) {
+    public static void serializeBuilding(Building building, OutputStream out) throws IOException {
+        ObjectOutputStream oos = (ObjectOutputStream) out;
+        oos.writeObject(building);
 
     }
 
-    public static Building deserializeBuilding (InputStream in) {
+    public static Building deserializeBuilding(InputStream in) {
         return null;
     }
 

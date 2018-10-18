@@ -1,5 +1,7 @@
 package com.company.buildings;
 
+import java.io.Serializable;
+
 /**
  *Создайте интерфейс Floor этажа здания, работающий со ссылками типа Flat.
  * Интерфейс должен соответствовать общей функциональности DwellingFloor и OfficeFloor и должен содержать следующие  методы:
@@ -15,7 +17,7 @@ package com.company.buildings;
  * Классы, соответственно, должны реализовывать интерфейс и работать со ссылками типа Flat (с возможностью, например, добавить на жилой этаж офисное помещение).
  **/
 
-public interface Floor {
+public interface Floor extends Serializable {
 
     int amount ();
 

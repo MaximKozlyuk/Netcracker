@@ -1,5 +1,7 @@
 package com.company.buildings;
 
+import java.io.Serializable;
+
 /**
  *Создайте интерфейс Building здания, работающий со ссылками типа Floor и Space.
  * Интерфейс соответствует общей функциональности Dwelling и OfficeBuilding и должен содержать следующие методы:
@@ -23,7 +25,8 @@ package com.company.buildings;
  * Используйте методы, принимающие в качестве параметра массивы, как методы с аргументом переменной длины.
  **/
 
-public interface Building {
+// extends Serializable
+public interface Building extends Serializable {
 
     int floorsAmount ();
 
