@@ -16,8 +16,13 @@ public class Main {
         //test.officeFloorTest();
         //test.officeBuildingTest();
 
+        // lab 4
+
         BuildingsIOtest.outputBuildingTest();
         BuildingsIOtest.inputBuildingTest();
+
+        BuildingsIOtest.writeBuildingTest();
+        BuildingsIOtest.readBuildingTest();
 
     }
 }

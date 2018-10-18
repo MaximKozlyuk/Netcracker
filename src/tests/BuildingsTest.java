@@ -95,60 +95,53 @@ public class BuildingsTest {
     }
 
     public void officeFloorTest () {
-        Office[] offices = new Office[5];
-        offices[0] = new Office(100,1);
-        offices[1] = new Office(200,2);
-        offices[2] = new Office(300,3);
-        offices[3] = new Office(400,4);
-        offices[4] = new Office(500,5);
+        System.out.println("OFFICE FLOOR TEST");
+        OfficeFloor floor = getFloor(5,1);
 
-        //OfficeFloor ofFloor = new OfficeFloor(5);
-        OfficeFloor ofFloor = new OfficeFloor(offices);
-
-        System.out.println("REM:\n");
-        ofFloor.removeSpace(0);
-
-        System.out.println(ofFloor);
-
-        ofFloor.addSpace(new Office(123,1), ofFloor.amount());
-
-        System.out.println("Created office floor:\n" + ofFloor + "\n");
-
-        System.out.println(ofFloor.totalArea());
-        System.out.println(ofFloor.totalRoomAmount());
+        System.out.println(floor.amount());
+        System.out.println(floor.totalArea());
+        System.out.println(floor.totalRoomAmount());
 
         try {
-
-            System.out.println(
-                  "get office:" + ofFloor.getSpace(ofFloor.amount()-1) + "\n"
-            );
-
-            Space[] toArr = ofFloor.toArray();
-            System.out.println("TO ARR:");
-            for (int i = 0; i < toArr.length; i++) {
-                System.out.println(toArr[i]);
+            Space[] spaces = floor.toArray();
+            System.out.println("\nto array test:");
+            for (Space s : spaces) {
+                System.out.println(s);
             }
-
-            System.out.println("\nget Office :" + ofFloor.getSpace(ofFloor.amount()-1) + "\n");
-
+            System.out.println();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
 
-        ofFloor.removeSpace(ofFloor.amount()-1);
-        System.out.println(ofFloor);
+        System.out.println("best floor space: " + floor.getBestSpace() + "\n");
 
-        System.out.println(
-                "best space:" + ofFloor.getBestSpace()
-        );
+        floor.addSpace(new Flat(30,1), 0);
+        floor.addSpace(new Flat(30,1), floor.amount());
+        floor.addSpace(new Flat(30,1), floor.amount()-3);
 
-        System.out.println(
-                new OfficeFloor(1).getBestSpace()
-        );
+        floor.removeSpace(0);
+        floor.removeSpace(floor.amount()-1);
+        floor.removeSpace(floor.amount()-3);
+
+//        while (floor.amount() != 0) {
+//            floor.removeSpace(0);
+//        }
+
+        System.out.println(floor);
+
+        System.out.println("\nTEST 2");
+        OfficeFloor floor2 = new OfficeFloor(0);
+
+        floor2.addSpace(new Office(10,1), floor2.amount());
+        floor2.addSpace(new Office(20,2), floor2.amount());
+        floor2.addSpace(new Office(30,3), floor2.amount());
+
+        System.out.println(floor2);
 
     }
 
     public void officeBuildingTest () {
+        System.out.println("OFFICE BUILDING TEST");
 
         // creating test objects
 
@@ -168,6 +161,8 @@ public class BuildingsTest {
 
         System.out.println("\n\nAfter tests:\n" + ob);
 
+        System.out.println(getOfficeBuilding(3, new int[]{2,3,4}));
+
     }
 
     public static OfficeFloor getFloor (int n, int c) {
@@ -179,7 +174,6 @@ public class BuildingsTest {
         return new OfficeFloor(arr);
     }
 
-    // todo test
     public static OfficeBuilding getOfficeBuilding (int nFloors, int[] flats) {
         int counter = 1;
         OfficeFloor[] floors = new OfficeFloor[nFloors];

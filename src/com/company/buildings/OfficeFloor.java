@@ -106,9 +106,9 @@ public class OfficeFloor implements Floor {
         return arr;
     }
 
-    public Flat getSpace(int n) throws CloneNotSupportedException {
+    public Space getSpace(int n) throws CloneNotSupportedException {
         if (n < 0 || n >= size) { throw new IndexOutOfBoundsException(); }
-        return (Flat) getNode(n).item; // todo .clone()
+        return getNode(n).item; // todo .clone()
     }
 
     // todo test

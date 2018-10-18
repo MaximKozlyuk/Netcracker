@@ -50,37 +50,8 @@ public class Buildings {
         70.0 7 80.0 8 90.0 9 100.0 10
      */
     public static void outputBuilding (Building building, OutputStream out) {
-        if (building == null) {
-            try {
-                out.write("null".getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
-
-        StringBuilder s = new StringBuilder();
-        Space[] spaceArr = null;
-        if (building instanceof Dwelling) {
-            s.append("D ");
-        } else {
-            s.append("O ");
-        }
-        s.append(building.floorsAmount()).append("\n");
-        for (int i = 0; i < building.floorsAmount(); i++) { // over floors
-            try {
-                spaceArr = building.getFloor(i).toArray();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-            for (Space space : spaceArr) {  // over spaces on floor
-                s.append(space.getArea()).append(" ").append(space.getNumOfRooms()).append(" ");
-            }
-            s.append("\n");
-        }
-
         try {
-            byte[] values = s.toString().getBytes();
+            byte[] values = buildingToStr(building).getBytes();
             for (byte v : values) {
                 out.write(v);
             }
@@ -101,23 +72,52 @@ public class Buildings {
             */
 
             StreamTokenizer st = new StreamTokenizer(r);
-            st.eolIsSignificant(true);
-            st.nextToken();
-            if (st.sval.equals("O")) {
-                st.nextToken();
-                OfficeFloor[] floors = new OfficeFloor[(int)st.nval];
-                        // TODO INIT floors
-                building = new OfficeBuilding(floors);
-                fillFloorsWithSpaces(true, building, st);
-            } else {
-                st.nextToken();
-                DwellingFloor[] floors = new DwellingFloor[(int)st.nval];
-                building = new Dwelling(floors);
-                fillFloorsWithSpaces(false, building, st);
-            }
+
+//            st.eolIsSignificant(true);
+//            st.nextToken();
+//            if (st.sval.equals("O")) {
+//                st.nextToken();
+//                OfficeFloor[] floors = new OfficeFloor[(int)st.nval];
+//                for (int i = 0; i < floors.length; i++) {
+//                    floors[i] = new OfficeFloor(0);
+//                }
+//                building = new OfficeBuilding(floors);
+//                fillFloorsWithSpaces(true, building, st);
+//            } else {
+//                st.nextToken();
+//                DwellingFloor[] floors = new DwellingFloor[(int)st.nval];
+//                building = new Dwelling(floors);
+//                fillFloorsWithSpaces(false, building, st);
+//            }
+
+            building = parseBuilding(st);
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return building;
+    }
+
+    private static Building parseBuilding (StreamTokenizer st) throws IOException {
+        Building building;
+        st.eolIsSignificant(true);
+        st.nextToken();
+        if (st.sval.equals("O")) {
+            st.nextToken();
+            OfficeFloor[] floors = new OfficeFloor[(int)st.nval];
+            for (int i = 0; i < floors.length; i++) {
+                floors[i] = new OfficeFloor(0);
+            }
+            building = new OfficeBuilding(floors);
+            fillFloorsWithSpaces(true, building, st);
+        } else {
+            st.nextToken();
+            DwellingFloor[] floors = new DwellingFloor[(int)st.nval];
+            for (int i = 0; i < floors.length; i++) {
+                floors[i] = new DwellingFloor(0);
+            }
+            building = new Dwelling(floors);
+            fillFloorsWithSpaces(false, building, st);
         }
         return building;
     }
@@ -127,14 +127,17 @@ public class Buildings {
         double area;
         Floor[] floors = b.getFloors();
         st.nextToken();
-        while (st.nextToken() != StreamTokenizer.TT_EOF) {
+        floors : for (; ;) {
             while (st.nextToken() != StreamTokenizer.TT_EOL) {
+                if (st.ttype == StreamTokenizer.TT_EOF) {
+                    break floors;   // kostil
+                }
                 area = st.nval;
                 st.nextToken();
                 numOfRooms = (int)st.nval;
-                floors[floorCounter].addSpace(getNewSpace(type, area, numOfRooms), spaceCounter++);
+                floors[floorCounter].addSpace(getNewSpace(type, area, numOfRooms), floors[floorCounter].amount());
+                spaceCounter++;
             }
-            spaceCounter = 0;
             floorCounter++;
         }
     }
@@ -148,11 +151,57 @@ public class Buildings {
     }
 
     public static void writeBuilding (Building building, Writer out) {
+        try {
+            String strBuild = buildingToStr(building);
+            char[] values = strBuild.toCharArray();
+            out.write(values);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private static String buildingToStr (Building building) {
+//        if (building == null) {
+//            try {
+//                out.write("null".getBytes());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return;
+//        }
+        StringBuilder s = new StringBuilder();
+        Space[] spaceArr = null;
+        if (building instanceof Dwelling) {
+            s.append("D ");
+        } else {
+            s.append("O ");
+        }
+        s.append(building.floorsAmount()).append("\n");
+        for (int i = 0; i < building.floorsAmount(); i++) { // over floors
+            try {
+                spaceArr = building.getFloor(i).toArray();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            for (Space space : spaceArr) {  // over spaces on floor
+                s.append(space.getArea()).append(" ").append(space.getNumOfRooms()).append(" ");
+            }
+            s.append("\n");
+        }
+        return s.toString();
     }
 
     public static Building readBuilding (Reader in) {
-        return null;
+        Building building = null;
+        try {
+            StreamTokenizer st = new StreamTokenizer(in);
+
+            building = parseBuilding(st);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return building;
     }
 
     public static void serializeBuilding (Building building, OutputStream out) {
