@@ -2,7 +2,7 @@ package tests;
 
 import com.company.buildings.Building;
 import com.company.buildings.Buildings;
-import com.company.buildings.OfficeBuilding;
+import com.company.buildings.office.OfficeBuilding;
 
 import java.io.*;
 
@@ -78,6 +78,7 @@ public class BuildingsIOtest {
     public static void serializeBuildingTest () {
         try (FileOutputStream fos = new FileOutputStream("OfficeBuildingSer")) {
             OfficeBuilding ob = BuildingsTest.getOfficeBuilding(5, new int[]{2,3,2,4,4});
+            //System.out.println("ob\n" + ob);
             Buildings.serializeBuilding(ob, fos);
             fos.flush();
         } catch (IOException e) {
@@ -85,10 +86,19 @@ public class BuildingsIOtest {
         }
     }
 
-    // TODO recode try's with resources
-
     public static void deserializeBuildingTest () {
-
+        try (FileInputStream fis = new FileInputStream("OfficeBuildingSer")) {
+            Building building = Buildings.deserializeBuilding(fis);
+            System.out.println("DESEREILIZED:");
+            System.out.println(building);
+        }
+        catch(FileNotFoundException e) {
+            System.out.println("File exception!");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

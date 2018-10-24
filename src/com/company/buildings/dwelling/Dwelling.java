@@ -1,6 +1,14 @@
-package com.company.buildings;
+package com.company.buildings.dwelling;
+
+import com.company.buildings.Building;
+import com.company.buildings.Floor;
+import com.company.buildings.Space;
+import com.company.buildings.SpaceSorter;
+import com.company.buildings.office.OfficeBuilding;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  *Создайте публичный класс Dwelling жилого здания, основанный на массиве этажей здания.
@@ -29,6 +37,10 @@ public class Dwelling implements Building, Serializable {
     private static final long serialVersionUID = 1L;
 
     private Floor[] floors;
+
+    public Dwelling () {
+        this(0, new int[]{});
+    }
 
     public Dwelling (int n, int[] f) {
         floors = new DwellingFloor[n];
@@ -202,6 +214,23 @@ public class Dwelling implements Building, Serializable {
     }
 
     @Override
+    public Iterator iterator() {
+        return new Iterator() {
+            int c = 0;
+
+            @Override
+            public boolean hasNext() {
+                return c < floors.length && floors.length != 0;
+            }
+
+            @Override
+            public Floor next() {
+                return floors[c++];
+            }
+        };
+    }
+
+    @Override
     public String toString() {
         StringBuilder s = new StringBuilder("Dwelling, ");
         s.append(floors.length).append(" floors, ").append(spacesAmount()).append(" flats\n");
@@ -211,11 +240,37 @@ public class Dwelling implements Building, Serializable {
         return s.toString();
     }
 
+    public boolean contains (Floor f) {
+        for (Object i : floors) {
+            if (i.equals(f)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) { return true; }
+        if (!(obj instanceof Dwelling)) { return false; }
+        Dwelling dw = (Dwelling) obj;
+        return Arrays.stream(dw.floors).allMatch(this::contains);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = floors.length;
+        for (int i = 0; i < floors.length; i++) {
+            hash ^= floors[i].hashCode();
+        }
+        return hash;
+    }
+
     @Override
     protected Object clone() throws CloneNotSupportedException {
         DwellingFloor[] newFloors = new DwellingFloor[floors.length];
         for (int i = 0; i < floors.length; i++) {
-            newFloors[i] = (DwellingFloor) floors[i]; // todo .clone()
+            newFloors[i] = (DwellingFloor)((DwellingFloor)floors[i]).clone();
         }
         return new Dwelling(newFloors);
     }

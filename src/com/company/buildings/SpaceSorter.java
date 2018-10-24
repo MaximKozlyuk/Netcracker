@@ -1,8 +1,8 @@
 package com.company.buildings;
 
-abstract class SpaceSorter {
+public abstract class SpaceSorter {
 
-    static void quickSort(Space[] a, int first, int last) {
+    public static void quickSort(Space[] a, int first, int last) {
         int i = first, j = last;
         double x = a[(first + last) / 2].getArea();
         Space temp;

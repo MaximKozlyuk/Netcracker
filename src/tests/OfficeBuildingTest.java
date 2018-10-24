@@ -1,7 +1,7 @@
 package tests;
 
-import com.company.buildings.OfficeBuilding;
-import com.company.buildings.OfficeFloor;
+import com.company.buildings.office.OfficeBuilding;
+import com.company.buildings.office.OfficeFloor;
 import org.junit.jupiter.api.Test;
 
 import static tests.BuildingsTest.getFloor;
@@ -12,9 +12,11 @@ public class OfficeBuildingTest {
     OfficeBuilding ob;
 
     @Test
-    public void testRemove() {
+    public void testIterator() {
         ob = getNewOfficeBuilding();
-
+        for (Object i : ob) {
+            System.out.println(i);
+        }
     }
 
     OfficeBuilding getNewOfficeBuilding () {

@@ -14,6 +14,8 @@ public class Main {
     public static void main(String[] args) {
 
         BuildingsTest test = new BuildingsTest();
+
+        BuildingsTest.spaceTests();
         //test.dwellingFloorTest();
         //test.tests();
         //test.testSetGetAdd();
@@ -23,13 +25,14 @@ public class Main {
 
         // lab 4
 
-        BuildingsIOtest.outputBuildingTest();
+//        BuildingsIOtest.outputBuildingTest();
 //        BuildingsIOtest.inputBuildingTest();
 
 //        BuildingsIOtest.writeBuildingTest();
 //        BuildingsIOtest.readBuildingTest();
 
-        //BuildingsIOtest.serializeBuildingTest();
+        BuildingsIOtest.serializeBuildingTest();
+        BuildingsIOtest.deserializeBuildingTest();
 
 
 //        int[] values = {1, 2, 3, 4, 5};

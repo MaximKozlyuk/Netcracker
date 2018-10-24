@@ -1,8 +1,12 @@
-package com.company.buildings;
+package com.company.buildings.dwelling;
+
+import com.company.buildings.Floor;
+import com.company.buildings.FloorIndexOutOfBoundsException;
+import com.company.buildings.Space;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Iterator;
 
 /**
  * Создайте публичный класс DwellingFloor этажа жилого здания, основанный на массиве квартир.
@@ -27,6 +31,11 @@ public class DwellingFloor implements Floor, Serializable {
     private static final long serialVersionUID = 1L;
 
     private Space[] flats;
+
+
+    public DwellingFloor () {
+        this(0);
+    }
 
     public DwellingFloor (int numOfFlat) {
         this(new Flat[numOfFlat]);
@@ -135,6 +144,23 @@ public class DwellingFloor implements Floor, Serializable {
     }
 
     @Override
+    public Iterator iterator() {
+        return new Iterator() {
+            int c = 0;
+
+            @Override
+            public boolean hasNext() {
+                return c < flats.length && flats.length != 0;
+            }
+
+            @Override
+            public Space next() {
+                return flats[c++];
+            }
+        };
+    }
+
+    @Override
     public Object clone() throws CloneNotSupportedException {
         Flat[] f = new Flat[flats.length];
         System.arraycopy(flats,0,f,0,flats.length);
@@ -155,17 +181,29 @@ public class DwellingFloor implements Floor, Serializable {
     }
 
     @Override
+    public int hashCode() {
+        int hash = flats.length;
+        for (int i = 0; i < flats.length; i++) {
+            hash ^= flats[i].hashCode();
+        }
+        return hash;
+    }
+
+    public boolean contains (Space s) {
+        for (Space flat : flats) {
+            if (flat.equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public boolean equals(Object obj) {
+        if (obj == this) { return true; }
         if (!(obj instanceof DwellingFloor)) { return false; }
         DwellingFloor df = (DwellingFloor) obj;
         if (df.flats.length != flats.length) { return false; }
-
-        // todo google ways to do dat
-        //Arrays.stream(df.flats).allMatch( Flat f -> f.Contains())
-
-        for (int i = 0; i < flats.length; i++ ) {
-            if (flats[i].equals(df.flats[i])) { return false; }
-        }
-        return true;
+        return Arrays.stream(df.flats).allMatch(this::contains);
     }
 }

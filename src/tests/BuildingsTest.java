@@ -1,6 +1,12 @@
 package tests;
 
 import com.company.buildings.*;
+import com.company.buildings.dwelling.Dwelling;
+import com.company.buildings.dwelling.DwellingFloor;
+import com.company.buildings.dwelling.Flat;
+import com.company.buildings.office.Office;
+import com.company.buildings.office.OfficeBuilding;
+import com.company.buildings.office.OfficeFloor;
 
 public class BuildingsTest {
 
@@ -157,11 +163,17 @@ public class BuildingsTest {
 
         // tests
 
-        System.out.println(ob);
+        System.out.println("on start:\n" + ob);
+
+        System.out.println(ob.spacesAmount());
+        System.out.println(ob.floorsAmount());
+
+        ob.addSpace(0, new Flat(30,1));
+        ob.addSpace(ob.floorsAmount(), new Flat(30,1));
 
         System.out.println("\n\nAfter tests:\n" + ob);
 
-        System.out.println(getOfficeBuilding(3, new int[]{2,3,4}));
+        //System.out.println(getOfficeBuilding(3, new int[]{2,3,4}));
 
     }
 
@@ -186,6 +198,17 @@ public class BuildingsTest {
             floors[i] = new OfficeFloor(offices);
         }
         return new OfficeBuilding(floors);
+    }
+
+    public static void spaceTests () {
+        Flat f1 = new Flat(25,1);
+        Flat f2 = new Flat(50,2);
+
+        Office o1 = new Office(100, 2);
+        Office o2 = new Office(101, 1);
+
+        System.out.println(f1.compareTo(f2));
+        System.out.println(o2.compareTo(o1));
     }
 
 }

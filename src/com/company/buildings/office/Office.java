@@ -1,4 +1,8 @@
-package com.company.buildings;
+package com.company.buildings.office;
+
+import com.company.buildings.InvalidRoomsCountException;
+import com.company.buildings.InvalidSpaceAreaException;
+import com.company.buildings.Space;
 
 import java.io.Serializable;
 
@@ -16,7 +20,7 @@ import java.io.Serializable;
  * Создайте метод изменения площади офиса.
  */
 
-public class Office implements Space, Cloneable, Serializable {
+public class Office implements Space {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,10 +63,8 @@ public class Office implements Space, Cloneable, Serializable {
         this.numOfRooms = num;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder s = new StringBuilder("office: area: ");
-        return s.append(area).append(" rooms: ").append(numOfRooms).toString();
+    public int hashCode() {
+        return Double.hashCode(area) ^ numOfRooms;
     }
 
     @Override
@@ -71,9 +73,16 @@ public class Office implements Space, Cloneable, Serializable {
     }
 
     @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder("office: area: ");
+        return s.append(area).append(" rooms: ").append(numOfRooms).toString();
+    }
+
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Office)) { return false; }
-        Office o = (Office)obj;
-        return (area == o.area) && (numOfRooms == o.numOfRooms);
+        if (obj == this) { return true; }
+        if (!(obj instanceof Space)) { return false; }
+        Space o = (Space)obj;
+        return (area == o.getArea()) && (numOfRooms == o.getNumOfRooms());
     }
 }

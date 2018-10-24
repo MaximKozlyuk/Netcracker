@@ -1,6 +1,13 @@
-package com.company.buildings;
+package com.company.buildings.office;
+
+import com.company.buildings.Floor;
+import com.company.buildings.Space;
+import com.company.buildings.SpaceIndexOutOfBoundsException;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.function.Consumer;
 
 /**
  * Создайте класс OfficeFloor этажа офисного здания.
@@ -25,7 +32,7 @@ import java.io.Serializable;
  * Создайте метод getBestSpace() получения самого большого по площади офиса этажа.
  */
 
-public class OfficeFloor implements Floor, Serializable {
+public class OfficeFloor implements Floor {
 
     private static final long serialVersionUID = 1L;
 
@@ -65,6 +72,9 @@ public class OfficeFloor implements Floor, Serializable {
     }
 
     private Node getNode (int n) {
+        if (n == 0) {
+            return first;
+        }
         temp = first.next;
         for (int i = 0; i < n; i++) {
             temp = temp.next;
@@ -99,7 +109,7 @@ public class OfficeFloor implements Floor, Serializable {
         return a;
     }
 
-    public Space[] toArray () throws CloneNotSupportedException {
+    public Space[] toArray () {
         Space[] arr = new Space[size];
         temp = first.next;
         for (int i = 0; i < arr.length; i++) {
@@ -132,7 +142,6 @@ public class OfficeFloor implements Floor, Serializable {
         if (n < 0 || n >= size) {
             throw new SpaceIndexOutOfBoundsException("n < 0 or n > size");
         }
-        if (size == 0) { throw new  SpaceIndexOutOfBoundsException("Nothing to remove"); }
         removeNode(n);
     }
 
@@ -147,7 +156,7 @@ public class OfficeFloor implements Floor, Serializable {
         return o;
     }
 
-    private class Node {
+    private class Node implements Serializable {
         private Space item;
         private Node next;
 
@@ -155,6 +164,52 @@ public class OfficeFloor implements Floor, Serializable {
             this.item = item;
             this.next = next;
         }
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new Iterator() {
+
+            Node temp = first;
+            int amount = 0;
+
+            @Override
+            public boolean hasNext() {
+                return amount < size && temp.next != null;
+            }
+
+            @Override
+            public Object next() {
+                amount++;
+                return (temp = temp.next).item;
+            }
+        };
+    }
+
+    public boolean contains (Space s) {
+        for (Object flat : this) {
+            if (flat.equals(s)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) { return true; }
+        if (!(obj instanceof OfficeFloor)) { return false; }
+        OfficeFloor of = (OfficeFloor) obj;
+        return Arrays.stream(of.toArray()).allMatch(this::contains);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = size;
+        for (Object i : this) {
+            hash ^= i.hashCode();
+        }
+        return hash;
     }
 
     @Override

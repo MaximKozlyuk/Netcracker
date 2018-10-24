@@ -1,6 +1,7 @@
 package com.company.buildings;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 /**
  *Создайте интерфейс Floor этажа здания, работающий со ссылками типа Flat.
@@ -17,7 +18,7 @@ import java.io.Serializable;
  * Классы, соответственно, должны реализовывать интерфейс и работать со ссылками типа Flat (с возможностью, например, добавить на жилой этаж офисное помещение).
  **/
 
-public interface Floor extends Serializable {
+public interface Floor extends Serializable, Iterable, Comparable, Cloneable {
 
     int amount ();
 
@@ -36,4 +37,11 @@ public interface Floor extends Serializable {
     void removeSpace (int n);
 
     Space getBestSpace ();
+
+    Iterator iterator();
+
+    @Override
+    default int compareTo(Object o) {
+        return 0;   // todo imp
+    }
 }

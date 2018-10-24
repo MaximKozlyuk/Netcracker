@@ -1,9 +1,13 @@
 package com.company.buildings;
 
-import tests.BuildingsTest;
+import com.company.buildings.dwelling.Dwelling;
+import com.company.buildings.dwelling.DwellingFloor;
+import com.company.buildings.dwelling.Flat;
+import com.company.buildings.office.Office;
+import com.company.buildings.office.OfficeBuilding;
+import com.company.buildings.office.OfficeFloor;
 
 import java.io.*;
-import java.util.function.Predicate;
 
 /**
  * Создайте отдельный класс Buildings, работающий со ссылками типа Space, Floor, Building,
@@ -37,6 +41,7 @@ import java.util.function.Predicate;
  * public static Building deserializeBuilding (InputStream in);
  **/
 
+// todo ser/de file with many of obj-s
 public class Buildings {
 
     static {
@@ -62,11 +67,9 @@ public class Buildings {
         }
     }
 
-    // todo recode in
     public static Building inputBuilding(InputStream in) {
         Building building = null;
         try (Reader r = new BufferedReader(new InputStreamReader(in))) {
-
             /*  // prints in
             byte[] data = new byte[in.available()];
             in.read(data);
@@ -75,7 +78,6 @@ public class Buildings {
             */
 
             StreamTokenizer st = new StreamTokenizer(r);
-
             building = parseBuilding(st);
 
         } catch (IOException e) {
@@ -109,9 +111,9 @@ public class Buildings {
     }
 
     private static void fillFloorsWithSpaces(boolean type, Building b, StreamTokenizer st) throws IOException {
-        int floorCounter = 0, spaceCounter = 0, numOfRooms;
+        int floorCounter = 0, numOfRooms;
         double area;
-        Floor[] floors = b.getFloors();
+        Floor[] floors = b.getFloors(); // todo clone danger
         st.nextToken();
         floors:
         for (; ; ) {
@@ -123,7 +125,6 @@ public class Buildings {
                 st.nextToken();
                 numOfRooms = (int) st.nval;
                 floors[floorCounter].addSpace(getNewSpace(type, area, numOfRooms), floors[floorCounter].amount());
-                spaceCounter++;
             }
             floorCounter++;
         }
@@ -137,7 +138,6 @@ public class Buildings {
         }
     }
 
-    // todo recode out
     public static void writeBuilding(Building building, Writer out) {
         try {
             String strBuild = buildingToStr(building);
@@ -193,12 +193,17 @@ public class Buildings {
     }
 
     public static void serializeBuilding(Building building, OutputStream out) throws IOException {
-        ObjectOutputStream oos = (ObjectOutputStream) out;
-        oos.writeObject(building);
-
+        try (ObjectOutputStream oos = new ObjectOutputStream(out)) {
+            oos.writeObject(building);
+        }
     }
 
     public static Building deserializeBuilding(InputStream in) {
+        try (ObjectInputStream ois = new ObjectInputStream(in)) {
+            return (Building)ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

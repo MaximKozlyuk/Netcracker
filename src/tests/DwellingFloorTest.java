@@ -1,15 +1,19 @@
 package tests;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.company.buildings.DwellingFloor;
-import com.company.buildings.Flat;
+import com.company.buildings.Space;
+import com.company.buildings.dwelling.DwellingFloor;
+import com.company.buildings.dwelling.Flat;
 import org.junit.jupiter.api.Test;
+
+import java.util.Iterator;
 
 public class DwellingFloorTest {
 
     private Flat[] flats;
-    private int flatsAmount = 5;
+    private int flatsAmount = 3;
 
     @Test
     public void testRemove() {
@@ -29,10 +33,27 @@ public class DwellingFloorTest {
         assertEquals(flatsAmount, tester.amount());
     }
 
+    @Test
+    public void testIterator() {
+        initFlats();
+        DwellingFloor tester = new DwellingFloor(this.flats);
+        for (Object aTester : tester) {
+            System.out.println(aTester);
+        }
+    }
+
+    @Test
+    public void testEquals() {
+        initFlats();
+        DwellingFloor tester1 = new DwellingFloor(this.flats);
+        DwellingFloor tester2 = new DwellingFloor(this.flats);
+        assertTrue(tester1.equals(tester2));
+    }
+
     void initFlats () {
         flats = new Flat[flatsAmount];
-        for (int i = 1; i< flatsAmount; i++) {
-            flats[i] = new Flat(10 * i, i);
+        for (int i = 1; i < flatsAmount + 1; i++) {
+            flats[i-1] = new Flat(10 * i, i);
         }
     }
 

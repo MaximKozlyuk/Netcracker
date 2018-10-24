@@ -1,6 +1,10 @@
-package com.company.buildings;
+package com.company.buildings.office;
+
+import com.company.buildings.*;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * Создайте класс OfficeBuilding офисного здания.
@@ -134,7 +138,7 @@ public class OfficeBuilding implements Building, Serializable {
         size--;
     }
 
-    private class Node {
+    private class Node implements Serializable {
         private Floor item;
         private Node prev;
         private Node next;
@@ -153,7 +157,8 @@ public class OfficeBuilding implements Building, Serializable {
 
     @Override
     public int spacesAmount() {
-        int a = 0;
+        if (size == 0) { return 0; }
+        int a = 1;
         for (temp = head.next; temp != head; temp = temp.next) {
             a += temp.item.amount();
         }
@@ -237,7 +242,7 @@ public class OfficeBuilding implements Building, Serializable {
         throw new SpaceIndexOutOfBoundsException("Index for flat set not found");
     }
 
-    // todo add method getFloorWithSpace
+    // todo add last debug
     @Override
     public void addSpace(int n, Space s) {
         if (n < 0 || n > spacesAmount()) { throw new SpaceIndexOutOfBoundsException(); }
@@ -297,6 +302,62 @@ public class OfficeBuilding implements Building, Serializable {
         }
         SpaceSorter.quickSort(spaces,0,spaces.length-1);
         return new Space[0];
+    }
+
+    public Floor[] toArray () {
+        Floor[] arr = new Floor[size];
+        Iterator i = this.iterator();
+        int c = 0;
+        while (i.hasNext()) {
+            arr[c] = (Floor) i.next();
+        }
+        return  arr;
+    }
+
+    @Override
+    public Iterator iterator() {
+        return new Iterator() {
+
+            Node temp = head;
+            int amount = 0;
+
+            @Override
+            public boolean hasNext() {
+                return amount < size && temp.next != null;
+            }
+
+            @Override
+            public Object next() {
+                amount++;
+                return (temp = temp.next).item;
+            }
+        };
+    }
+
+    public boolean contains (Floor f) {
+        for (Object i : this) {
+            if (i.equals(f)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) { return true; }
+        if (!(obj instanceof OfficeBuilding)) { return false; }
+        OfficeBuilding ob = (OfficeBuilding)obj;
+        return Arrays.stream(ob.toArray()).allMatch(this::contains);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = size;
+        for (Object i : this) {
+            hash ^= i.hashCode();
+        }
+        return hash;
     }
 
     @Override

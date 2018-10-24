@@ -1,6 +1,7 @@
 package com.company.buildings;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 /**
  *Создайте интерфейс Building здания, работающий со ссылками типа Floor и Space.
@@ -25,8 +26,7 @@ import java.io.Serializable;
  * Используйте методы, принимающие в качестве параметра массивы, как методы с аргументом переменной длины.
  **/
 
-// extends Serializable
-public interface Building extends Serializable {
+public interface Building extends Serializable, Iterable, Cloneable {
 
     int floorsAmount ();
 
@@ -54,6 +54,7 @@ public interface Building extends Serializable {
 
     Space[] getSortedSpaces() throws CloneNotSupportedException;
 
+    Iterator iterator();
 
     String toString();
 

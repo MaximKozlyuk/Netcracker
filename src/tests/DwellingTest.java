@@ -1,7 +1,7 @@
 package tests;
 
-import com.company.buildings.Dwelling;
-import com.company.buildings.DwellingFloor;
+import com.company.buildings.dwelling.Dwelling;
+import com.company.buildings.dwelling.DwellingFloor;
 import org.junit.jupiter.api.Test;
 
 public class DwellingTest {

@@ -1,4 +1,8 @@
-package com.company.buildings;
+package com.company.buildings.dwelling;
+
+import com.company.buildings.InvalidRoomsCountException;
+import com.company.buildings.InvalidSpaceAreaException;
+import com.company.buildings.Space;
 
 import java.io.Serializable;
 
@@ -16,7 +20,7 @@ import java.io.Serializable;
  * Создайте метод изменения площади квартиры.
  */
 
-public class Flat implements Space, Cloneable, Serializable {
+public class Flat implements Space {
 
     private static final long serialVersionUID = 1L;
 
@@ -59,16 +63,21 @@ public class Flat implements Space, Cloneable, Serializable {
         this.area = area;
     }
 
+    public int hashCode() {
+        return Double.hashCode(area) ^ numOfRooms;
+    }
+
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        return new Flat (area, numOfRooms);
+        return new Flat(area, numOfRooms);
     }
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == this) { return true; }
         if (!(obj instanceof Flat)) { return false; }
-        Flat o = (Flat)obj;
-        return (area == o.area) && (numOfRooms == o.numOfRooms);
+        Space o = (Space)obj;
+        return (area == o.getArea()) && (numOfRooms == o.getNumOfRooms());
     }
 
     @Override
