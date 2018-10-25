@@ -108,16 +108,12 @@ public class BuildingsTest {
         System.out.println(floor.totalArea());
         System.out.println(floor.totalRoomAmount());
 
-        try {
-            Space[] spaces = floor.toArray();
-            System.out.println("\nto array test:");
-            for (Space s : spaces) {
-                System.out.println(s);
-            }
-            System.out.println();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
+        Space[] spaces = floor.toArray();
+        System.out.println("\nto array test:");
+        for (Space s : spaces) {
+            System.out.println(s);
         }
+        System.out.println();
 
         System.out.println("best floor space: " + floor.getBestSpace() + "\n");
 

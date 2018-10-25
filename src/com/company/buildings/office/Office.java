@@ -68,7 +68,7 @@ public class Office implements Space {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         return new Office(area, numOfRooms);
     }
 

@@ -161,7 +161,7 @@ public class DwellingFloor implements Floor, Serializable {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         Flat[] f = new Flat[flats.length];
         System.arraycopy(flats,0,f,0,flats.length);
         return new DwellingFloor(f);

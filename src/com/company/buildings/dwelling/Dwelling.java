@@ -267,7 +267,7 @@ public class Dwelling implements Building, Serializable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         DwellingFloor[] newFloors = new DwellingFloor[floors.length];
         for (int i = 0; i < floors.length; i++) {
             newFloors[i] = (DwellingFloor)((DwellingFloor)floors[i]).clone();

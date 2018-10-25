@@ -58,4 +58,6 @@ public interface Building extends Serializable, Iterable, Cloneable {
 
     String toString();
 
+    Object clone();
+
 }

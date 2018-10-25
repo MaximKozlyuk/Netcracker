@@ -40,8 +40,17 @@ public interface Floor extends Serializable, Iterable, Comparable, Cloneable {
 
     Iterator iterator();
 
+    Object clone();
+
     @Override
     default int compareTo(Object o) {
-        return 0;   // todo imp
+        double q = ((Floor)o).amount();
+        if (amount() < q) {
+            return -1;
+        } else if (amount() == q) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 }

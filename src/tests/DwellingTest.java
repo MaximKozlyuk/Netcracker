@@ -4,21 +4,27 @@ import com.company.buildings.dwelling.Dwelling;
 import com.company.buildings.dwelling.DwellingFloor;
 import org.junit.jupiter.api.Test;
 
+import static junit.framework.TestCase.assertTrue;
+import static tests.DwellingFloorTest.getNewDwellingFloor;
+
 public class DwellingTest {
 
+    Dwelling dwell;
+
     @Test
-    public void testCreation() {
-         Dwelling dwell = getNewDwelling(3,3);
-        System.out.println(dwell);
+    public void testEqualsAndClone() {
+        dwell = getNewDwelling(5,2);
+        Dwelling dwell2 = getNewDwelling(5,2);
+        assertTrue(dwell.equals(dwell.clone()));
+        assertTrue(dwell.equals(dwell2));
     }
 
     static Dwelling getNewDwelling (int nFloors, int flatsAmountOnFloor) {
-        DwellingFloor[] floors = new DwellingFloor[nFloors];
+        DwellingFloor[] dw = new DwellingFloor[nFloors];
         for (int i = 0; i < nFloors; i++) {
-            floors[i] = DwellingFloorTest.getNewDwellingFloor(flatsAmountOnFloor);
+            dw[i] = getNewDwellingFloor(flatsAmountOnFloor);
         }
-        Dwelling dwell = new Dwelling(floors);
-        return dwell;
+        return new Dwelling(dw);
     }
 
 }

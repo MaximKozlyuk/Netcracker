@@ -7,7 +7,6 @@ import com.company.buildings.SpaceIndexOutOfBoundsException;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.function.Consumer;
 
 /**
  * Создайте класс OfficeFloor этажа офисного здания.
@@ -113,7 +112,7 @@ public class OfficeFloor implements Floor {
         Space[] arr = new Space[size];
         temp = first.next;
         for (int i = 0; i < arr.length; i++) {
-            arr[i] = temp.item; // todo .clone()
+            arr[i] = temp.item;
             temp = temp.next;
         }
         return arr;
@@ -167,8 +166,8 @@ public class OfficeFloor implements Floor {
     }
 
     @Override
-    public Iterator iterator() {
-        return new Iterator() {
+    public Iterator<Space> iterator() {
+        return new Iterator<Space>() {
 
             Node temp = first;
             int amount = 0;
@@ -179,7 +178,7 @@ public class OfficeFloor implements Floor {
             }
 
             @Override
-            public Object next() {
+            public Space next() {
                 amount++;
                 return (temp = temp.next).item;
             }
@@ -201,6 +200,15 @@ public class OfficeFloor implements Floor {
         if (!(obj instanceof OfficeFloor)) { return false; }
         OfficeFloor of = (OfficeFloor) obj;
         return Arrays.stream(of.toArray()).allMatch(this::contains);
+    }
+
+    @Override
+    public Object clone() {
+        Space[] spaces = this.toArray();
+        for (int i = 0; i < spaces.length; i++) {
+            spaces[i] = (Space)spaces[i].clone();
+        }
+        return new OfficeFloor(spaces);
     }
 
     @Override

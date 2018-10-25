@@ -309,7 +309,7 @@ public class OfficeBuilding implements Building, Serializable {
         Iterator i = this.iterator();
         int c = 0;
         while (i.hasNext()) {
-            arr[c] = (Floor) i.next();
+            arr[c++] = (Floor) i.next();
         }
         return  arr;
     }
@@ -344,11 +344,23 @@ public class OfficeBuilding implements Building, Serializable {
     }
 
     @Override
+    public Object clone() {
+        OfficeBuilding ob = new OfficeBuilding(0, new int[]{});
+        for (Object i : this) {
+            ob.addNode((Floor)((Floor)i).clone(),ob.size);
+        }
+        return ob;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) { return true; }
         if (!(obj instanceof OfficeBuilding)) { return false; }
         OfficeBuilding ob = (OfficeBuilding)obj;
-        return Arrays.stream(ob.toArray()).allMatch(this::contains);
+
+        Floor[] arr = this.toArray();
+
+        return Arrays.stream(arr).allMatch(this::contains);
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.company.buildings.office.OfficeBuilding;
 import com.company.buildings.office.OfficeFloor;
 
 import java.io.*;
+import java.util.Scanner;
 
 /**
  * Создайте отдельный класс Buildings, работающий со ссылками типа Space, Floor, Building,
@@ -205,6 +206,27 @@ public class Buildings {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     Добавьте метод текстовой записи для зданий класса Buildings,
+     использующий возможности форматированного вывода.
+     Перегрузите метод текстового чтения зданий класса Buildings таким образом,
+     чтобы он использовал возможности форматированного ввода и вывода и имел аргумент типа Scanner.
+     */
+    public static void writeBuildingFormat (Building building, Writer out) {
+        String[] name = building.getClass().getName().split("\\.");
+        ((PrintWriter) out).printf(
+                "%s %d\n", name[name.length-1], building.floorsAmount()
+        );
+        int counter = 0;
+        for (Object i : building) {
+            ((PrintWriter) out).printf("%s %d %f\n", "№" + counter++, ((Floor)i).amount(), ((Floor)i).totalArea());
+        }
+    }
+
+    public static void readBuilding (Scanner s) {
+
     }
 
 }

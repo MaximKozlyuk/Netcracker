@@ -1,9 +1,9 @@
 package com.company;
 
-
 import com.company.buildings.Buildings;
 import tests.BuildingsIOtest;
 import tests.BuildingsTest;
+import tests.OfficeBuildingTest;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class Main {
 
         BuildingsTest test = new BuildingsTest();
 
-        BuildingsTest.spaceTests();
+        //BuildingsTest.spaceTests();
         //test.dwellingFloorTest();
         //test.tests();
         //test.testSetGetAdd();
@@ -31,21 +31,13 @@ public class Main {
 //        BuildingsIOtest.writeBuildingTest();
 //        BuildingsIOtest.readBuildingTest();
 
-        BuildingsIOtest.serializeBuildingTest();
-        BuildingsIOtest.deserializeBuildingTest();
+//        BuildingsIOtest.serializeBuildingTest();
+//        BuildingsIOtest.deserializeBuildingTest();
 
+        BuildingsIOtest.writeBuildingFormatTest();
 
-//        int[] values = {1, 2, 3, 4, 5};
-//        try {
-//            ObjectOutputStream out = new
-//                    ObjectOutputStream(new
-//                    FileOutputStream("out.txt"));
-//            out.writeObject(values);
-//            out.close();
-//        }
-//        catch(IOException e) {
-//            System.out.println("Some error occurred!");
-//        }
+        // lab 5
+        //OfficeBuildingTest.testEquals();
 
 
     }

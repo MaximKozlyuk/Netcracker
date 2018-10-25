@@ -68,7 +68,7 @@ public class Flat implements Space {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() {
         return new Flat(area, numOfRooms);
     }
 

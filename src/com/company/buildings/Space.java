@@ -14,6 +14,8 @@ public interface Space extends Serializable, Comparable, Cloneable {
 
     void setArea(double area);
 
+    Object clone();
+
     @Override
     default int compareTo(Object o) {
         double a = ((Space)o).getArea();

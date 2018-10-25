@@ -46,10 +46,8 @@ public class BuildingsIOtest {
 
     public static void writeBuildingTest () {
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("OfficeBuildingChar.txt")))) {
-
             OfficeBuilding ob = BuildingsTest.getOfficeBuilding(5, new int[]{2,3,2,4,4});
             Buildings.writeBuilding(ob,out);
-
             out.flush();
         }
         catch (FileNotFoundException e) {
@@ -99,6 +97,16 @@ public class BuildingsIOtest {
         catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void writeBuildingFormatTest () {
+        OfficeBuilding ob = BuildingsTest.getOfficeBuilding(5, new int[]{2,3,2,4,4});
+        try (PrintWriter pw = new PrintWriter("formattedBuildingOut.txt")) {
+            Buildings.writeBuildingFormat(ob, pw);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

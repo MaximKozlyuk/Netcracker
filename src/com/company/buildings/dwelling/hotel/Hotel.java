@@ -4,6 +4,6 @@ import com.company.buildings.dwelling.Dwelling;
 
 public class Hotel extends Dwelling {
 
-
+    
 
 }

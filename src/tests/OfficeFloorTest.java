@@ -27,6 +27,15 @@ public class OfficeFloorTest {
         }
     }
 
+    @Test
+    public void testClone () {
+        initOffices();
+        OfficeFloor tester = new OfficeFloor(this.offices);
+        OfficeFloor clone = (OfficeFloor) tester.clone();
+        System.out.println(clone);
+        System.out.println(clone.equals(tester));
+    }
+
     void initOffices() {
         offices = new Office[officesAmount];
         for (int i = 1; i < officesAmount + 1; i++) {
