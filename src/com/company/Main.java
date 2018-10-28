@@ -8,6 +8,8 @@ import tests.OfficeBuildingTest;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -34,11 +36,13 @@ public class Main {
 //        BuildingsIOtest.serializeBuildingTest();
 //        BuildingsIOtest.deserializeBuildingTest();
 
-        BuildingsIOtest.writeBuildingFormatTest();
+        //BuildingsIOtest.writeBuildingFormatTest();
+        //BuildingsIOtest.readBuildingScannerTest();
 
         // lab 5
         //OfficeBuildingTest.testEquals();
 
+        // lab 6
 
     }
 }

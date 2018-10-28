@@ -5,6 +5,7 @@ import com.company.buildings.Buildings;
 import com.company.buildings.office.OfficeBuilding;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class BuildingsIOtest {
 
@@ -44,17 +45,14 @@ public class BuildingsIOtest {
         }
     }
 
-    public static void writeBuildingTest () {
-        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("OfficeBuildingChar.txt")))) {
+    public static void writeBuildingTest () {   // todo test
+        try (PrintWriter out = new PrintWriter("OfficeBuildingChar.txt")) {
             OfficeBuilding ob = BuildingsTest.getOfficeBuilding(5, new int[]{2,3,2,4,4});
             Buildings.writeBuilding(ob,out);
             out.flush();
         }
         catch (FileNotFoundException e) {
             System.out.println("File not found exp!");
-            e.printStackTrace();
-        }
-        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -107,6 +105,14 @@ public class BuildingsIOtest {
             e.printStackTrace();
         }
 
+    }
+
+    public static void readBuildingScannerTest() {
+        try (Scanner s = new Scanner(new File("OfficeBuildingChar.txt"))) {
+            System.out.println(Buildings.readBuilding(s));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

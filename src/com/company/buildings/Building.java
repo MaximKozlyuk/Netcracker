@@ -26,7 +26,9 @@ import java.util.Iterator;
  * Используйте методы, принимающие в качестве параметра массивы, как методы с аргументом переменной длины.
  **/
 
-public interface Building extends Serializable, Iterable, Cloneable {
+
+//  todo Iterable<Floor> in all classes and refactor
+public interface Building extends Serializable, Iterable<Floor>, Cloneable {
 
     int floorsAmount ();
 
@@ -54,7 +56,7 @@ public interface Building extends Serializable, Iterable, Cloneable {
 
     Space[] getSortedSpaces() throws CloneNotSupportedException;
 
-    Iterator iterator();
+    Iterator<Floor> iterator();
 
     String toString();
 

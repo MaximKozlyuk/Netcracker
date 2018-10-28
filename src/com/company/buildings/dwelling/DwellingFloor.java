@@ -44,7 +44,7 @@ public class DwellingFloor implements Floor, Serializable {
         }
     }
 
-    public DwellingFloor (Flat[] flats) {
+    public DwellingFloor (Space[] flats) {
         this.flats = flats;
     }
 
@@ -68,17 +68,17 @@ public class DwellingFloor implements Floor, Serializable {
         return a;
     }
 
-    public Space[] toArray() throws CloneNotSupportedException {
+    public Space[] toArray() {
         Space[] arr = new Space[amount()];
         int c = 0;
         for (int i = 0; i < flats.length; i++) {
-            arr[c++] = flats[i];    // todo .clone()
+            arr[c++] = flats[i];
         }
         return arr;
     }
 
-    public Space getSpace(int num) throws CloneNotSupportedException {
-        return flats[num];   // todo  .clone()
+    public Space getSpace(int num) {
+        return flats[num];
     }
 
     public Space setSpace (int n, Space s) {
@@ -89,7 +89,6 @@ public class DwellingFloor implements Floor, Serializable {
         return oldFlat;
     }
 
-    // todo test dat
     /** increase arr and insert new element, adding to o.amount() is valid **/
     public void addSpace(Space s, int n) throws NullPointerException {
         if (s == null) { throw new NullPointerException(); }
@@ -117,7 +116,6 @@ public class DwellingFloor implements Floor, Serializable {
         flats = newSpaces;
     }
 
-    // todo увеличение массива на 1 (номер квартиры меняется), вставка элемента, перевделать add remove set / resolved
     /** amount() -1 **/
     public void removeSpace(int n) {
         if (n < 0 || n > flats.length) { throw new FloorIndexOutOfBoundsException(); }
@@ -187,6 +185,10 @@ public class DwellingFloor implements Floor, Serializable {
             hash ^= flats[i].hashCode();
         }
         return hash;
+    }
+
+    public void clear () {
+        flats = new Flat[0];
     }
 
     public boolean contains (Space s) {

@@ -44,19 +44,28 @@ public class OfficeBuilding implements Building, Serializable {
     private Node head;
     private Node temp;
 
-    public OfficeBuilding (int n, int[] floors) {
+    public OfficeBuilding () {
         head = new Node(null, null, null);
         head.next = head;
         head.prev = head;
+    }
+
+    public OfficeBuilding (int n) {
+        this();
+        for (int i = 0; i < n; i++) {
+            addNode(new OfficeFloor(0), size);
+        }
+    }
+
+    public OfficeBuilding (int n, int[] floors) {
+        this();
         for (int i = 0; i < floors.length; i++) {
             addNode(new OfficeFloor(floors[i]),size);
         }
     }
 
     public OfficeBuilding (Floor[] floors) {
-        head = new Node(null, null, null);
-        head.next = head;
-        head.prev = head;
+        this();
         for (int i = 0; i < floors.length; i++) {
             addNode(floors[i],size);
         }
@@ -197,7 +206,7 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public Floor getFloor(int n) {
         if (n < 0 || n >= size) { throw new FloorIndexOutOfBoundsException(); }
-        return getNode(n).item; // todo clone()
+        return getNode(n).item;
     }
 
     @Override
@@ -246,14 +255,19 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public void addSpace(int n, Space s) {
         if (n < 0 || n > spacesAmount()) { throw new SpaceIndexOutOfBoundsException(); }
+        if (n == spacesAmount()) {
+            head.prev.item.addSpace(s, head.prev.item.amount());
+            return;
+        }
         temp = head.next;
-        int floorCount = 0;
+        int spaceCount = 0;
         for (int i = 0; i < size; i++) {
-            if ((floorCount <= n) && (floorCount+temp.item.amount()-1 >= n)) {
-                temp.item.addSpace(s,n - floorCount);
+            // && (spaceCount <= n)
+            if (spaceCount+temp.item.amount()-1 >= n) {
+                temp.item.addSpace(s,n - spaceCount);
                 return;
             } else {
-                floorCount += temp.item.amount();
+                spaceCount += temp.item.amount();
             }
             temp = temp.next;
         }
@@ -315,8 +329,8 @@ public class OfficeBuilding implements Building, Serializable {
     }
 
     @Override
-    public Iterator iterator() {
-        return new Iterator() {
+    public Iterator<Floor> iterator() {
+        return new Iterator<Floor>() {
 
             Node temp = head;
             int amount = 0;
@@ -327,7 +341,7 @@ public class OfficeBuilding implements Building, Serializable {
             }
 
             @Override
-            public Object next() {
+            public Floor next() {
                 amount++;
                 return (temp = temp.next).item;
             }
@@ -346,7 +360,7 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public Object clone() {
         OfficeBuilding ob = new OfficeBuilding(0, new int[]{});
-        for (Object i : this) {
+        for (Floor i : this) {
             ob.addNode((Floor)((Floor)i).clone(),ob.size);
         }
         return ob;
@@ -357,9 +371,7 @@ public class OfficeBuilding implements Building, Serializable {
         if (obj == this) { return true; }
         if (!(obj instanceof OfficeBuilding)) { return false; }
         OfficeBuilding ob = (OfficeBuilding)obj;
-
         Floor[] arr = this.toArray();
-
         return Arrays.stream(arr).allMatch(this::contains);
     }
 

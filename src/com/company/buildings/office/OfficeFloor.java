@@ -86,7 +86,7 @@ public class OfficeFloor implements Floor {
         for (int i = 0; i < n; i++) {
             temp = temp.next;
         }
-        temp.next = temp.next.next;
+        temp.next = temp.next.next; // todo help GC
         size--;
     }
 
@@ -209,6 +209,12 @@ public class OfficeFloor implements Floor {
             spaces[i] = (Space)spaces[i].clone();
         }
         return new OfficeFloor(spaces);
+    }
+
+    public void clear () {
+        while (size != 0) {
+            removeNode(0);
+        }
     }
 
     @Override

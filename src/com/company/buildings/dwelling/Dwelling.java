@@ -49,11 +49,11 @@ public class Dwelling implements Building, Serializable {
         }
     }
 
-    public Dwelling (DwellingFloor[] floors) {
+    public Dwelling (Floor[] floors) {
         this.floors = floors;
     }
 
-    // todo is null check necessary ?
+    // todo is check dat here is no null elements
     @Override
     public int floorsAmount () {
         int c = 0;
@@ -213,9 +213,13 @@ public class Dwelling implements Building, Serializable {
         return arr;
     }
 
+    public Floor[] toArray () {
+        return floors.clone();
+    }
+
     @Override
-    public Iterator iterator() {
-        return new Iterator() {
+    public Iterator<Floor> iterator() {
+        return new Iterator<Floor>() {
             int c = 0;
 
             @Override
@@ -268,7 +272,7 @@ public class Dwelling implements Building, Serializable {
 
     @Override
     public Object clone() {
-        DwellingFloor[] newFloors = new DwellingFloor[floors.length];
+        Floor[] newFloors = new Floor[floors.length];
         for (int i = 0; i < floors.length; i++) {
             newFloors[i] = (DwellingFloor)((DwellingFloor)floors[i]).clone();
         }

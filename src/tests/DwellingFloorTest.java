@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.company.buildings.Space;
 import com.company.buildings.dwelling.DwellingFloor;
 import com.company.buildings.dwelling.Flat;
+import com.company.buildings.office.Office;
 import junit.framework.TestCase;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ import java.util.Iterator;
 public class DwellingFloorTest extends TestCase {
 
     private Flat[] flats;
-    private int flatsAmount = 3;
+    private int flatsAmount = 6;
 
     @Test
     public void testRemove() {
@@ -58,6 +59,16 @@ public class DwellingFloorTest extends TestCase {
         assertTrue(tester1.equals(tester1.clone()));
     }
 
+    @Test
+    public void testAddSpace () {
+        initFlats();
+        DwellingFloor o = new DwellingFloor(this.flats);
+        o.addSpace(new Office(111, 1), 0);
+        o.addSpace(new Office(111, 1), o.amount());
+        o.addSpace(new Office(111, 1), o.amount()-3);
+        System.out.println(o);
+    }
+
     void initFlats () {
         flats = new Flat[flatsAmount];
         for (int i = 1; i < flatsAmount + 1; i++) {
@@ -68,7 +79,7 @@ public class DwellingFloorTest extends TestCase {
     static DwellingFloor getNewDwellingFloor (int nFlats) {
         DwellingFloor floor = new DwellingFloor(0);
         for (int i = 1; i < nFlats+1; i++) {
-            floor.addSpace(new Flat(1 * 100), i-1);
+            floor.addSpace(new Flat(i * 10), i-1);
         }
         return floor;
     }

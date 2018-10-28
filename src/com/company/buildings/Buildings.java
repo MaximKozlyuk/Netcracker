@@ -42,13 +42,21 @@ import java.util.Scanner;
  * public static Building deserializeBuilding (InputStream in);
  **/
 
-// todo ser/de file with many of obj-s
 public class Buildings {
 
     static {
-
+        bf = new DwellingFactory();
     }
 
+    private static BuildingFactory bf;
+
+    public Buildings() { }
+
+    public void setBuildingFactory (BuildingFactory bf) {
+        this.bf = bf;
+    }
+
+    // todo mb add Space type
     /**
      * example:
      * D 3     // Dwelling 3 floors
@@ -114,7 +122,7 @@ public class Buildings {
     private static void fillFloorsWithSpaces(boolean type, Building b, StreamTokenizer st) throws IOException {
         int floorCounter = 0, numOfRooms;
         double area;
-        Floor[] floors = b.getFloors(); // todo clone danger
+        Floor[] floors = b.getFloors();
         st.nextToken();
         floors:
         for (; ; ) {
@@ -214,9 +222,10 @@ public class Buildings {
      Перегрузите метод текстового чтения зданий класса Buildings таким образом,
      чтобы он использовал возможности форматированного ввода и вывода и имел аргумент типа Scanner.
      */
-    public static void writeBuildingFormat (Building building, Writer out) {
+    public static void writeBuildingFormat (Building building, Writer dout) {
         String[] name = building.getClass().getName().split("\\.");
-        ((PrintWriter) out).printf(
+        PrintWriter out = new PrintWriter(dout);
+        out.printf(
                 "%s %d\n", name[name.length-1], building.floorsAmount()
         );
         int counter = 0;
@@ -225,8 +234,47 @@ public class Buildings {
         }
     }
 
-    public static void readBuilding (Scanner s) {
-
+    public static Building readBuilding (Scanner s) {
+        String[] floorSpacesStr;
+        Building building;
+        int floorCounter = 0;
+        if (s.next().equals("O")) {
+            building = new OfficeBuilding(s.nextInt());
+            OfficeFloor of = new OfficeFloor(0);
+            s.nextLine();
+            for (int floorNum = 0; floorNum < building.floorsAmount(); floorNum++) {
+                floorSpacesStr = s.nextLine().split("\\s+");
+                for (int i = 0; i < floorSpacesStr.length; i+= 2) {
+                    of.addSpace(new Office(
+                            Double.parseDouble(floorSpacesStr[i]),
+                            Integer.parseInt(floorSpacesStr[i+1])),
+                            of.amount()
+                    );
+                }
+                building.setFloor((OfficeFloor)of.clone(),floorCounter);
+                of.clear();
+                floorCounter++;
+            }
+        } else {
+            int a = s.nextInt();
+            building = new Dwelling(a,new int[a]);
+            DwellingFloor df = new DwellingFloor(0);
+            s.nextLine();
+            for (int floorNum = 0; floorNum < building.floorsAmount(); floorNum++) {
+                floorSpacesStr = s.nextLine().split("\\s+");
+                for (int i = 0; i < floorSpacesStr.length; i+= 2) {
+                    df.addSpace(new Flat(
+                                    Double.parseDouble(floorSpacesStr[i]),
+                                    Integer.parseInt(floorSpacesStr[i+1])),
+                            df.amount()
+                    );
+                }
+                building.setFloor((OfficeFloor)df.clone(),floorCounter);
+                df.clear();
+                floorCounter++;
+            }
+        }
+        return building;
     }
 
 }

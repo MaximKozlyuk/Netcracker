@@ -18,7 +18,7 @@ import java.util.Iterator;
  * Классы, соответственно, должны реализовывать интерфейс и работать со ссылками типа Flat (с возможностью, например, добавить на жилой этаж офисное помещение).
  **/
 
-public interface Floor extends Serializable, Iterable, Comparable, Cloneable {
+public interface Floor extends Serializable, Iterable<Space>, Comparable, Cloneable {
 
     int amount ();
 
@@ -38,13 +38,14 @@ public interface Floor extends Serializable, Iterable, Comparable, Cloneable {
 
     Space getBestSpace ();
 
-    Iterator iterator();
+    Iterator<Space> iterator();
 
     Object clone();
 
     @Override
     default int compareTo(Object o) {
-        double q = ((Floor)o).amount();
+        //return this.amount() - ((Floor)o).amount();
+        int q = ((Floor)o).amount();
         if (amount() < q) {
             return -1;
         } else if (amount() == q) {
