@@ -314,7 +314,7 @@ public class OfficeBuilding implements Building, Serializable {
             System.arraycopy(tempArr, 0,spaces,posCounter,tempArr.length);
             posCounter += tempArr.length;
         }
-        SpaceSorter.quickSort(spaces,0,spaces.length-1);
+        Sorter.quickSort(spaces,0,spaces.length-1);
         return new Space[0];
     }
 
@@ -371,6 +371,7 @@ public class OfficeBuilding implements Building, Serializable {
         if (obj == this) { return true; }
         if (!(obj instanceof OfficeBuilding)) { return false; }
         OfficeBuilding ob = (OfficeBuilding)obj;
+        if (ob.size != this.size) { return false; }
         Floor[] arr = this.toArray();
         return Arrays.stream(arr).allMatch(this::contains);
     }

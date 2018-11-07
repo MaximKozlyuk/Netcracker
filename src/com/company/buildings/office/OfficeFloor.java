@@ -199,6 +199,7 @@ public class OfficeFloor implements Floor {
         if (obj == this) { return true; }
         if (!(obj instanceof OfficeFloor)) { return false; }
         OfficeFloor of = (OfficeFloor) obj;
+        if (of.size != this.size) { return false; }
         return Arrays.stream(of.toArray()).allMatch(this::contains);
     }
 

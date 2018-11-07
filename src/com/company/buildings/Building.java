@@ -26,8 +26,6 @@ import java.util.Iterator;
  * Используйте методы, принимающие в качестве параметра массивы, как методы с аргументом переменной длины.
  **/
 
-
-//  todo Iterable<Floor> in all classes and refactor
 public interface Building extends Serializable, Iterable<Floor>, Cloneable {
 
     int floorsAmount ();

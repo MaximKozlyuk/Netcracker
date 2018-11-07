@@ -1,22 +1,31 @@
 package com.company;
 
 import com.company.buildings.Buildings;
+import com.company.buildings.DwellingFactory;
+import com.company.buildings.Floor;
+import com.company.buildings.dwelling.DwellingFloor;
+import com.company.buildings.threads.*;
 import tests.BuildingsIOtest;
 import tests.BuildingsTest;
+import tests.DwellingFloorTest;
 import tests.OfficeBuildingTest;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
+import java.util.concurrent.Semaphore;
 import java.util.stream.Stream;
 
 public class Main {
 
+    private static BuildingsTest test = new BuildingsTest();
+
     public static void main(String[] args) {
+        lab7_tests();
+    }
 
-        BuildingsTest test = new BuildingsTest();
-
+    static void lab3_tests () {
         //BuildingsTest.spaceTests();
         //test.dwellingFloorTest();
         //test.tests();
@@ -24,10 +33,10 @@ public class Main {
         //test.dwellingTest();
         //test.officeFloorTest();
         //test.officeBuildingTest();
+    }
 
-        // lab 4
-
-//        BuildingsIOtest.outputBuildingTest();
+    static void lab4_tests () {
+        //        BuildingsIOtest.outputBuildingTest();
 //        BuildingsIOtest.inputBuildingTest();
 
 //        BuildingsIOtest.writeBuildingTest();
@@ -38,11 +47,39 @@ public class Main {
 
         //BuildingsIOtest.writeBuildingFormatTest();
         //BuildingsIOtest.readBuildingScannerTest();
+    }
 
-        // lab 5
+    static void lab5_tests () {
         //OfficeBuildingTest.testEquals();
+    }
 
-        // lab 6
+    static void lab7_tests () {
+        Floor floor = DwellingFloorTest.getNewDwellingFloor(10);
+        Cleaner cleaner = new Cleaner(floor);
+        Repairer repairer = new Repairer(floor);
+        cleaner.setPriority(Thread.MIN_PRIORITY);
+        repairer.setPriority(Thread.MAX_PRIORITY);
+        cleaner.start();
+        repairer.start();
+        cleaner.interrupt();
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Task 2:");
+        //Semaphore semaphore = new Semaphore(1, floor);
+        Semaphore semaphore = new Semaphore(1);
+        SequentalCleaner sCleaner = new SequentalCleaner(floor, semaphore);
+        SequentalRepairer sRepairer = new SequentalRepairer(floor, semaphore);
+
+        sCleaner.run();
+        sRepairer.run();
+
+
 
     }
+
 }

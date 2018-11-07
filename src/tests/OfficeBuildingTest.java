@@ -47,7 +47,6 @@ public class OfficeBuildingTest {
 
     static OfficeBuilding getNewOfficeBuilding (int n) {
         OfficeFloor[] floorArr = new OfficeFloor[n];
-
         int c = 1;
         for (int i = 0; i < floorArr.length; i++) {
             floorArr[i] = getFloor(1, c);

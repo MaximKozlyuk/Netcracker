@@ -30,13 +30,14 @@ public class HotelFloor extends DwellingFloor {
         this.stars = stars;
     }
 
-    @Override   // todo not tested
+    @Override
     public boolean equals(Object obj) {
         if (obj == this) { return true; }
         if (!(obj instanceof HotelFloor)) { return false; }
         HotelFloor o = (HotelFloor) obj;
         if (o.stars != stars) { return false; }
-        return Arrays.stream(super.toArray()).allMatch(super::contains);
+        if (o.amount() != this.amount()) { return false; }
+        return Arrays.stream(o.toArray()).allMatch(super::contains);
     }
 
     @Override

@@ -3,8 +3,7 @@ package com.company.buildings.dwelling;
 import com.company.buildings.Building;
 import com.company.buildings.Floor;
 import com.company.buildings.Space;
-import com.company.buildings.SpaceSorter;
-import com.company.buildings.office.OfficeBuilding;
+import com.company.buildings.Sorter;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -209,7 +208,7 @@ public class Dwelling implements Building, Serializable {
             System.arraycopy(toAdd, 0, arr, c, toAdd.length);
             c += toAdd.length;
         }
-        SpaceSorter.quickSort(arr,0,arr.length-1);
+        Sorter.quickSort(arr,0,arr.length-1);
         return arr;
     }
 
@@ -258,6 +257,7 @@ public class Dwelling implements Building, Serializable {
         if (obj == this) { return true; }
         if (!(obj instanceof Dwelling)) { return false; }
         Dwelling dw = (Dwelling) obj;
+        if (dw.floors.length != this.floors.length) { return false; }
         return Arrays.stream(dw.floors).allMatch(this::contains);
     }
 

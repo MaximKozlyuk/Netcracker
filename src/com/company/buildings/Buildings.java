@@ -8,6 +8,8 @@ import com.company.buildings.office.OfficeBuilding;
 import com.company.buildings.office.OfficeFloor;
 
 import java.io.*;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 /**
@@ -42,21 +44,67 @@ import java.util.Scanner;
  * public static Building deserializeBuilding (InputStream in);
  **/
 
+/**
+ * В классе Buildings реализуйте статические методы,
+ * которые с помощью текущей фабрики создают новые экземпляры соответствующих объектов.
+ * В остальных методах класса Buildings
+ * замените прямое создание экземпляров объектов на вызов методов фабрики.
+ */
+
 public class Buildings {
 
-    static {
-        bf = new DwellingFactory();
-    }
+    // todo add sort with param, sorts all stuff that implements Comparable
 
-    private static BuildingFactory bf;
+    private static BuildingFactory bf = new DwellingFactory();
 
     public Buildings() { }
+
+    {
+
+    }
+
+    /**
+     * В класс Buildings добавьте два метода сортировки с критерием –
+     * сортировка помещений на этаже по убыванию количества комнат
+     * и сортировка этажей в здании по убыванию общей площади помещений этажа.
+     * Объедините оба метода в один параметризованный метод сортировки с критерием (с компаратором).
+     */
+    public static <E extends Space, Floor> void sort(E[] a){
+        //Arrays.stream(a).sorted()
+        Sorter.quickSort(a,0,a.length);
+    }
+    public static <E> void sort(E[] a, Comparator<E> comparator){
+        Sorter.quickSort(a,0,a.length, comparator);
+    }
 
     public void setBuildingFactory (BuildingFactory bf) {
         this.bf = bf;
     }
 
-    // todo mb add Space type
+    public Space createSpace(double area) {
+        return bf.createSpace(area);
+    }
+
+    public Space createSpace(int roomsCount, double area) {
+        return bf.createSpace(roomsCount, area);
+    }
+
+    public Floor createFloor(int spacesCount) {
+        return bf.createFloor(spacesCount);
+    }
+
+    public Floor createFloor(Space[] spaces) {
+        return bf.createFloor(spaces);
+    }
+
+    public Building createBuilding(int floorsCount, int[] spacesCounts) {
+        return bf.createBuilding(floorsCount, spacesCounts);
+    }
+
+    public Building createBuilding(Floor[] floors) {
+        return bf.createBuilding(floors);
+    }
+
     /**
      * example:
      * D 3     // Dwelling 3 floors
@@ -99,9 +147,9 @@ public class Buildings {
         Building building;
         st.eolIsSignificant(true);
         st.nextToken();
-        if (st.sval.equals("O")) {
+        if (st.sval.equals("O")) {      // todo избавиться от ифов, не хранить тип данных, не парсить его (т к в классах все на интерфейсных ссылках)
             st.nextToken();
-            OfficeFloor[] floors = new OfficeFloor[(int) st.nval];
+            Floor[] floors = new Floor[(int) st.nval];
             for (int i = 0; i < floors.length; i++) {
                 floors[i] = new OfficeFloor(0);
             }
@@ -109,7 +157,7 @@ public class Buildings {
             fillFloorsWithSpaces(true, building, st);
         } else {
             st.nextToken();
-            DwellingFloor[] floors = new DwellingFloor[(int) st.nval];
+            Floor[] floors = new Floor[(int) st.nval];
             for (int i = 0; i < floors.length; i++) {
                 floors[i] = new DwellingFloor(0);
             }
@@ -251,7 +299,7 @@ public class Buildings {
                             of.amount()
                     );
                 }
-                building.setFloor((OfficeFloor)of.clone(),floorCounter);
+                building.setFloor((Floor)of.clone(),floorCounter);
                 of.clear();
                 floorCounter++;
             }
@@ -269,7 +317,7 @@ public class Buildings {
                             df.amount()
                     );
                 }
-                building.setFloor((OfficeFloor)df.clone(),floorCounter);
+                building.setFloor((Floor)df.clone(),floorCounter);
                 df.clear();
                 floorCounter++;
             }

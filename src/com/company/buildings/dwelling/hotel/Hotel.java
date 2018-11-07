@@ -61,7 +61,8 @@ public class Hotel extends Dwelling {
         if (obj == this) { return true; }
         if (!(obj instanceof Hotel)) { return false; }
         Hotel o = (Hotel) obj;
-        return Arrays.stream(super.toArray()).allMatch(super::contains);
+        if (o.floorsAmount() != this.floorsAmount() || o.spacesAmount() != this.spacesAmount()) { return false; }
+        return Arrays.stream(o.toArray()).allMatch(super::contains);
     }
 
     @Override

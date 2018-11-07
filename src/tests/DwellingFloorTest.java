@@ -76,7 +76,7 @@ public class DwellingFloorTest extends TestCase {
         }
     }
 
-    static DwellingFloor getNewDwellingFloor (int nFlats) {
+    public static DwellingFloor getNewDwellingFloor (int nFlats) {
         DwellingFloor floor = new DwellingFloor(0);
         for (int i = 1; i < nFlats+1; i++) {
             floor.addSpace(new Flat(i * 10), i-1);
