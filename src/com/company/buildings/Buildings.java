@@ -59,22 +59,24 @@ public class Buildings {
 
     public Buildings() { }
 
-    {
-
-    }
-
     /**
      * В класс Buildings добавьте два метода сортировки с критерием –
      * сортировка помещений на этаже по убыванию количества комнат
      * и сортировка этажей в здании по убыванию общей площади помещений этажа.
      * Объедините оба метода в один параметризованный метод сортировки с критерием (с компаратором).
      */
-    public static <E extends Space, Floor> void sort(E[] a){
+    public static <E extends Comparable> void sort(E[] a){
         //Arrays.stream(a).sorted()
-        Sorter.quickSort(a,0,a.length);
+        //Sorter.quickSort(a,0,a.length);
+        Arrays.sort(a);
     }
     public static <E> void sort(E[] a, Comparator<E> comparator){
-        Sorter.quickSort(a,0,a.length, comparator);
+        //Sorter.quickSort(a,0,a.length, comparator);
+        Arrays.sort(a, comparator);
+    }
+
+    public static SynchronizedFloor getSynchronizedFloor (Floor floor) {
+        return new SynchronizedFloor(floor);
     }
 
     public void setBuildingFactory (BuildingFactory bf) {
@@ -107,7 +109,7 @@ public class Buildings {
 
     /**
      * example:
-     * D 3     // Dwelling 3 floors
+     * 3     // Dwelling 3 floors
      * 20.0 2 30.0 3
      * 40.0 4 50.0 60.0                    // [area roomAmount] [area roomAmount] [area roomAmount]
      * 70.0 7 80.0 8 90.0 9 100.0 10
@@ -143,19 +145,20 @@ public class Buildings {
         return building;
     }
 
+    // todo избавиться от ифов, не хранить тип данных, не парсить его (т к в классах все на интерфейсных ссылках)
     private static Building parseBuilding(StreamTokenizer st) throws IOException {
         Building building;
         st.eolIsSignificant(true);
         st.nextToken();
-        if (st.sval.equals("O")) {      // todo избавиться от ифов, не хранить тип данных, не парсить его (т к в классах все на интерфейсных ссылках)
-            st.nextToken();
-            Floor[] floors = new Floor[(int) st.nval];
-            for (int i = 0; i < floors.length; i++) {
-                floors[i] = new OfficeFloor(0);
-            }
-            building = new OfficeBuilding(floors);
-            fillFloorsWithSpaces(true, building, st);
-        } else {
+        //if (st.sval.equals("O")) {
+//            st.nextToken();
+//            Floor[] floors = new Floor[(int) st.nval];
+//            for (int i = 0; i < floors.length; i++) {
+//                floors[i] = new OfficeFloor(0);
+//            }
+//            building = new OfficeBuilding(floors);
+//            fillFloorsWithSpaces(true, building, st);
+        //} else {
             st.nextToken();
             Floor[] floors = new Floor[(int) st.nval];
             for (int i = 0; i < floors.length; i++) {
@@ -163,7 +166,7 @@ public class Buildings {
             }
             building = new Dwelling(floors);
             fillFloorsWithSpaces(false, building, st);
-        }
+        //}
         return building;
     }
 
@@ -181,17 +184,9 @@ public class Buildings {
                 area = st.nval;
                 st.nextToken();
                 numOfRooms = (int) st.nval;
-                floors[floorCounter].addSpace(getNewSpace(type, area, numOfRooms), floors[floorCounter].amount());
+                floors[floorCounter].addSpace(new Flat(area, numOfRooms), floors[floorCounter].amount());
             }
             floorCounter++;
-        }
-    }
-
-    private static Space getNewSpace(boolean type, double area, int numOfRooms) {
-        if (type) {
-            return new Office(area, numOfRooms);
-        } else {
-            return new Flat(area, numOfRooms);
         }
     }
 
@@ -216,7 +211,7 @@ public class Buildings {
 //        }
         StringBuilder s = new StringBuilder();
         Space[] spaceArr = null;
-        if (building instanceof Dwelling) {
+        if (building instanceof Dwelling) { // todo now not necessary
             s.append("D ");
         } else {
             s.append("O ");
@@ -286,24 +281,25 @@ public class Buildings {
         String[] floorSpacesStr;
         Building building;
         int floorCounter = 0;
-        if (s.next().equals("O")) {
-            building = new OfficeBuilding(s.nextInt());
-            OfficeFloor of = new OfficeFloor(0);
-            s.nextLine();
-            for (int floorNum = 0; floorNum < building.floorsAmount(); floorNum++) {
-                floorSpacesStr = s.nextLine().split("\\s+");
-                for (int i = 0; i < floorSpacesStr.length; i+= 2) {
-                    of.addSpace(new Office(
-                            Double.parseDouble(floorSpacesStr[i]),
-                            Integer.parseInt(floorSpacesStr[i+1])),
-                            of.amount()
-                    );
-                }
-                building.setFloor((Floor)of.clone(),floorCounter);
-                of.clear();
-                floorCounter++;
-            }
-        } else {
+        //if (s.next().equals("O")) {
+//        building = new OfficeBuilding(s.nextInt());
+//        OfficeFloor of = new OfficeFloor(0);
+//        s.nextLine();
+//        for (int floorNum = 0; floorNum < building.floorsAmount(); floorNum++) {
+//            floorSpacesStr = s.nextLine().split("\\s+");
+//            for (int i = 0; i < floorSpacesStr.length; i+= 2) {
+//                of.addSpace(new Office(
+//                                Double.parseDouble(floorSpacesStr[i]),
+//                                Integer.parseInt(floorSpacesStr[i+1])),
+//                        of.amount()
+//                );
+//            }
+//            building.setFloor((Floor)of.clone(),floorCounter);
+//            of.clear();
+//            floorCounter++;
+//        }
+        //} else {
+
             int a = s.nextInt();
             building = new Dwelling(a,new int[a]);
             DwellingFloor df = new DwellingFloor(0);
@@ -321,7 +317,8 @@ public class Buildings {
                 df.clear();
                 floorCounter++;
             }
-        }
+
+        //}
         return building;
     }
 

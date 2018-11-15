@@ -23,62 +23,81 @@ public class Main {
 
     public static void main(String[] args) {
         lab7_tests();
-    }
 
-    static void lab3_tests () {
-        //BuildingsTest.spaceTests();
-        //test.dwellingFloorTest();
-        //test.tests();
-        //test.testSetGetAdd();
-        //test.dwellingTest();
-        //test.officeFloorTest();
-        //test.officeBuildingTest();
-    }
 
-    static void lab4_tests () {
-        //        BuildingsIOtest.outputBuildingTest();
+        //lab 6 tests
+//        BuildingsIOtest.outputBuildingTest();
 //        BuildingsIOtest.inputBuildingTest();
-
 //        BuildingsIOtest.writeBuildingTest();
 //        BuildingsIOtest.readBuildingTest();
-
 //        BuildingsIOtest.serializeBuildingTest();
 //        BuildingsIOtest.deserializeBuildingTest();
 
-        //BuildingsIOtest.writeBuildingFormatTest();
-        //BuildingsIOtest.readBuildingScannerTest();
+    }
+
+    static void lab3_tests () {
+        BuildingsTest.spaceTests();
+        test.dwellingFloorTest();
+        test.dwellingTest();
+        test.officeFloorTest();
+        test.officeBuildingTest();
+    }
+
+    static void lab4_tests () {
+                BuildingsIOtest.outputBuildingTest();
+        BuildingsIOtest.inputBuildingTest();
+
+        BuildingsIOtest.writeBuildingTest();
+        BuildingsIOtest.readBuildingTest();
+
+        BuildingsIOtest.serializeBuildingTest();
+        BuildingsIOtest.deserializeBuildingTest();
+
+        BuildingsIOtest.writeBuildingFormatTest();
+        BuildingsIOtest.readBuildingScannerTest();
     }
 
     static void lab5_tests () {
-        //OfficeBuildingTest.testEquals();
+        OfficeBuildingTest.testEquals();
     }
 
     static void lab7_tests () {
+
+
         Floor floor = DwellingFloorTest.getNewDwellingFloor(10);
         Cleaner cleaner = new Cleaner(floor);
         Repairer repairer = new Repairer(floor);
         cleaner.setPriority(Thread.MIN_PRIORITY);
         repairer.setPriority(Thread.MAX_PRIORITY);
-        cleaner.start();
-        repairer.start();
+        //cleaner.start();
+        //repairer.start();
         cleaner.interrupt();
 
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+        System.out.println("Task 2:");
+        //Semaphore semaphore = new MySemaphore(1, floor);
+        //Semaphore semaphore = new MySemaphore(1);
+        MySemaphore semaphore1 = new MySemaphore(floor);
+        MySemaphore semaphore2 = new MySemaphore(floor);
+        SequentalCleaner sCleaner = new SequentalCleaner(floor, semaphore1);
+        SequentalRepairer sRepairer = new SequentalRepairer(floor, semaphore2);
+
+        Thread tCleaner = new Thread(sCleaner);
+        Thread tRepairer = new Thread(sRepairer);
+        tRepairer.start();
+        tCleaner.start();
+
         try {
-            Thread.sleep(2000);
+            tCleaner.join();
+            tRepairer.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        System.out.println("Task 2:");
-        //Semaphore semaphore = new Semaphore(1, floor);
-        Semaphore semaphore = new Semaphore(1);
-        SequentalCleaner sCleaner = new SequentalCleaner(floor, semaphore);
-        SequentalRepairer sRepairer = new SequentalRepairer(floor, semaphore);
-
-        sCleaner.run();
-        sRepairer.run();
-
-
 
     }
 

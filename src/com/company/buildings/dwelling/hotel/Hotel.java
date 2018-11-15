@@ -9,6 +9,8 @@ import java.util.Iterator;
 
 public class Hotel extends Dwelling {
 
+    private static final double[] starsCoeff = new double[] {0.25, 0.5, 1, 1.25, 1.5};
+
     public Hotel() { super(); }
 
     public Hotel(int n, int[] f) {
@@ -41,13 +43,13 @@ public class Hotel extends Dwelling {
      */
     public Space getBestSpace () {
         double max = -1;
-        Iterator i = this.iterator(), j;
+        //Iterator i = this.iterator(), j;
         Space best = null;
         for (Floor f : this) {
             if (f instanceof HotelFloor) {
                 for (Space s : f) {
                     if (s.getArea() * ((HotelFloor) f).getStars() > max) {
-                        max = s.getArea() * ((HotelFloor) f).getStars();
+                        max = s.getArea() * starsCoeff[((HotelFloor) f).getStars()-1];
                         best = s;
                     }
                 }
