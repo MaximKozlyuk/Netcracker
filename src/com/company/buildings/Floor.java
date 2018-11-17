@@ -42,6 +42,8 @@ public interface Floor extends Serializable, Iterable<Space>, Comparable, Clonea
 
     Object clone();
 
+    void clear();
+
     @Override
     default int compareTo(Object o) {
         //return this.amount() - ((Floor)o).amount();

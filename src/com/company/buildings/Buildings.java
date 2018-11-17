@@ -162,9 +162,11 @@ public class Buildings {
             st.nextToken();
             Floor[] floors = new Floor[(int) st.nval];
             for (int i = 0; i < floors.length; i++) {
-                floors[i] = new DwellingFloor(0);
+                //floors[i] = new DwellingFloor(0);
+                floors[i] = bf.createFloor(0);
             }
-            building = new Dwelling(floors);
+            //building = new Dwelling(floors);
+            building = bf.createBuilding(floors);
             fillFloorsWithSpaces(false, building, st);
         //}
         return building;
@@ -184,7 +186,8 @@ public class Buildings {
                 area = st.nval;
                 st.nextToken();
                 numOfRooms = (int) st.nval;
-                floors[floorCounter].addSpace(new Flat(area, numOfRooms), floors[floorCounter].amount());
+                //floors[floorCounter].addSpace(new Flat(area, numOfRooms), floors[floorCounter].amount());
+                floors[floorCounter].addSpace(bf.createSpace(numOfRooms, area), floors[floorCounter].amount());
             }
             floorCounter++;
         }
@@ -301,17 +304,23 @@ public class Buildings {
         //} else {
 
             int a = s.nextInt();
-            building = new Dwelling(a,new int[a]);
-            DwellingFloor df = new DwellingFloor(0);
+            //building = new Dwelling(a,new int[a]);
+            building = bf.createBuilding(a, new int[a]);
+            //DwellingFloor df = new DwellingFloor(0);
+            Floor df = bf.createFloor(0);
             s.nextLine();
             for (int floorNum = 0; floorNum < building.floorsAmount(); floorNum++) {
                 floorSpacesStr = s.nextLine().split("\\s+");
                 for (int i = 0; i < floorSpacesStr.length; i+= 2) {
-                    df.addSpace(new Flat(
-                                    Double.parseDouble(floorSpacesStr[i]),
-                                    Integer.parseInt(floorSpacesStr[i+1])),
-                            df.amount()
-                    );
+//                    df.addSpace(new Flat(
+//                                    Double.parseDouble(floorSpacesStr[i]),
+//                                    Integer.parseInt(floorSpacesStr[i+1])),
+//                            df.amount()
+//                    );
+                    df.addSpace(bf.createSpace(
+                            Integer.parseInt(floorSpacesStr[i+1]),
+                            Double.parseDouble(floorSpacesStr[i])
+                    ), df.amount());
                 }
                 building.setFloor((Floor)df.clone(),floorCounter);
                 df.clear();

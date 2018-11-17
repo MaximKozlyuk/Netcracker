@@ -82,21 +82,23 @@ public class Main {
         System.out.println("Task 2:");
         //Semaphore semaphore = new MySemaphore(1, floor);
         //Semaphore semaphore = new MySemaphore(1);
-        MySemaphore semaphore1 = new MySemaphore(floor);
-        MySemaphore semaphore2 = new MySemaphore(floor);
-        SequentalCleaner sCleaner = new SequentalCleaner(floor, semaphore1);
-        SequentalRepairer sRepairer = new SequentalRepairer(floor, semaphore2);
+        for (int i = 0; i < 10; i++) {
+            MySemaphore semaphore1 = new MySemaphore(floor);
+            SequentalCleaner sCleaner = new SequentalCleaner(floor, semaphore1);
+            SequentalRepairer sRepairer = new SequentalRepairer(floor, semaphore1);
 
-        Thread tCleaner = new Thread(sCleaner);
-        Thread tRepairer = new Thread(sRepairer);
-        tRepairer.start();
-        tCleaner.start();
+            Thread tCleaner = new Thread(sCleaner);
+            Thread tRepairer = new Thread(sRepairer);
+            tRepairer.start();
+            tCleaner.start();
 
-        try {
-            tCleaner.join();
-            tRepairer.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                tCleaner.join();
+                tRepairer.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("\n");
         }
 
     }

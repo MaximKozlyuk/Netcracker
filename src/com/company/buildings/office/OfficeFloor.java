@@ -57,11 +57,14 @@ public class OfficeFloor implements Floor {
     }
 
     private void addNode (Space o, int n) {
-//        temp = first;
-//        for (int i = 0; i < n; i++) {
-//            temp = temp.next;
-//        }
-        temp = getNode(n);
+        if (n == 0) {   //  fixed
+            temp = first.next;
+            first.next = new Node(o, temp);
+            size++;
+            return;
+        }
+
+        temp = getNode(n-1);    // fixed : n-1
         if (temp.next == first) {
             temp.next = new Node(o, first);
         } else {
@@ -72,7 +75,8 @@ public class OfficeFloor implements Floor {
 
     private Node getNode (int n) {
         if (n == 0) {
-            return first;
+            // getFirst, return null, was 'return first'
+            return first.next;
         }
         temp = first.next;
         for (int i = 0; i < n; i++) {
@@ -86,7 +90,7 @@ public class OfficeFloor implements Floor {
         for (int i = 0; i < n; i++) {
             temp = temp.next;
         }
-        temp.next = temp.next.next; // todo help GC
+        temp.next = temp.next.next;
         size--;
     }
 

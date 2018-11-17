@@ -79,4 +79,9 @@ public class SynchronizedFloor implements Floor  {
     public synchronized String toString() {
         return super.toString();
     }
+
+    @Override
+    public synchronized void clear() {
+        floor.clear();
+    }
 }

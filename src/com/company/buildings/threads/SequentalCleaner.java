@@ -22,9 +22,9 @@ public class SequentalCleaner implements Runnable {
     public void run() {
         int id = 0;
         for (Space s : floor) {
-            semaphore.acquire();
+            semaphore.acquire(false);
             System.out.println("Cleaning " + id++ + " area  = " + s.getArea());
-            semaphore.release();
+            semaphore.release(false);
         }
     }
 

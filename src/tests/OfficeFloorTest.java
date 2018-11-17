@@ -1,5 +1,6 @@
 package tests;
 
+import com.company.buildings.dwelling.Flat;
 import com.company.buildings.office.Office;
 import com.company.buildings.office.OfficeFloor;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,25 @@ public class OfficeFloorTest {
         initOffices();
         OfficeFloor tester = new OfficeFloor(this.offices);
         assertEquals(officesAmount, tester.amount());
+    }
+
+    @Test
+    public void testGetFirst() {
+        initOffices();
+        OfficeFloor tester = new OfficeFloor(this.offices);
+        System.out.println(tester);
+    }
+
+    @Test
+    public void testAddFirst() {
+        initOffices();
+        //OfficeFloor tester = new OfficeFloor(this.offices);
+        OfficeFloor tester = new OfficeFloor(0);
+        System.out.println(tester + "\n");
+        tester.addSpace(new Flat(666,6),0);
+        tester.addSpace(new Flat(666,6),0);
+        tester.addSpace(new Flat(666,6),0);
+        System.out.println(tester);
     }
 
     @Test
