@@ -45,6 +45,21 @@ public class OfficeBuildingTest {
         System.out.println(ob);
     }
 
+    @Test
+    public void testGetSpace () {
+        ob = getNewOfficeBuilding(3);
+        ob.addSpace(ob.spacesAmount(), new Flat(25,1));
+        ob.addSpace(0, new Flat(35,1));
+        ob.addSpace(0, new Flat(15,1));
+        ob.addSpace(ob.spacesAmount(), new Flat(5,1));
+        System.out.println(ob);
+        try {
+            System.out.println(ob.getSpace(3));
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
+
     static OfficeBuilding getNewOfficeBuilding (int n) {
         OfficeFloor[] floorArr = new OfficeFloor[n];
         int c = 1;

@@ -167,7 +167,7 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public int spacesAmount() {
         if (size == 0) { return 0; }
-        int a = 1;
+        int a = 0;
         for (temp = head.next; temp != head; temp = temp.next) {
             a += temp.item.amount();
         }
@@ -221,15 +221,16 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public Space getSpace(int n) throws CloneNotSupportedException {
         if (n < 0 || n >= spacesAmount()) { throw new SpaceIndexOutOfBoundsException(); }
-        int flatNumbers = 0;
+        int prevFloorsSpaces = 0, prevFloorSum = 0;
         temp = head.next;
         for (int i = 0; i < size; i++) {
-            if ((n < temp.item.amount()) && (flatNumbers < n)) {
-                return temp.item.getSpace(n - flatNumbers);
+            prevFloorsSpaces += temp.item.amount();
+            if (prevFloorsSpaces > n) {
+                return temp.item.getSpace(n - prevFloorSum);
             } else {
-                flatNumbers += temp.item.amount();
+                prevFloorSum += temp.item.amount();
+                temp = temp.next;
             }
-            temp = temp.next;
         }
         return null;
     }

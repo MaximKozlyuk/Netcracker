@@ -1,13 +1,9 @@
 package com.company.buildings.net.client;
 
-import com.company.buildings.Buildings;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class BinaryClient {
@@ -18,10 +14,41 @@ public class BinaryClient {
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
+            //FileInputStream fis = new FileInputStream("BuildingsForTransfer.txt");
+            //System.out.println(fis.read());
 
+            Scanner buildScan = new Scanner(new File("BuildingsForTransfer.txt"));
+            Scanner typeScan = new Scanner(new File("BuildingsTypes.txt"));
+            String line;
+            while (buildScan.hasNextLine()) {
+                line = buildScan.nextLine();
+                if (line.length() == 0) {
+                    out.println("e");
+                    out.println(typeScan.nextLine());
+                    System.out.println(receiveCost(in));
+                } else {
+                    out.println(line);
+                }
+            }
+            out.println("e");
+            out.println(typeScan.nextLine());
+            System.out.println(receiveCost(in));
+
+            buildScan.close();
+            typeScan.close();
         }
         catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private static double receiveCost (BufferedReader in) throws IOException {
+        String input;
+        while (!in.ready()) {}
+        while ((input = in.readLine()) != null) {
+            return Double.parseDouble(input);
+        }
+        return -1;
+    }
+
 }

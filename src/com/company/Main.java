@@ -22,12 +22,12 @@ public class Main {
     private static BuildingsTest test = new BuildingsTest();
 
     public static void main(String[] args) {
-        lab7_tests();
+        //lab7_tests();
 
 
         //lab 6 tests
 //        BuildingsIOtest.outputBuildingTest();
-//        BuildingsIOtest.inputBuildingTest();
+        BuildingsIOtest.inputBuildingTest();
 //        BuildingsIOtest.writeBuildingTest();
 //        BuildingsIOtest.readBuildingTest();
 //        BuildingsIOtest.serializeBuildingTest();

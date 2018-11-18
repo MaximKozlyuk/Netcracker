@@ -2,6 +2,9 @@ package tests;
 
 import com.company.buildings.Building;
 import com.company.buildings.Buildings;
+import com.company.buildings.dwelling.Dwelling;
+import com.company.buildings.dwelling.Flat;
+import com.company.buildings.office.Office;
 import com.company.buildings.office.OfficeBuilding;
 
 import java.io.*;
@@ -31,9 +34,16 @@ public class BuildingsIOtest {
         }
     }
 
+    // Buildings types : D, O, H
     public static void inputBuildingTest () {
-        try (DataInputStream in = new DataInputStream(new FileInputStream("OfficeBuildingBin.txt"))) {
-            Building build = Buildings.inputBuilding(in);
+        try (FileInputStream in = new FileInputStream("InputBuildingTest.txt")) {
+            Building build = new Dwelling(5, new int[5]);
+            for (int i = 0; i < build.floorsAmount(); i++) {
+                build.getFloor(i).addSpace(new Flat(),0);
+                build.getFloor(i).addSpace(new Office(),0);
+            }
+            System.out.println(build);
+            Buildings.inputBuilding(in, build);
             System.out.println("inputBuilding" + build + "\n");
         }
         catch(FileNotFoundException e) {
