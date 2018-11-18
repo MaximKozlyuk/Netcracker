@@ -218,9 +218,10 @@ public class OfficeBuilding implements Building, Serializable {
         return r;
     }
 
-    @Override
+    @Override   // tested
     public Space getSpace(int n) throws CloneNotSupportedException {
         if (n < 0 || n >= spacesAmount()) { throw new SpaceIndexOutOfBoundsException(); }
+        // prevFloorSpaces with current floor spaces, FloorSum without
         int prevFloorsSpaces = 0, prevFloorSum = 0;
         temp = head.next;
         for (int i = 0; i < size; i++) {
@@ -232,11 +233,12 @@ public class OfficeBuilding implements Building, Serializable {
                 temp = temp.next;
             }
         }
-        return null;
+        throw new SpaceIndexOutOfBoundsException("Space by its index was not found");
     }
 
-    @Override
+    @Override   // todo recode and test as getSpace
     public void setSpace(int n, Space s) {
+        if (s == null) { throw new NullPointerException("Can't set null space"); }
         if (n < 0 || n >= spacesAmount()) { throw new SpaceIndexOutOfBoundsException(); }
         int floorCount = 0;
         temp = head.next;
@@ -252,9 +254,10 @@ public class OfficeBuilding implements Building, Serializable {
         throw new SpaceIndexOutOfBoundsException("Index for flat set not found");
     }
 
-    // todo add last debug
-    @Override
+
+    @Override   // todo recode and test as getSpace
     public void addSpace(int n, Space s) {
+        if (s == null) { throw new NullPointerException("Can't add null space"); }
         if (n < 0 || n > spacesAmount()) { throw new SpaceIndexOutOfBoundsException(); }
         if (n == spacesAmount()) {
             head.prev.item.addSpace(s, head.prev.item.amount());
@@ -275,7 +278,7 @@ public class OfficeBuilding implements Building, Serializable {
         throw new SpaceIndexOutOfBoundsException("Index for flat set not found");
     }
 
-    @Override
+    @Override   // todo recode and test as getSpace
     public void removeSpace(int n) {
         if (n < 0 || n > spacesAmount()) { throw new SpaceIndexOutOfBoundsException(); }
         temp = head.next;

@@ -2,7 +2,7 @@ package com.company.buildings;
 
 import java.util.Comparator;
 
-public abstract class Sorter {
+public final class Sorter {
 
 //    public static void quickSort(Space[] a, int first, int last) {
 //        int i = first, j = last;

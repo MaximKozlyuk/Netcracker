@@ -1,30 +1,31 @@
-package com.company.buildings.net.server.sequental;
+package com.company.buildings.net.server.parallel;
 
 import com.company.buildings.net.server.BuildingUnderArrestException;
 import com.company.buildings.net.server.CostCalculator;
 
-import java.io.*;
-import java.net.ServerSocket;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Random;
 
-public class BinaryServer {
+public class BinaryThread extends Thread{
 
-    private static double[] costsOfTypes = new double[]{1000, 1500, 2000};
-    private static Random rand = new Random();
+    private Socket socket;
 
-    public static void main (String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(12345);
+    public BinaryThread(Socket socket) {
+        this.socket = socket;
+    }
 
+    @Override
+    public void run() {
         try (
-            Socket clientSocket = serverSocket.accept();
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
             double cost;
             String input, buildingType;
-            StringBuffer buildingStr = new StringBuffer();
-            System.out.println("new connection from " + clientSocket.getRemoteSocketAddress());
+            StringBuilder buildingStr = new StringBuilder();
             while ((input = in.readLine()) != null) {
                 if (input.equals("e")) {
                     buildingType = in.readLine();
@@ -41,9 +42,10 @@ public class BinaryServer {
                     buildingStr.append(input).append("\n");
                 }
             }
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
 }
