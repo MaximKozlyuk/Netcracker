@@ -27,10 +27,10 @@ public class Main {
 
         //lab 6 tests
 //        BuildingsIOtest.outputBuildingTest();
-        BuildingsIOtest.inputBuildingTest();
+        //BuildingsIOtest.inputBuildingTest();
 //        BuildingsIOtest.writeBuildingTest();
 //        BuildingsIOtest.readBuildingTest();
-//        BuildingsIOtest.serializeBuildingTest();
+        BuildingsIOtest.serializeBuildingTest();
 //        BuildingsIOtest.deserializeBuildingTest();
 
     }

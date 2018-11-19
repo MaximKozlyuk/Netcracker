@@ -1,9 +1,6 @@
 package com.company.buildings.dwelling;
 
-import com.company.buildings.Building;
-import com.company.buildings.Floor;
-import com.company.buildings.Space;
-import com.company.buildings.Sorter;
+import com.company.buildings.*;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -42,7 +39,7 @@ public class Dwelling implements Building, Serializable {
     }
 
     public Dwelling (int n, int[] f) {
-        floors = new DwellingFloor[n];
+        floors = new Floor[n];
         for (int i = 0; i < floors.length; i++) {
             floors[i] = new DwellingFloor(f[i]);
         }
@@ -110,7 +107,8 @@ public class Dwelling implements Building, Serializable {
 
     @Override
     public Floor setFloor (Floor f, int n) {
-        while (n >= floors.length) {
+        if (n > floors.length) { throw new FloorIndexOutOfBoundsException(); }
+        while (n == floors.length) {
             resizeArr();
         }
         Floor r = floors[n];
@@ -119,8 +117,9 @@ public class Dwelling implements Building, Serializable {
     }
 
     private void resizeArr () {
-        Flat[] newFlats = new Flat[floors.length * 2];
-        System.arraycopy(floors,0,newFlats,0,floors.length);
+        Floor[] newFloors = new Floor[floors.length + 1];
+        System.arraycopy(floors,0,newFloors,0,floors.length);
+        this.floors = newFloors;
     }
 
     @Override

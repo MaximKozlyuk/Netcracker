@@ -1,5 +1,11 @@
 package com.company.buildings.net.server;
 
+import com.company.buildings.Building;
+import com.company.buildings.Floor;
+import com.company.buildings.Space;
+import com.company.buildings.dwelling.Flat;
+import com.company.buildings.dwelling.hotel.HotelFloor;
+
 import java.util.Random;
 
 public final class CostCalculator {
@@ -29,6 +35,25 @@ public final class CostCalculator {
                     }
                 }
                 typeCounter = 0;
+            }
+        }
+        return flatArea * costsOfTypes[0] + officeArea * costsOfTypes[1] + hotelArea * costsOfTypes[2];
+    }
+
+    public static Object costCalc (Building building) {
+        if (isArested()) { return new BuildingUnderArrestException(); }
+        double flatArea = 0, officeArea = 0, hotelArea = 0;
+        for (Floor f : building) {
+            if (f instanceof HotelFloor) {
+                hotelArea += f.totalArea();
+            } else {
+                for (Space s : f) {
+                    if (s instanceof Flat) {
+                        flatArea += s.getArea();
+                    } else {
+                        officeArea += s.getArea();
+                    }
+                }
             }
         }
         return flatArea * costsOfTypes[0] + officeArea * costsOfTypes[1] + hotelArea * costsOfTypes[2];

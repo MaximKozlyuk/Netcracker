@@ -5,14 +5,26 @@ import java.net.ServerSocket;
 
 public class BinaryServer {
 
-    public static void main (String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(12345);
+    public static void main (String[] args) {
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(12345);
+        } catch (IOException e) {
+            System.out.println("IO exception while opening the socket");
+            e.printStackTrace();
+        }
+
         Thread thread;
-        while (true) {
-            System.out.println("Waiting for connection");
-            thread = new BinaryThread(serverSocket.accept());
-            thread.start();
-            System.out.println("New client");
+        try {
+            while (true) {
+                System.out.println("Waiting for connection");
+                thread = new BinaryThread(serverSocket.accept());
+                thread.start();
+                System.out.println("New client");
+            }
+        } catch (IOException e) {
+            System.out.println("I/O error occurs when waiting for a connection.");
+            e.printStackTrace();
         }
 
     }

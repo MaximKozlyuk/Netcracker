@@ -13,8 +13,14 @@ public class BinaryServer {
     private static double[] costsOfTypes = new double[]{1000, 1500, 2000};
     private static Random rand = new Random();
 
-    public static void main (String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(12345);
+    public static void main (String[] args) {
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(12345);
+        } catch (IOException e) {
+            System.out.println("IO exception while opening the socket");
+            e.printStackTrace();
+        }
 
         try (
             Socket clientSocket = serverSocket.accept();

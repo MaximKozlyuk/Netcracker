@@ -2,8 +2,10 @@ package tests;
 
 import com.company.buildings.Building;
 import com.company.buildings.Buildings;
+import com.company.buildings.Floor;
 import com.company.buildings.dwelling.Dwelling;
 import com.company.buildings.dwelling.Flat;
+import com.company.buildings.dwelling.hotel.HotelFloor;
 import com.company.buildings.office.Office;
 import com.company.buildings.office.OfficeBuilding;
 
@@ -83,8 +85,12 @@ public class BuildingsIOtest {
 
     public static void serializeBuildingTest () {
         try (FileOutputStream fos = new FileOutputStream("OfficeBuildingSer")) {
-            OfficeBuilding ob = BuildingsTest.getOfficeBuilding(5, new int[]{2,3,2,4,4});
-            //System.out.println("ob\n" + ob);
+            //OfficeBuilding ob = BuildingsTest.getOfficeBuilding(1, new int[]{2});
+            Dwelling ob = new Dwelling();
+            ob.setFloor( new HotelFloor(0), 0);
+            ob.getFloor(0).addSpace(new Flat(100,1), 0);
+            ob.getFloor(0).addSpace(new Flat(100,1), 0);
+
             Buildings.serializeBuilding(ob, fos);
             fos.flush();
         } catch (IOException e) {
