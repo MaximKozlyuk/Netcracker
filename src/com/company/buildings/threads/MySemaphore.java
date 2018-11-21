@@ -6,18 +6,19 @@ import java.util.concurrent.locks.Lock;
 
 public class MySemaphore {
 
-    private final Object resource;
+    // or sync by resource
+    //private final Object resource;
     private boolean isRepairing;
     private boolean isCleaning;
 
-    public MySemaphore(Object resource) {
-        this.resource = resource;
+    public MySemaphore() {
+        //this.resource = resource;
         isRepairing = true;
         isCleaning = false;
     }
 
     public void acquire(boolean isRepairer) {
-        synchronized (resource) {
+        synchronized (this) {
 //            if (isBusy) {
 //                try {
 //                    resource.wait();
@@ -31,17 +32,15 @@ public class MySemaphore {
             if (isRepairer) {
                 if (isCleaning) {
                     try {
-                        resource.wait();
+                        this.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                } else {
-                    // ??r
                 }
             } else {
                 if (isRepairing) {
                     try {
-                        resource.wait();
+                        this.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -51,7 +50,7 @@ public class MySemaphore {
     }
 
     public void release(boolean isRepairer) {
-        synchronized (resource) {
+        synchronized (this) {
 //            isBusy = false;
 //            resource.notify();
             if (isRepairer) {
@@ -61,7 +60,7 @@ public class MySemaphore {
                 isRepairing = true;
                 isCleaning = false;
             }
-            resource.notifyAll();
+            this.notifyAll();
         }
     }
 }

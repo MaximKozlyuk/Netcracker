@@ -337,16 +337,16 @@ public class OfficeBuilding implements Building, Serializable {
         return new Iterator<Floor>() {
 
             Node temp = head;
-            int amount = 0;
+            int counter = 0;
 
             @Override
             public boolean hasNext() {
-                return amount < size && temp.next != null;
+                return counter < size && temp.next != null;
             }
 
             @Override
             public Floor next() {
-                amount++;
+                counter++;
                 return (temp = temp.next).item;
             }
         };

@@ -200,9 +200,7 @@ public class Buildings {
         Building building = null;
         try {
             StreamTokenizer st = new StreamTokenizer(in);
-
             building = parseBuilding(st);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

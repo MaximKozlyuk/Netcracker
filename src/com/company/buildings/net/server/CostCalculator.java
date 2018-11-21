@@ -14,7 +14,7 @@ public final class CostCalculator {
     private static Random rand = new Random();
 
     public static double costCalc (String building, String type) throws BuildingUnderArrestException {
-        if (isArested()) { throw new BuildingUnderArrestException(); }
+        if (isArrested()) { throw new BuildingUnderArrestException(); }
         double flatArea = 0, officeArea = 0, hotelArea = 0;
         String[] floors = building.split("\n");
         String[] types = type.split("\\s+");
@@ -41,7 +41,7 @@ public final class CostCalculator {
     }
 
     public static Object costCalc (Building building) {
-        if (isArested()) { return new BuildingUnderArrestException(); }
+        if (isArrested()) { return new BuildingUnderArrestException(); }
         double flatArea = 0, officeArea = 0, hotelArea = 0;
         for (Floor f : building) {
             if (f instanceof HotelFloor) {
@@ -59,7 +59,7 @@ public final class CostCalculator {
         return flatArea * costsOfTypes[0] + officeArea * costsOfTypes[1] + hotelArea * costsOfTypes[2];
     }
 
-    private static boolean isArested () {
+    private static boolean isArrested() {
         rand.setSeed(System.nanoTime());
         return rand.nextInt(10) == 0;
     }

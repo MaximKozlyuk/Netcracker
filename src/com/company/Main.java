@@ -22,7 +22,7 @@ public class Main {
     private static BuildingsTest test = new BuildingsTest();
 
     public static void main(String[] args) {
-        //lab7_tests();
+        lab7_tests();
 
 
         //lab 6 tests
@@ -30,7 +30,7 @@ public class Main {
         //BuildingsIOtest.inputBuildingTest();
 //        BuildingsIOtest.writeBuildingTest();
 //        BuildingsIOtest.readBuildingTest();
-        BuildingsIOtest.serializeBuildingTest();
+//        BuildingsIOtest.serializeBuildingTest();
 //        BuildingsIOtest.deserializeBuildingTest();
 
     }
@@ -83,7 +83,7 @@ public class Main {
         //Semaphore semaphore = new MySemaphore(1, floor);
         //Semaphore semaphore = new MySemaphore(1);
         for (int i = 0; i < 10; i++) {
-            MySemaphore semaphore1 = new MySemaphore(floor);
+            MySemaphore semaphore1 = new MySemaphore();
             SequentalCleaner sCleaner = new SequentalCleaner(floor, semaphore1);
             SequentalRepairer sRepairer = new SequentalRepairer(floor, semaphore1);
 
