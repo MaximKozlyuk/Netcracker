@@ -8,15 +8,15 @@ import com.company.buildings.dwelling.Flat;
 import com.company.buildings.dwelling.hotel.HotelFloor;
 import com.company.buildings.office.Office;
 import com.company.buildings.office.OfficeBuilding;
+import com.company.buildings.office.OfficeFloor;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 
 public class BuildingsIOtest {
 
-    static {
-
-    }
+    static { }
 
     public static void outputBuildingTest() {
         try (FileOutputStream fos = new FileOutputStream("OfficeBuildingBin.txt")) {
@@ -127,6 +127,19 @@ public class BuildingsIOtest {
         try (Scanner s = new Scanner(new File("OfficeBuildingChar.txt"))) {
             System.out.println(Buildings.readBuilding(s));
         } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // reflection lab test
+
+    public static void readBuildingReflectTest () {
+        //try (BufferedReader s = new BufferedReader(new FileReader("OfficeBuildingChar.txt"))) {
+        //try (Scanner s = new Scanner(new FileReader("OfficeBuildingChar.txt"))) {
+        try (FileInputStream s = new FileInputStream(new File("OfficeBuildingChar.txt"))) {
+            // readBuilding
+            System.out.println(Buildings.inputBuilding(s, Office.class, OfficeFloor.class, OfficeBuilding.class));
+        } catch ( IOException e) {
             e.printStackTrace();
         }
     }

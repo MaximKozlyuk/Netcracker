@@ -42,6 +42,8 @@ public interface Building extends Serializable, Iterable<Floor>, Cloneable {
 
     Floor setFloor (Floor f, int n);
 
+    void addFloor (Floor f, int n);
+
     Space getSpace (int n) throws CloneNotSupportedException;
 
     void setSpace (int n, Space s);

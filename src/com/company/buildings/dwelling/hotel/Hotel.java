@@ -48,7 +48,7 @@ public class Hotel extends Dwelling {
         for (Floor f : this) {
             if (f instanceof HotelFloor) {
                 for (Space s : f) {
-                    if (s.getArea() * ((HotelFloor) f).getStars() > max) {
+                    if (s.getArea() * starsCoeff[((HotelFloor) f).getStars()-1] > max) {
                         max = s.getArea() * starsCoeff[((HotelFloor) f).getStars()-1];
                         best = s;
                     }

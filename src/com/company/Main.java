@@ -4,6 +4,9 @@ import com.company.buildings.Buildings;
 import com.company.buildings.DwellingFactory;
 import com.company.buildings.Floor;
 import com.company.buildings.dwelling.DwellingFloor;
+import com.company.buildings.dwelling.Flat;
+import com.company.buildings.dwelling.hotel.Hotel;
+import com.company.buildings.dwelling.hotel.HotelFloor;
 import com.company.buildings.threads.*;
 import tests.BuildingsIOtest;
 import tests.BuildingsTest;
@@ -22,8 +25,9 @@ public class Main {
     private static BuildingsTest test = new BuildingsTest();
 
     public static void main(String[] args) {
-        lab7_tests();
+        //lab7_tests();
 
+        reflectionLabTests();
 
         //lab 6 tests
 //        BuildingsIOtest.outputBuildingTest();
@@ -33,6 +37,10 @@ public class Main {
 //        BuildingsIOtest.serializeBuildingTest();
 //        BuildingsIOtest.deserializeBuildingTest();
 
+    }
+
+    static void reflectionLabTests () {
+        BuildingsIOtest.readBuildingReflectTest();
     }
 
     static void lab3_tests () {
@@ -82,7 +90,7 @@ public class Main {
         System.out.println("Task 2:");
         //Semaphore semaphore = new MySemaphore(1, floor);
         //Semaphore semaphore = new MySemaphore(1);
-        for (int i = 0; i < 10; i++) {
+        //for (int i = 0; i < 100; i++) {
             MySemaphore semaphore1 = new MySemaphore();
             SequentalCleaner sCleaner = new SequentalCleaner(floor, semaphore1);
             SequentalRepairer sRepairer = new SequentalRepairer(floor, semaphore1);
@@ -99,7 +107,7 @@ public class Main {
                 e.printStackTrace();
             }
             System.out.println("\n");
-        }
+        //}
 
     }
 

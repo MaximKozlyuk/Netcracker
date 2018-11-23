@@ -29,14 +29,21 @@ public class Gui extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setMinimumSize(new Dimension(250,250));
 
+        Toolkit kit = this.getToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        setSize(screenSize.width / 2, screenSize.height / 2);
+        setLocation(screenSize.width / 4, screenSize.height / 4);
+
         appHelloLabel = new JLabel("<html>Buildings browser v 1.0<br/>Choose file</html>");
         appHelloLabel.setVerticalAlignment(SwingConstants.CENTER);
         appHelloLabel.setHorizontalAlignment(SwingConstants.CENTER);
         container.setLayout(new BoxLayout(container,BoxLayout.Y_AXIS));
         container.add(appHelloLabel);
-        container.setMinimumSize(new Dimension(250,250));
-        JScrollPane scrollPane = new JScrollPane(container);
+        //container.setMinimumSize(new Dimension(250,250));
+        JScrollPane scrollPane = new JScrollPane();
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setViewportView(container);
+        this.add(scrollPane);
         this.add(container);
 
         //menu settings

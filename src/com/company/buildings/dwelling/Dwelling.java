@@ -105,15 +105,24 @@ public class Dwelling implements Building, Serializable {
         return floors[n];
     }
 
-    @Override
+    @Override   // todo test
     public Floor setFloor (Floor f, int n) {
-        if (n > floors.length) { throw new FloorIndexOutOfBoundsException(); }
-        while (n == floors.length) {
+        if (n > floors.length || n < 0) { throw new FloorIndexOutOfBoundsException(); }
+        while (n > floors.length) {
             resizeArr();
         }
         Floor r = floors[n];
         floors[n] = f;
         return r;
+    }
+
+    @Override   // todo test
+    public void addFloor(Floor f, int n) {
+        if (n > floors.length || n < 0) { throw new FloorIndexOutOfBoundsException(); }
+        while (n > floors.length) {
+            resizeArr();
+        }
+        floors[n] = f;
     }
 
     private void resizeArr () {

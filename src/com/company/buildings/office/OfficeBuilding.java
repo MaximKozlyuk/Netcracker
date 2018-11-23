@@ -209,13 +209,19 @@ public class OfficeBuilding implements Building, Serializable {
         return getNode(n).item;
     }
 
-    @Override
+    @Override      // todo refactor
     public Floor setFloor(Floor f, int n) {
-        if (n < 0 || n >= size) { throw new FloorIndexOutOfBoundsException(); }
+        if (n < 0 || n > size) { throw new FloorIndexOutOfBoundsException(); }
         Floor r = getNode(n).item;
         removeNode(n);
         addNode(f,n);
         return r;
+    }
+
+    @Override
+    public void addFloor(Floor f, int n) {
+        if (n < 0 || n > size) { throw new FloorIndexOutOfBoundsException(); }
+        addNode(f,n);
     }
 
     @Override   // tested

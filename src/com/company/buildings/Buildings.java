@@ -8,49 +8,12 @@ import com.company.buildings.office.OfficeBuilding;
 import com.company.buildings.office.OfficeFloor;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
-
-/**
- * Создайте отдельный класс Buildings, работающий со ссылками типа Space, Floor, Building,
- * содержащий статические методы ввода-вывода зданий:
- * <p>
- * •	записи данных о здании в байтовый поток
- * public static void outputBuilding (Building building, OutputStream out);
- * <p>
- * •	чтения данных о здании из байтового потока
- * public static Building inputBuilding (InputStream in);
- * <p>
- * •	записи здания в символьный поток
- * public static void writeBuilding (Building building, Writer out);
- * <p>
- * •	чтения здания из символьного потока
- * public static Building readBuilding (Reader in).
- * Записанные данные о здании представляет собой последовательность чисел,
- * первым из которых является количество этажей,
- * далее следует количество помещений текущего этажа и
- * соответствующие значения количества комнат и площадей помещений текущего этажа.
- * Например, символьная запись для трехэтажного здания:
- * 3 2 3 150.0 2 100.0 1 3 250.0 3 2 140.0 1 60.0 1 50.0
- * Для чтения этажа из символьного потока можно использовать StreamTokenizer.
- * Проверьте возможности всех реализованных методов,
- * в качестве реальных потоков используя файловые потоки, а также потоки System.in и System.out.
- * <p>
- * •	сериализации здания в байтовый поток
- * public static void serializeBuilding (Building building, OutputStream out);
- * <p>
- * •	десериализации здания из байтового потока
- * public static Building deserializeBuilding (InputStream in);
- **/
-
-/**
- * В классе Buildings реализуйте статические методы,
- * которые с помощью текущей фабрики создают новые экземпляры соответствующих объектов.
- * В остальных методах класса Buildings
- * замените прямое создание экземпляров объектов на вызов методов фабрики.
- */
 
 public class Buildings {
 
@@ -60,12 +23,6 @@ public class Buildings {
 
     public Buildings() { }
 
-    /**
-     * В класс Buildings добавьте два метода сортировки с критерием –
-     * сортировка помещений на этаже по убыванию количества комнат
-     * и сортировка этажей в здании по убыванию общей площади помещений этажа.
-     * Объедините оба метода в один параметризованный метод сортировки с критерием (с компаратором).
-     */
     public static <E extends Comparable> void sort(E[] a){
         //Arrays.stream(a).sorted()
         //Sorter.quickSort(a,0,a.length);
@@ -166,14 +123,6 @@ public class Buildings {
     }
 
     private static String buildingToStr(Building building) {
-//        if (building == null) {
-//            try {
-//                out.write("null".getBytes());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return;
-//        }
         StringBuilder s = new StringBuilder();
         Space[] spaceArr = null;
         if (building instanceof Dwelling) { // todo now not necessary
@@ -258,12 +207,6 @@ public class Buildings {
         return null;
     }
 
-    /**
-     Добавьте метод текстовой записи для зданий класса Buildings,
-     использующий возможности форматированного вывода.
-     Перегрузите метод текстового чтения зданий класса Buildings таким образом,
-     чтобы он использовал возможности форматированного ввода и вывода и имел аргумент типа Scanner.
-     */
     public static void writeBuildingFormat (Building building, Writer dout) {
         String[] name = building.getClass().getName().split("\\.");
         PrintWriter out = new PrintWriter(dout);
@@ -327,7 +270,134 @@ public class Buildings {
         return building;
     }
 
+    // lab 10, reflection
+
+    public static Space createSpace(double area, Class<? extends Space> type) {
+        try {
+            Constructor<? extends Space> con = type.getConstructor(double.class);
+            return con.newInstance(area);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static Space createSpace(int roomsCount, double area, Class<? extends Space> type) {
+        try {
+            Constructor<? extends Space> con = type.getConstructor(double.class, int.class);
+            return con.newInstance(area, roomsCount);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static Floor createFloor(int spacesCount, Class<? extends Floor> type) {
+        try {
+            Constructor<? extends Floor> con = type.getConstructor(int.class);
+            return con.newInstance(spacesCount);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static Floor createFloor(Space[] spaces, Class<? extends Floor> type) {
+        try {
+            Constructor<? extends Floor> con = type.getConstructor(Space[].class);
+            return con.newInstance(spaces);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static Building createBuilding(int floorsCount, int[] spacesCounts, Class<? extends Building> type) {
+        try {
+            Constructor<? extends Building> con = type.getConstructor(int.class, int[].class);
+            return con.newInstance(floorsCount, spacesCounts);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static Building createBuilding(Floor[] floors, Class<? extends Building> type) {
+        try {
+            Constructor<? extends Building> con = type.getConstructor(Floor[].class);
+            return con.newInstance(floors);
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static Building readBuilding(Scanner scan,
+                                        Class<? extends Space> s,
+                                        Class<? extends Floor> f,
+                                        Class<? extends Building> b) {
+        return readForReflectionMethods(scan,s,f,b);
+    }
+
+    public static Building readBuilding(Reader in,
+                                        Class<? extends Space> s,
+                                        Class<? extends Floor> f,
+                                        Class<? extends Building> b) {
+        Scanner scan = new Scanner(in);
+        return readForReflectionMethods(scan,s,f,b);
+    }
+
+    public static Building inputBuilding(InputStream in,
+                                         Class<? extends Space> s,
+                                         Class<? extends Floor> f,
+                                         Class<? extends Building> b) {
+        Scanner scan = new Scanner(in);
+        return readForReflectionMethods(scan,s,f,b);
+    }
+
+    private static Building readForReflectionMethods (
+        Scanner s,
+        Class<? extends Space> spaceType,
+        Class<? extends Floor> floorType,
+        Class<? extends Building> buildingType
+    ) {
+        Building building = createBuilding(0,new int[]{},buildingType);
+        s.nextLine();
+        String[] spaceData;
+        Floor currentFloor;
+        int floorCounter = 0;
+        while (s.hasNextLine()) {
+            spaceData = s.nextLine().split("\\s+");
+            building.addFloor(
+                    createFloor(0,floorType),
+                    building.floorsAmount()
+            );
+            currentFloor = building.getFloor(floorCounter);
+            for (int i = 0; i < spaceData.length; i += 2) {
+                currentFloor.addSpace(
+                        createSpace(
+                                Integer.parseInt(spaceData[i+1]),
+                                Double.parseDouble(spaceData[i]),
+                                spaceType
+                        ),
+                        currentFloor.amount()
+                );
+            }
+            floorCounter++;
+        }
+        //s.close();
+        return building;
+    }
+
 }
+
+
+
+
+
+
+
+
 
 
 
