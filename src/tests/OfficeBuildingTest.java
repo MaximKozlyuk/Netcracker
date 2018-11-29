@@ -22,6 +22,12 @@ public class OfficeBuildingTest {
     }
 
     @Test
+    public void testAmountsAndTotals () {
+        ob = getNewOfficeBuilding(5);
+        System.out.println(ob.totalRoomAmount());
+    }
+
+    @Test
     public void testClone () {
         ob = getNewOfficeBuilding(5);
         assertTrue(ob.equals(ob.clone()));

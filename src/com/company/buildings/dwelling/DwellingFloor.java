@@ -44,7 +44,7 @@ public class DwellingFloor implements Floor, Serializable {
         }
     }
 
-    public DwellingFloor (Space[] flats) {
+    public DwellingFloor (Space ... flats) {
         this.flats = flats;
     }
 
@@ -54,16 +54,16 @@ public class DwellingFloor implements Floor, Serializable {
 
     public double totalArea() {
         double a = 0;
-        for (int i = 0; i < flats.length; i++) {
-            a += flats[i].getArea();
+        for (Space i : this) {
+            a += i.getArea();
         }
         return a;
     }
 
     public int totalRoomAmount () {
         int a = 0;
-        for (int i = 0; i < flats.length; i++) {
-            a += flats[i].getNumOfRooms();
+        for (Space i : this) {
+            a += i.getNumOfRooms();
         }
         return a;
     }
@@ -127,7 +127,6 @@ public class DwellingFloor implements Floor, Serializable {
 
     public Space getBestSpace() {
         if (flats.length == 0) { return null; }
-        //Space best = new Flat(-1, Integer.MIN_VALUE);
         Space best = flats[0];
         for (int i = 0; i < flats.length; i++) {
             if (flats[i].getArea() > best.getArea()) {
@@ -137,7 +136,7 @@ public class DwellingFloor implements Floor, Serializable {
         if (best.getArea() == -1) {
             return null;
         } else {
-            return best; // todo .clone()
+            return best;
         }
     }
 

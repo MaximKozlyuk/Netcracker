@@ -1,9 +1,12 @@
 package tests;
 
+import com.company.buildings.Space;
 import com.company.buildings.dwelling.Flat;
 import com.company.buildings.office.Office;
 import com.company.buildings.office.OfficeFloor;
 import org.junit.jupiter.api.Test;
+
+import javax.sound.midi.Soundbank;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,6 +27,31 @@ public class OfficeFloorTest {
         initOffices();
         OfficeFloor tester = new OfficeFloor(this.offices);
         System.out.println(tester);
+    }
+
+
+    @Test
+    public void testTotal() {
+        initOffices();
+        OfficeFloor tester = new OfficeFloor(this.offices);
+        System.out.println(tester.totalRoomAmount());
+    }
+
+    @Test
+    public void testToArray() {
+        initOffices();
+        OfficeFloor tester = new OfficeFloor(this.offices);
+        Space[] arr = tester.toArray();
+        for (Space i : arr) {
+            System.out.println(i);
+        }
+    }
+
+    @Test
+    public void testBestSpace() {
+        initOffices();
+        OfficeFloor tester = new OfficeFloor(this.offices);
+        System.out.println(tester.getBestSpace());
     }
 
     @Test

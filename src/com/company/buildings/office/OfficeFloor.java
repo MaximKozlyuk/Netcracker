@@ -48,7 +48,7 @@ public class OfficeFloor implements Floor {
         }
     }
 
-    public OfficeFloor (Space[] offices) {
+    public OfficeFloor (Space ... offices) {
         first = new Node(null, null);
         first.next = first;
         for (int i = 0; i < offices.length; i++) {
@@ -98,16 +98,16 @@ public class OfficeFloor implements Floor {
 
     public double totalArea () {
         double a = 0;
-        for (temp = first.next; temp != first; temp = temp.next) {
-            a += temp.item.getArea();
+        for (Space i : this) {
+            a += i.getArea();
         }
         return a;
     }
 
     public int totalRoomAmount () {
         int a = 0;
-        for (temp = first.next ; temp != first; temp = temp.next) {
-            a += temp.item.getNumOfRooms();
+        for (Space i : this) {
+            a += i.getNumOfRooms();
         }
         return a;
     }
@@ -150,13 +150,13 @@ public class OfficeFloor implements Floor {
 
     public Space getBestSpace () {
         if (size == 0) { return null; }
-        Space o = first.next.item;
-        for (temp = first.next; temp != first; temp = temp.next) {
-            if (o.getArea() < temp.item.getArea()) {
-                o = temp.item;
+        Space best = first.next.item;
+        for (Space i : this) {
+            if (best.getArea() < i.getArea()) {
+                best = i;
             }
         }
-        return o;
+        return best;
     }
 
     private class Node implements Serializable {

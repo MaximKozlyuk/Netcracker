@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
+import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 public class Buildings {
 
@@ -23,14 +25,29 @@ public class Buildings {
 
     public Buildings() { }
 
-    public static <E extends Comparable> void sort(E[] a){
+    public static <E extends Comparable> void sort(E ... a){
         //Arrays.stream(a).sorted()
         //Sorter.quickSort(a,0,a.length);
         Arrays.sort(a);
     }
-    public static <E> void sort(E[] a, Comparator<E> comparator){
+    public static <E> void sort(Comparator<E> comparator, E ... a){
         //Sorter.quickSort(a,0,a.length, comparator);
         Arrays.sort(a, comparator);
+    }
+
+    public static <E extends Comparable<E>> void sort2 (E ... a) {
+        Arrays.sort(a,(o1,o2) -> {
+            return o1.compareTo(o2);
+        });
+        //Arrays.sort(a,Comparator.comparing(new Function<Object, Floor>() {}));
+    }
+
+    public static void method (String[] args) {
+        Integer[] array = {5, 4, 3, 2, 1, 0};
+        Arrays.sort(array, (o1, o2) -> {
+            return o1 - o2;
+        });
+        Arrays.stream(array).forEach(System.out::println);
     }
 
     public static SynchronizedFloor getSynchronizedFloor (Floor floor) {

@@ -45,7 +45,7 @@ public class Dwelling implements Building, Serializable {
         }
     }
 
-    public Dwelling (Floor[] floors) {
+    public Dwelling (Floor ... floors) {
         this.floors = floors;
     }
 

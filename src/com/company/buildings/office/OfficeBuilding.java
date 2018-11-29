@@ -64,7 +64,7 @@ public class OfficeBuilding implements Building, Serializable {
         }
     }
 
-    public OfficeBuilding (Floor[] floors) {
+    public OfficeBuilding (Floor ... floors) {
         this();
         for (int i = 0; i < floors.length; i++) {
             addNode(floors[i],size);
@@ -168,8 +168,8 @@ public class OfficeBuilding implements Building, Serializable {
     public int spacesAmount() {
         if (size == 0) { return 0; }
         int a = 0;
-        for (temp = head.next; temp != head; temp = temp.next) {
-            a += temp.item.amount();
+        for (Floor i : this) {
+            a += i.amount();
         }
         return a;
     }
@@ -177,8 +177,8 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public double totalArea() {
         int a = 0;
-        for (temp = head.next; temp != head; temp = temp.next) {
-            a += temp.item.totalArea();
+        for (Floor i : this) {
+            a += i.totalArea();
         }
         return a;
     }
@@ -186,8 +186,8 @@ public class OfficeBuilding implements Building, Serializable {
     @Override
     public int totalRoomAmount() {
         int a = 0;
-        for (temp = head.next; temp != head; temp = temp.next) {
-            a += temp.item.totalRoomAmount();
+        for (Floor i : this) {
+            a += i.totalRoomAmount();
         }
         return a;
     }
