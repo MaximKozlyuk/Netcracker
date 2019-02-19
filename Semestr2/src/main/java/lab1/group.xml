@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE group PUBLIC "" "group.dtd">
+<group>
+    <student firstname="student1" lastname="last1" groupnumber="1">
+        <subject title="math" mark="3"></subject>
+        <subject title="philosophy" mark="5"></subject>
+        <subject title="art" mark="5"></subject>
+    </student>
+    <student firstname="student2" lastname="last2" groupnumber="1">
+        <subject title="math" mark="5"></subject>
+        <subject title="philosophy" mark="3"></subject>
+        <subject title="art" mark="3"></subject>
+    </student>
+    <student firstname="student3" lastname="last3" groupnumber="2">
+        <subject title="math" mark="5"></subject>
+        <subject title="philosophy" mark="5"></subject>
+        <subject title="art" mark="3"></subject>
+        <subject title="programming" mark="3"></subject>
+        <average>4.123</average>
+    </student>
+</group>
