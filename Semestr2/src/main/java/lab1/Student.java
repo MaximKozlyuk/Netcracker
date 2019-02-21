@@ -59,7 +59,7 @@ public class Student {
                 ", lastname='" + lastname + '\'' +
                 ", groupNumber=" + groupNumber +
                 ", average=" + average +
-                ", marksOfSubjects=" + marksOfSubjects +
+                ",\nmarksOfSubjects=" + marksOfSubjects +
                 '}';
     }
 }

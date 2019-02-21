@@ -68,4 +68,8 @@ public final class XmlParser {
         return studentsList;
     }
 
+    public void correctAvgMark (Student student, float correctMark) {
+        // todo add correction functionality to parseStudents method
+    }
+
 }
