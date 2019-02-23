@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE group PUBLIC "" "group.dtd">
+<!DOCTYPE group SYSTEM "/Users/max/IdeaProjects/Netcracker/group.dtd">
 <group>
     <student firstname="student1" lastname="last1" groupnumber="1">
         <subject title="math" mark="3"></subject>

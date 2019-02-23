@@ -1,14 +1,24 @@
 package lab1;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.xml.bind.annotation.*;
+import java.util.Set;
 
+@XmlRootElement(name = "student")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Student {
+
+    @XmlAttribute(name = "firstname")
     private String firstName;
+    @XmlAttribute(name = "lastname")
     private String lastname;
+    @XmlAttribute(name = "groupnumber")
     private int groupNumber;
+
+    @XmlElement
     private float average;
-    private Map<String, Integer> marksOfSubjects;
+
+    @XmlElement(name = "subject")
+    private Set<Subject> subjectSet;
 
     public Student() { }
 
@@ -20,12 +30,12 @@ public class Student {
         this.average = average;
     }
 
-    public Map<String, Integer> getMarksOfSubjects() {
-        return marksOfSubjects;
+    public Set<Subject> getSubjectSet() {
+        return subjectSet;
     }
 
-    public void setMarksOfSubjects(HashMap<String, Integer> marksOfSubjects) {
-        this.marksOfSubjects = marksOfSubjects;
+    public void setSubjectSet(Set<Subject> subjectSet) {
+        this.subjectSet = subjectSet;
     }
 
     public String getFirstName() {
@@ -59,7 +69,7 @@ public class Student {
                 ", lastname='" + lastname + '\'' +
                 ", groupNumber=" + groupNumber +
                 ", average=" + average +
-                ",\nmarksOfSubjects=" + marksOfSubjects +
+                ", subjectSet=" + subjectSet +
                 '}';
     }
 }

@@ -3,6 +3,10 @@ package lab1;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -53,7 +57,7 @@ public final class XmlParser {
                         Integer.parseInt(subjAtrs.getNamedItem("mark").getTextContent())
                 );
             }
-            student.setMarksOfSubjects(subjects);
+            //student.setMarksOfSubjects(subjects);
 
             //getting average mark
             NodeList average = ((Element) currentNode).getElementsByTagName("average");
@@ -68,8 +72,18 @@ public final class XmlParser {
         return studentsList;
     }
 
-    public void correctAvgMark (Student student, float correctMark) {
-        // todo add correction functionality to parseStudents method
+    public Group jaxbUnmarshalling(File f) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(Group.class);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        return (Group) jaxbUnmarshaller.unmarshal(f);
+    }
+
+    public void jaxbMarshalling (Group group) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(Group.class);
+        Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+        jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        jaxbMarshaller.marshal(group, System.out);
+        //jaxbMarshaller.marshal(group, new File("c:/temp/employees.xml"));
     }
 
 }

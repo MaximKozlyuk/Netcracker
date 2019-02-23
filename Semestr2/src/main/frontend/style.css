@@ -1,0 +1,32 @@
+body {
+    background-color: azure;
+}
+
+#content {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    align-content: center;
+    align-items: center;
+}
+
+h1,h2,h3,h4,h5,h6,p,a {
+    font-family: Arial, sans-serif;
+}
+
+.header-text {
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.emp-row {
+    display: flex;
+    justify-content: center;
+    /*border-style: solid;*/
+    /*border-width: 0.1em 0.1em 0.1em 0.1em;*/
+}
+
+.emp-row-el {
+    margin-left: 1em;
+    margin-right: 1em;
+}
