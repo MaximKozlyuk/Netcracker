@@ -5,6 +5,12 @@
     <title>Create new employee</title>
 </head>
 <body>
-    <h1>Hello world!</h1>
+    <h1>Greeting for new employee!</h1>
+    <input type="text" id="new-emp-name">
+    <input type="submit" id="save-emp">
+    <script language="javascript" type="text/javascript">
+        var name = location.search.substring(1);
+        document.getElementById('new-emp-name').value = name;
+    </script>
 </body>
 </html>

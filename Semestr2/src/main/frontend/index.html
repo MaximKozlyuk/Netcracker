@@ -10,13 +10,17 @@
     <div id="content">
         <h1 class="header-text">The header of dat magnificent web page</h1>
         <div style="margin-bottom: 1em;">
-            <input type="text" placeholder="employee id">
+            <input type="text" placeholder="employee id"
+                   id="emp-id-input">
+                   <!--onmouseenter="onMouseEnterId()" onmouseout="onMouseOutId()">-->
             <input type="submit" value="Submit by id">
-            <input type="submit" value="Show all employee's" style="margin-left: 1em">
+            <input type="submit" value="Show all employee's" style="margin-left: 5.3em">
         </div>
         <div>
-            <input type="text" placeholder="employee name">
-            <input type="submit" title="Submit by name">
+            <input type="text" placeholder="employee name"
+            id="emp-name-input">
+                   <!--onmouseenter="onMouseEnterName()" onmouseout="onMouseOutName()"-->
+            <input type="submit" value="Submit by name" onclick="validateName()">
             <a href="newEmployee.html" style="margin-left: 2.35em">
                 <input type="submit" value="Create new employee">
             </a>
@@ -25,7 +29,7 @@
 
         <div id="emp-table">
 
-            <div class="emp-row">
+            <div class="emp-row" id="emp-row1">
                 <div class="emp-row-el">
                     <input type="checkbox">
                 </div>
@@ -48,12 +52,12 @@
                 </div>
                 <div class="emp-row-el">
                     <p>
-                        <a href="#">Delete</a>
+                        <a href="#" onclick="confirmDelete('emp-row1'); return false;">Delete</a>
                     </p>
                 </div>
             </div>
 
-            <div class="emp-row">
+            <div class="emp-row" id="emp-row2">
                 <div class="emp-row-el">
                     <input type="checkbox">
                 </div>
@@ -76,12 +80,12 @@
                 </div>
                 <div class="emp-row-el">
                     <p>
-                        <a href="#">Delete</a>
+                        <a href="#" onclick="confirmDelete('emp-row2'); return false;">Delete</a>
                     </p>
                 </div>
             </div>
 
-            <div class="emp-row">
+            <div class="emp-row" id="emp-row3">
                 <div class="emp-row-el">
                     <input type="checkbox">
                 </div>
@@ -104,12 +108,12 @@
                 </div>
                 <div class="emp-row-el">
                     <p>
-                        <a href="#">Delete</a>
+                        <a href="#" onclick="confirmDelete('emp-row3'); return false;">Delete</a>
                     </p>
                 </div>
             </div>
 
-            <div class="emp-row">
+            <div class="emp-row" id="emp-row4">
                 <div class="emp-row-el">
                     <input type="checkbox">
                 </div>
@@ -132,7 +136,7 @@
                 </div>
                 <div class="emp-row-el">
                     <p>
-                        <a href="#">Delete</a>
+                        <a href="#" onclick="confirmDelete('emp-row4'); return false;">Delete</a>
                     </p>
                 </div>
             </div>
