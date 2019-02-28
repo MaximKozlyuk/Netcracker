@@ -12,10 +12,9 @@ where sal >= 1000 and sal in (
   select min(emp.sal) from emp group by deptno
 );
 
---task 4 todo
-select avg(sal)
-        from emp group by deptno;
-select avg(sal), avg(comm) from emp;
+--task 4
+select avg(sal) as avg_sal from emp
+  inner join dept on emp.deptno = dept.deptno group by dept.deptno;
 
 --task 5
 select empno, ename from emp where mgr =

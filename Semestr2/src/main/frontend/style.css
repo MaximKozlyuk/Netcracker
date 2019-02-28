@@ -1,17 +1,17 @@
 body {
-    background-color: azure;
+    background-color: red;
 }
 
 #content {
     margin: auto;
-    width: 50%;
+    width: 100%;
     padding: 10px;
     align-content: center;
     align-items: center;
 }
 
 h1,h2,h3,h4,h5,h6,p,a {
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans;
 }
 
 .header-text {
@@ -20,8 +20,8 @@ h1,h2,h3,h4,h5,h6,p,a {
 }
 
 .emp-row {
-    display: flex;
-    justify-content: center;
+    /*display: flex;*/
+    /*justify-content: center;*/
     /*border-style: solid;*/
     /*border-width: 0.1em 0.1em 0.1em 0.1em;*/
 }
