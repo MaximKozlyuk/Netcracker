@@ -3,12 +3,19 @@ begin;
 drop table if exists emp;
 drop table if exists dept;
 drop table if exists salgrade;
+drop sequence if exists dept_deptno_seq;
 
 create table dept(
  DEPTNO numeric(2) primary key,
  DNAME varchar(14),
  LOC varchar(13)
 );
+
+create sequence dept_deptno_seq as integer
+ minvalue 1
+ maxvalue 99;
+
+alter sequence dept_deptno_seq owned by dept.DEPTNO;
 
 create table emp(
  EMPNO serial primary key,
