@@ -12,7 +12,7 @@ create or replace function ch_sal(integer, numeric(7,2)) returns boolean as $$
   end;
   $$ language plpgsql;
 
- select ch_sal(1,99999);
+ select ch_sal(7499,99999);
 
 do language plpgsql $$
   begin

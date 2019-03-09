@@ -4,6 +4,7 @@ drop table if exists emp;
 drop table if exists dept;
 drop table if exists salgrade;
 drop sequence if exists dept_deptno_seq;
+drop table if exists emp_change;
 
 create table dept(
  DEPTNO numeric(2) primary key,
@@ -87,5 +88,12 @@ insert into salgrade values (2, 1201, 1400);
 insert into salgrade values (3, 1401, 2000);
 insert into salgrade values (4, 2001, 3000);
 insert into salgrade values (5, 3001, 9999);
+
+create table emp_change (
+  change_name varchar(6),
+  change_date date,
+  change_time time with time zone,
+  change_salary numeric(7, 2)
+);
 
 commit;
