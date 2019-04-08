@@ -1,3 +1,5 @@
+package jdbc;
+
 import domain.Employee;
 
 import java.sql.*;
@@ -80,7 +82,9 @@ public class EmployeeDao implements Dao<Employee>{
     public Employee save(Employee entity) {
         if (entity == null) throw new IllegalArgumentException("entity is null");
         try {
-            PreparedStatement ps = conn.prepareStatement("insert into public.emp values (?,?,?,?,?,?,?,?);");
+            PreparedStatement ps = conn.prepareStatement(
+                    "insert into public.emp values (?,?,?,?,?,?,?,?) on conflict on constraint emp_pkey" +
+                            " do nothing;");
             ps.setLong(1, entity.getId());
             ps.setString(2, entity.getName());
             ps.setString(3, entity.getJob());

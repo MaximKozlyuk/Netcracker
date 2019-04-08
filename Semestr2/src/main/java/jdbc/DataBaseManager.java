@@ -1,3 +1,5 @@
+package jdbc;
+
 import org.postgresql.ds.PGSimpleDataSource;
 
 import javax.sql.DataSource;
@@ -15,11 +17,11 @@ public class DataBaseManager {
     }
 
     private DataBaseManager() {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Class.forName("org.postgresql.Driver");
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
         PGSimpleDataSource pgDs = new PGSimpleDataSource();
         pgDs.setServerName("127.0.0.1");
         pgDs.setPortNumber(12345);
